@@ -1,0 +1,52 @@
+{
+    "short_name": "Epitome",
+    "name": "Epitome | AIMIT",
+    "icons": [
+        {
+            "src": "./Icons/144.png",
+            "sizes": "144x144",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "./Icons/192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "./Icons/temp_wide_screenshot.png",
+            "sizes": "768x359",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "Welcome to Epitome"
+        },
+        {
+            "src": "./Icons/temp_screenshot.png",
+            "sizes": "354x787",
+            "type": "image/png",
+            "label": "Welcome to Epitome"
+        }
+    ],
+    "start_url": ".",
+    "id": "/",
+    "display": "standalone",
+    "theme_color": "#FFF",
+    "background_color": "#FFF",
+    "description": "some_Description",
+    "dir": "ltr",
+    "lang": "en",
+    "orientation": "portrait",
+    "display_override": [
+        "standalone",
+        "fullscreen"
+    ],
+    "categories": [
+        "productivity",
+        "education",
+        "social"
+    ],
+    "prefer_related_applications": false
+}
