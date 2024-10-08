@@ -7,6 +7,7 @@ type Props = {
 }
 
 const TextWave = ({ text, fontSize = "1rem", duration = 1000 }: Props) => {
+    console.log(duration)
     return (
         <div style={{ fontSize }}
             className='w-full flex justify-center items-center'>
