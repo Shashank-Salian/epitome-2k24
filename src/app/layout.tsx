@@ -37,7 +37,7 @@ const vulgar = localFont({
 })
 
 const valorant = localFont({
-  src: '../assets/fonts/valorant_font.woff2',
+  src: '../assets/fonts/valorant.woff2',
   display: 'swap',
   variable: "--Valorant"
 })
