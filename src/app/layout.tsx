@@ -36,6 +36,18 @@ const vulgar = localFont({
   variable: "--Vulgar"
 })
 
+const valorant = localFont({
+  src: '../assets/fonts/valorant_font.woff2',
+  display: 'swap',
+  variable: "--Valorant"
+})
+
+const beyonders = localFont({
+  src: '../assets/fonts/beyonders.woff2',
+  display: 'swap',
+  variable: "--Beyonders"
+})
+
 const TITLE = "Epitome | AIMIT IT Fest 2024"
 const DESCRIPTION = "some_description"
 const BASE_URL = new URL("https://arms-v3.vercel.app/")
@@ -110,7 +122,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.variable} ${nulshock.variable} ${vulgar.variable} antialiased`}
+        className={`${poppins.variable} ${nulshock.variable} ${vulgar.variable} ${valorant.variable} ${beyonders.variable} antialiased bg-background text-foreground`}
       >
         {children}
       </body>
