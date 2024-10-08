@@ -56,7 +56,8 @@ const config: Config = {
 				nulshock: ["var(--Nulshock)"],
 				vulgar: ["var(--Vulgar)"],
 				valorant: ["var(--Valorant)"],
-				beyonders: ["var(--Beyonders)"]
+				beyonders: ["var(--Beyonders)"],
+				spaceAge: ["var(--SpaceAge)"],
 
 			},
 			borderRadius: {
