@@ -39,6 +39,15 @@ body {
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
+
+    --dodgerBlue: 210, 100%, 56%;
+    --purple: 273, 100%, 56%;
+
+    --blueGradient: linear-gradient(to right,
+        hsl(var(--dodgerBlue)),
+        hsl(var(--purple)),
+        hsl(var(--purple)),
+        hsl(var(--dodgerBlue)));
   }
 
   .dark {
@@ -84,5 +93,46 @@ body {
 
   .clip_Btn {
     clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+  }
+
+  .gradientText {
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    background-size: 200%;
+    animation: gradientPan 5s linear infinite;
+  }
+
+  @keyframes gradientPan {
+    from {
+      background-position: 0% center;
+    }
+
+    to {
+      background-position: -200% center;
+    }
+  }
+
+  /* Disable blue button click highlight */
+  input,
+  button,
+  a,
+  div {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  ::-webkit-scrollbar {
+    width: 16px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--mixColor);
+    border-radius: 14px;
+    border: 6px solid transparent;
+    background-clip: content-box;
   }
 }
