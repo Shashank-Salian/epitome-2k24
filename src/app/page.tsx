@@ -16,6 +16,7 @@ export default function Home() {
       <CountDown />
       <br />
       <TextUI variant="gradient" gradient="bg-blueGradient" className="font-beyonders text-[2em]" text="Epitome AIMIT" />
+      <TextUI variant="hacker" className="font-beyonders text-[2em]" text="AIMIT HACKER" />
     </div>
   );
 }
