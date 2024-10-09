@@ -3,7 +3,6 @@
 import * as THREE from "three";
 import { GLTF, GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
-import { ClientDims } from "./utils";
 import SceneSetup from "./SceneSetup";
 
 // Setup Scene
@@ -40,7 +39,7 @@ gltfLoader.load(
   },
   (prog) => {
     // on progress
-    // console.log(prog)
+    console.log(prog);
   },
   (error) => {
     console.error(error);
@@ -68,6 +67,5 @@ window.addEventListener("resize", () => {
   sceneSetup.update();
 });
 
-window.addEventListener("load", (e) => {
-  sceneSetup.onLoad();
-});
+window.addEventListener("load", (e) => {});
+sceneSetup.onLoad();
