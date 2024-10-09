@@ -1,6 +1,7 @@
 import Button from "@/components/CustomUI/Button";
 import CountDown from "@/components/CustomUI/CountDown";
-import TextWave from "@/components/CustomUI/TextWave";
+import TechImage from "@/components/CustomUI/TechImage";
+import TextUI from "@/components/CustomUI/TextUI";
 
 export default function Home() {
   return (
@@ -18,9 +19,13 @@ export default function Home() {
         Font Space Age : Epitome AIMIT
       </h1>
 
-      <TextWave text="Epitome AIMIT" />
       <Button value="Sign Up" />
       <CountDown />
+      <br />
+      <TextUI variant="gradient" gradient="bg-blueGradient" className="font-beyonders text-[2em]" text="Epitome AIMIT" />
+      <TextUI variant="hacker" className="font-beyonders text-[2em]" text="AIMIT HACKER" />
+      <br />
+      <TechImage />
     </div>
   );
 }
