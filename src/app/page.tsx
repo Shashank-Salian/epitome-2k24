@@ -1,5 +1,6 @@
 import Button from "@/components/CustomUI/Button";
 import CountDown from "@/components/CustomUI/CountDown";
+import TechImage from "@/components/CustomUI/TechImage";
 import TextUI from "@/components/CustomUI/TextUI";
 
 export default function Home() {
@@ -17,6 +18,8 @@ export default function Home() {
       <br />
       <TextUI variant="gradient" gradient="bg-blueGradient" className="font-beyonders text-[2em]" text="Epitome AIMIT" />
       <TextUI variant="hacker" className="font-beyonders text-[2em]" text="AIMIT HACKER" />
+      <br />
+      <TechImage />
     </div>
   );
 }
