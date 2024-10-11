@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import ThreeComp from "@/threeWorks/ThreeComp";
+import Provider from "@/providers/Providers";
 
 const poppins = localFont({
   src: [
@@ -144,7 +145,10 @@ export default function RootLayout({
         className={`${poppins.variable} ${nulshock.variable} ${vulgar.variable} ${valorant.variable} ${beyonders.variable} ${spaceAge.variable} bg-background text-foreground`}
       >
         <ThreeComp />
-        {children}
+
+        <Provider>
+          {children}
+        </Provider>
       </body>
     </html>
   );
