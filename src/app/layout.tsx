@@ -141,7 +141,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.variable} ${nulshock.variable} ${vulgar.variable} ${valorant.variable} ${beyonders.variable} ${spaceAge.variable} antialiased bg-background text-foreground`}
+        className={`${poppins.variable} ${nulshock.variable} ${vulgar.variable} ${valorant.variable} ${beyonders.variable} ${spaceAge.variable} bg-background text-foreground`}
       >
         <ThreeComp />
         {children}

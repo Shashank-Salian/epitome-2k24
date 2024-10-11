@@ -9,16 +9,16 @@ type Props = {
 
 }
 
-const Button = ({ value, type = "button", disabled = false, className }: Props) => {
+const ButtonUI = ({ value, type = "button", disabled = false, className }: Props) => {
     return (
         <button
             type={type}
             disabled={disabled}
-            className={cn("bg-blue-600 font-beyonders text-white px-10 py-[0.8em] clip_Btn rounded-md", className)}
+            className={cn("bg-primary font-beyonders text-white px-10 py-[0.8em] clip_Btn rounded-md", className)}
         >
             {value}
         </button>
     )
 }
 
-export default Button
+export default ButtonUI

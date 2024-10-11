@@ -8,7 +8,7 @@ const ThreeLoader = dynamic(() => import("./ThreeLoader"), {
 
 const ThreeComp = () => {
   return (
-    <div id="three-work" className="fixed top-0 left-0">
+    <div id="three-work" className="fixed top-0 left-0 z-[-10]">
       <ThreeLoader />
     </div>
   );
