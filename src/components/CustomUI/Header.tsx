@@ -1,8 +1,19 @@
+"use client"
 import Link from 'next/link'
-import React from 'react'
+import React, { useEffect } from 'react'
 import ButtonUI from './ButtonUI'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 const Header = () => {
+    const { data: session, status } = useSession()
+    const router = useRouter()
+
+    useEffect(() => {
+        if (status === "unauthenticated")
+            router.push("/")
+    }, [status, router])
+
     return (
         <header className='w-full flex justify-between items-center p-4 bg-background/50'>
             <a href="#">
