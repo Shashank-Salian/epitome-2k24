@@ -15,7 +15,7 @@ const Header = () => {
     }, [status, router])
 
     return (
-        <header className='w-full flex justify-between items-center p-4 bg-background/50'>
+        <header className='sticky top-0 w-full flex justify-between items-center px-4 py-3 bg-background/50 z-10'>
             <a href="#">
                 <h1 className='text-[1.5em] font-beyonders'>LOGO</h1>
             </a>
