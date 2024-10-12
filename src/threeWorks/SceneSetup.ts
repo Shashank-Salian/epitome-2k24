@@ -33,13 +33,13 @@ class SceneSetup {
     this.directionalLight.position.set(10, 10, 10);
     this.camera.position.z = 1;
     this.camera.position.y = 0.05;
-    console.log(this.camera.position);
+    // console.log(this.camera.position);
 
     // Temp:
     const pointLight = new THREE.PointLight(0xffffff, 1.5);
     pointLight.position.set(0, 0, 0);
     this.scene.add(pointLight);
-    console.log("first");
+    // console.log("first");
   }
 
   onLoad() {
@@ -47,7 +47,7 @@ class SceneSetup {
     this.camera.aspect = ClientDims.width / ClientDims.height;
     this.camera.updateProjectionMatrix();
 
-    console.log(document.getElementById("three-work"));
+    // console.log(document.getElementById("three-work"));
     document
       .getElementById("three-work")!
       .appendChild(this.renderer.domElement);

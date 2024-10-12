@@ -18,7 +18,7 @@ gltfLoader.load(
   "/3D/planet_saturn.glb",
   (gltf) => {
     saturnPlanetGlb = gltf;
-    console.log(saturnPlanetGlb);
+    // console.log(saturnPlanetGlb);
     saturnPlanetGlb.scene.scale.set(0.1, 0.1, 0.1);
     saturnPlanetGlb.scene.position.set(0, 0, 0);
     sceneSetup.scene.add(saturnPlanetGlb.scene);
@@ -39,7 +39,7 @@ gltfLoader.load(
   },
   (prog) => {
     // on progress
-    console.log(prog);
+    // console.log(prog);
   },
   (error) => {
     console.error(error);
@@ -67,5 +67,5 @@ window.addEventListener("resize", () => {
   sceneSetup.update();
 });
 
-window.addEventListener("load", (e) => {});
+window.addEventListener("load", (e) => { });
 sceneSetup.onLoad();
