@@ -25,7 +25,7 @@ export default function Home() {
       <ButtonUI value="Sign Up" />
       <CountDown />
       <br />
-      <TextUI variant="gradient" gradient="bg-blueGradient" className="font-beyonders text-[2em]" text="Epitome AIMIT" />
+      <TextUI variant="gradient" background="bg-blueGradient" className="font-beyonders text-[2em]" text="Epitome AIMIT" />
       <TextUI variant="hacker" className="font-beyonders text-[2em]" text="AIMIT HACKER" />
       <br />
       <TechImage />
