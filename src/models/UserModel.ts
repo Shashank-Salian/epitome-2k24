@@ -7,8 +7,7 @@ const UserSchema = new Schema({
     },
     collegeName: {
         type: String,
-        required: true,
-        min: 3,
+        default: '',
     },
     email: {
         type: String,

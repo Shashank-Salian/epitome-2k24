@@ -59,16 +59,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 const userExists = await UserModel.findOne({ email: profile?.email })
                 if (!userExists) {
                     await UserModel.create({
-                        username: profile?.name,
+                        name: profile?.name,
                         email: profile?.email,
-                        avatarImg: profile?.picture,
+                        picture: profile?.picture,
                     })
 
                     // console.log("NewOAuth User")
                 } else {
                     // console.log("OAuth User Exisits")
                     // Update profile picture only if they dont match
-                    if (profile?.picture?.length !== 0 && userExists.avatarImg !== profile?.picture) {
+                    if (profile?.picture?.length !== 0 && userExists.picture !== profile?.picture) {
                         userExists.picture = profile?.picture
                         await userExists.save()
                     }
