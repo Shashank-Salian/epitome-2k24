@@ -34,9 +34,10 @@ const TextUI = (props: Props) => {
                             })
                             .join("");
 
-                        if (iterations >= target.dataset.value?.length! ?? 0) {
+                        if (target.dataset.value && iterations >= target.dataset.value.length) {
                             clearInterval(interval);
                         }
+
 
                         iterations += 1 / 2;
                     }, 40);
