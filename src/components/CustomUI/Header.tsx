@@ -9,10 +9,10 @@ const Header = () => {
     const { data: session, status } = useSession()
     const router = useRouter()
 
-    useEffect(() => {
-        if (status === "unauthenticated")
-            router.push("/")
-    }, [status, router])
+    // useEffect(() => {
+    //     if (status === "unauthenticated")
+    //         router.push("/")
+    // }, [status, router])
 
     return (
         <header className='sticky top-0 w-full flex justify-between items-center px-4 py-3 bg-background/50 z-10'>
