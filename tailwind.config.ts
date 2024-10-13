@@ -54,8 +54,6 @@ const config: Config = {
 			},
 			fontFamily: {
 				poppins: ["var(--Poppins)"],
-				nulshock: ["var(--Nulshock)"],
-				vulgar: ["var(--Vulgar)"],
 				valorant: ["var(--Valorant)"],
 				beyonders: ["var(--Beyonders)"],
 				spaceAge: ["var(--SpaceAge)"],

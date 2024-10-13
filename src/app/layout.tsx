@@ -26,18 +26,6 @@ const poppins = localFont({
   variable: "--Poppins",
 });
 
-const nulshock = localFont({
-  src: "../assets/fonts/nulshock-bd.woff2",
-  display: "swap",
-  variable: "--Nulshock",
-});
-
-const vulgar = localFont({
-  src: "../assets/fonts/vulgar-display.woff2",
-  display: "swap",
-  variable: "--Vulgar",
-});
-
 const valorant = localFont({
   src: "../assets/fonts/valorant.woff2",
   display: "swap",
@@ -142,7 +130,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.variable} ${nulshock.variable} ${vulgar.variable} ${valorant.variable} ${beyonders.variable} ${spaceAge.variable} bg-background text-foreground`}
+        className={`${poppins.variable} ${valorant.variable} ${beyonders.variable} ${spaceAge.variable} bg-background text-foreground`}
       >
         <ThreeComp />
 
