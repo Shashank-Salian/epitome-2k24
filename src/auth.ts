@@ -30,7 +30,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
                     const userData = {
                         uid: userExists?._id,
-                        name: userExists?.name,
+                        username: userExists?.username,
                         collegeName: userExists?.collegeName,
                         email: userExists?.email,
                         picture: userExists?.picture,
@@ -59,7 +59,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 const userExists = await UserModel.findOne({ email: profile?.email })
                 if (!userExists) {
                     await UserModel.create({
-                        name: profile?.name,
+                        username: profile?.username,
                         email: profile?.email,
                         picture: profile?.picture,
                     })
