@@ -2,6 +2,7 @@
 import { useState, SetStateAction, Dispatch } from "react"
 import { AtSignIcon, EyeIcon, EyeOffIcon, User2Icon } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { Field, UseFormRegister } from "react-hook-form"
 
 interface InputProps {
     label: string,
@@ -10,7 +11,7 @@ interface InputProps {
     placeholder?: string,
     className?: string,
     required?: boolean,
-    setValue?: Dispatch<SetStateAction<string>>
+    register: UseFormRegister<Field>
 }
 
 

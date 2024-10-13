@@ -1,19 +1,48 @@
 import { Schema, model, models } from "mongoose";
 
-const UserSchema = new Schema({
+const ParticipantsSchema = new Schema({
     name: {
         type: String,
+        trim: true,
+    },
+    phone: {
+        type: Number,
+        trim: true,
+        unique: true,
+    }
+})
+
+const EventsSchema = new Schema({
+    EventName: {
+        type: String,
+        trim: true,
+    },
+    participants: [ParticipantsSchema]
+})
+
+// Main User Schema
+const UserSchema = new Schema({
+    username: {
+        type: String,
         required: true,
+        trim: true
     },
     collegeName: {
         type: String,
+        trim: true,
         default: '',
     },
     email: {
         type: String,
         required: true,
         unique: true,
+        trim: true,
         max: 50,
+    },
+    phone: {
+        type: Number,
+        trim: true,
+        unique: true,
     },
     password: {
         type: String,
@@ -27,6 +56,7 @@ const UserSchema = new Schema({
         type: Boolean,
         default: false,
     },
+    events: [EventsSchema],
     createdAt: {
         type: Date,
         default: Date.now,
