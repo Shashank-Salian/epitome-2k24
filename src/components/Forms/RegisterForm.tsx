@@ -1,8 +1,8 @@
 "use client"
-import { FormEvent, useEffect, useState } from 'react'
+import { FormEvent, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { getProviders, signIn } from 'next-auth/react'
+import { signIn } from 'next-auth/react'
 import toast from 'react-hot-toast'
 
 import Input from '../CustomUI/Input'
@@ -10,89 +10,86 @@ import { Button } from '../ui/button'
 import { Loader2Icon, UserPlusIcon } from 'lucide-react'
 import { registerUser } from '@/app/actions/UserActions'
 
-import { useForm } from 'react-hook-form'
-import { zodResolver } from "@hookform/resolvers/zod"
-import { RegistrationSchema } from '@/lib/zodSchemas'
-import { z } from 'zod'
-
 type ResponseType = {
     status: number,
     message: string,
 }
 
-type FormData = z.infer<typeof RegistrationSchema>
 
 const RegisterForm = () => {
-    const { register, control, formState, handleSubmit } = useForm({ resolver: zodResolver(RegistrationSchema) })
+    const [username, setUsername] = useState<string>("")
+    const [collegeName, setCollegeName] = useState<string>("")
+    const [phone, setPhone] = useState<string>("")
+    const [email, setEmail] = useState<string>("")
+    const [password, setPassword] = useState<string>("")
+    const [confirmpassword, setConfirmPassword] = useState<string>("")
+    const [isLoading, setIsLoading] = useState(false)
 
     const router = useRouter()
     const params = useSearchParams().get("callbackUrl")
     const callback = params ? params as string : ""
 
-    const onRegister = (formData: FormData) => {
-        console.log("Registration Form Data: ", formData)
+    const HandleRegister = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+
+        // Exit function if passwords do not match
+        if (password !== confirmpassword) {
+            toast.error("Passwords do not match")
+            return
+        }
+
+        const SignupToastID = toast.loading("Creating user...")
+        setIsLoading(true)
+
+        try {
+            const res = await registerUser({
+                username,
+                collegeName,
+                phone,
+                email,
+                password
+            }) as ResponseType
+
+            if (res?.status === 201) {
+                toast.success(res?.message, {
+                    id: SignupToastID
+                })
+
+                router.push("./login")
+            }
+        } catch (err) {
+            toast.error("Something went wrong!", {
+                id: SignupToastID
+            })
+            console.log(err)
+        } finally {
+            setIsLoading(false)
+        }
     }
 
-    // const HandleSignup = async (e: FormEvent<HTMLFormElement>) => {
-    //     e?.preventDefault()
+    const HandleOAuthLogin = async () => {
+        const OAuthTostID = toast.loading(`Connecting to Google...`)
+        setIsLoading(true)
 
-    //     // Exit function if passwords do not match
-    //     if (password !== confirmpassword) {
-    //         toast.error("Passwords do not match")
-    //         return
-    //     }
+        try {
+            const res = await signIn("google", {
+                callbackUrl: callback || "/dashboard"
+            })
+            console.log("RegisterRes", res)
 
-    //     const SignupToastID = toast.loading("Creating user...")
-    //     setIsLoading(true)
-
-    //     try {
-    //         const res = await registerUser({
-    //             username,
-    //             collegeName,
-    //             email,
-    //             password
-    //         }) as ResponseType
-
-    //         if (res?.status === 201) {
-    //             toast.success(res?.message, {
-    //                 id: SignupToastID
-    //             })
-
-    //             router.push("./login")
-    //         }
-    //     } catch (err) {
-    //         toast.error("Something went wrong!", {
-    //             id: SignupToastID
-    //         })
-    //         console.log(err)
-    //     } finally {
-    //         setIsLoading(false)
-    //     }
-    // }
-
-    // const HandleOAuthLogin = async (provider: string) => {
-    //     const OAuthTostID = toast.loading(`Connecting to ${provider.charAt(0).toUpperCase() + provider.slice(1)}...`)
-    //     setIsLoading(true)
-
-    //     try {
-    //         const res = await signIn(provider, {
-    //             callbackUrl: callback || "/dashboard"
-    //         })
-    //         // redirect: callback !== "" ? true : false,
-
-    //         toast.success("Logged in Successfully!", {
-    //             id: OAuthTostID
-    //         })
-    //     } catch (err) {
-    //         toast.error("Something went wrong!", {
-    //             id: OAuthTostID
-    //         })
-    //         console.log(err)
-    //     } finally {
-    //         setIsLoading(false)
-    //         toast.dismiss()
-    //     }
-    // }
+            toast.success("Logged in Successfully!", {
+                id: OAuthTostID
+            })
+        } catch (err) {
+            toast.error("Something went wrong!", {
+                id: OAuthTostID
+            })
+            console.log(err)
+        } finally {
+            setIsLoading(false)
+            toast.dismiss()
+        }
+    }
 
     return (
         <div className='relative flex_center flex-col gap-2 2xl:gap-4 w-fit px-8 py-4 rounded-lg bg-background/70 backdrop-blur-lg lg:ml-[4em]'>
@@ -100,38 +97,51 @@ const RegisterForm = () => {
                 Create new account
             </h1>
 
-            <form onSubmit={handleSubmit(onRegister)} className='flex flex-col gap-3 2xl:gap-4'>
+            <form onSubmit={HandleRegister} className='flex flex-col gap-3 2xl:gap-4'>
                 <Input
                     type='text'
                     label='Username'
                     name='username'
                     placeholder='Enter your name'
                     className='2xl:w-[500px]'
-                    register={register} />
+                    setValue={setUsername} />
+                <Input
+                    type='text'
+                    label='College Name'
+                    name='collegeName'
+                    placeholder='Enter your College name'
+                    className='2xl:w-[500px]'
+                    setValue={setCollegeName} />
+                <Input
+                    type='tel'
+                    label='Phone Number'
+                    placeholder='Enter your Phone number'
+                    className='2xl:w-[500px]'
+                    setValue={setPhone} />
                 <Input
                     type='email'
                     label='Email'
                     placeholder='example@gmail.com'
                     className='2xl:w-[500px]'
-                    register={register} />
+                    setValue={setEmail} />
                 <Input
                     type='password'
                     label='Password'
                     placeholder='Enter password'
                     className='2xl:w-[500px]'
-                    register={register} />
+                    setValue={setPassword} />
                 <Input
                     type='password'
                     label='Confirm Password'
                     placeholder='Retype password'
                     className='2xl:w-[500px]'
-                    register={register} />
+                    setValue={setConfirmPassword} />
 
                 <Button type='submit' className='flex_center gap-4 text-white' disabled={isLoading}>
-                    {/* {isLoading ?
+                    {isLoading ?
                         <Loader2Icon className='animate-spin' />
                         : <UserPlusIcon />
-                    } */}
+                    }
                     CREATE ACCOUNT
                 </Button>
             </form>

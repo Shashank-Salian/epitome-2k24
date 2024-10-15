@@ -1,19 +1,17 @@
 'use client'
-import { useState, SetStateAction, Dispatch } from "react"
-import { AtSignIcon, EyeIcon, EyeOffIcon, User2Icon } from "lucide-react"
+import { useState, SetStateAction, Dispatch, Ref } from "react"
+import { AtSignIcon, Building2Icon, EyeIcon, EyeOffIcon, PhoneIcon, User2Icon } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { Field, UseFormRegister } from "react-hook-form"
 
 interface InputProps {
     label: string,
-    type?: "text" | "email" | "password",
-    name?: "username" | "",
+    type?: "text" | "email" | "password" | "tel",
+    name?: "username" | "collegeName" | any,
     placeholder?: string,
     className?: string,
     required?: boolean,
-    register: UseFormRegister<Field>
+    setValue?: Dispatch<SetStateAction<any>>
 }
-
 
 const Input = ({ label, type = "text", name = "", placeholder, className = "", required = false, setValue }: InputProps) => {
     const [showPassword, setShowPassword] = useState<boolean>(false)
@@ -31,6 +29,7 @@ const Input = ({ label, type = "text", name = "", placeholder, className = "", r
                     placeholder={placeholder}
                     required={required}
                     onChange={(e) => setValue && setValue(e.target.value)}
+                    pattern={type === "tel" ? "[6789][0-9]{9}" : undefined}
                     className='text-[1em] w-full bg-background/0 px-2 py-1 border-none outline-none placeholder:text-secondary-foreground/70' />
 
                 {type === "password" ?
@@ -45,8 +44,14 @@ const Input = ({ label, type = "text", name = "", placeholder, className = "", r
                     type === "email" ?
                         <AtSignIcon size={24} className="absolute right-2 text-slate-400" />
                         :
-                        name === "username" &&
-                        <User2Icon size={24} className="absolute right-2 text-slate-400" />
+                        type === "tel" ?
+                            <PhoneIcon size={24} className="absolute right-2 text-slate-400" />
+                            :
+                            name === "username" ?
+                                <User2Icon size={24} className="absolute right-2 text-slate-400" />
+                                :
+                                name === "collegeName" &&
+                                <Building2Icon size={24} className="absolute right-2 text-slate-400" />
                 }
             </div>
         </div>
