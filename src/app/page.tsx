@@ -1,13 +1,13 @@
 import ButtonUI from "@/components/CustomUI/ButtonUI";
 import CountDown from "@/components/CustomUI/CountDown";
-import Header from "@/components/CustomUI/Header";
+import { LandingHeader } from "@/components/CustomUI/Header";
 import TechImage from "@/components/CustomUI/TechImage";
 import TextUI from "@/components/CustomUI/TextUI";
 
 export default function Home() {
   return (
-    <div className="w-full absolute top-0">
-      <Header />
+    <main className="w-full absolute top-0">
+      <LandingHeader />
 
       <h1 className="font-poppins text-[2em]">Font Poppins : Epitome 2k24</h1>
       <h1 className="font-nulshock text-[2em]">
@@ -23,12 +23,13 @@ export default function Home() {
       </h1>
 
       <ButtonUI value="Sign Up" />
+
       <CountDown />
       <br />
       <TextUI variant="gradient" background="bg-blueGradient" className="font-beyonders text-[2em]" text="Epitome AIMIT" />
       <TextUI variant="hacker" className="font-beyonders text-[2em]" text="AIMIT HACKER" />
       <br />
       <TechImage />
-    </div>
+    </main>
   );
 }
