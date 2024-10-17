@@ -89,6 +89,8 @@ body {
 @layer base {
   * {
     @apply border-border;
+
+    cursor: none !important;
   }
 
   body {
@@ -97,6 +99,16 @@ body {
 
   .flex_center {
     @apply flex justify-center items-center;
+  }
+
+  #Custom_Cursor {
+    opacity: 0;
+    backface-visibility: "hidden";
+    transition: 0.25s ease-in-out;
+  }
+
+  body:hover #Custom_Cursor {
+    opacity: 1;
   }
 
   .clip_Btn {
