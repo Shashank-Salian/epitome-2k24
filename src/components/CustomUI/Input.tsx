@@ -30,10 +30,10 @@ const Input = ({ label, type = "text", name = "", placeholder, className = "", r
                     required={required}
                     onChange={(e) => setValue && setValue(e.target.value)}
                     pattern={type === "tel" ? "[6789][0-9]{9}" : undefined}
-                    className='text-[1em] w-full bg-background/0 px-2 py-1 border-none outline-none placeholder:text-secondary-foreground/70' />
+                    className='text-[1em] w-full bg-background/0 px-2 py-1 border-none outline-none placeholder:text-secondary/40' />
 
                 {type === "password" ?
-                    <div className="p-1 w-fit absolute right-2 text-slate-400 cursor-pointer" onClick={() => setShowPassword(prev => !prev)}>
+                    <div className="p-1 w-fit absolute right-2 text-secondary/40 cursor-pointer" onClick={() => setShowPassword(prev => !prev)}>
                         {showPassword ?
                             <EyeIcon />
                             :
@@ -42,16 +42,16 @@ const Input = ({ label, type = "text", name = "", placeholder, className = "", r
                     </div>
                     :
                     type === "email" ?
-                        <AtSignIcon size={24} className="absolute right-2 text-slate-400" />
+                        <AtSignIcon size={24} className="absolute right-2 text-secondary/40" />
                         :
                         type === "tel" ?
-                            <PhoneIcon size={24} className="absolute right-2 text-slate-400" />
+                            <PhoneIcon size={24} className="absolute right-2 text-secondary/40" />
                             :
                             name === "username" ?
-                                <User2Icon size={24} className="absolute right-2 text-slate-400" />
+                                <User2Icon size={24} className="absolute right-2 text-secondary/40" />
                                 :
                                 name === "collegeName" &&
-                                <Building2Icon size={24} className="absolute right-2 text-slate-400" />
+                                <Building2Icon size={24} className="absolute right-2 text-secondary/40" />
                 }
             </div>
         </div>

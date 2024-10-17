@@ -1,14 +1,14 @@
 "use client"
-import { FormEvent, useEffect, useRef, useState } from 'react'
-import Link from 'next/link'
+import { FormEvent, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import Link from 'next/link'
 import { signIn } from 'next-auth/react'
-import toast from 'react-hot-toast'
+import { registerUser } from '@/app/actions/UserActions'
 
 import Input from '../CustomUI/Input'
+import toast from 'react-hot-toast'
 import { Button } from '../ui/button'
 import { Loader2Icon, UserPlusIcon } from 'lucide-react'
-import { registerUser } from '@/app/actions/UserActions'
 
 type ResponseType = {
     status: number,
@@ -92,7 +92,7 @@ const RegisterForm = () => {
     }
 
     return (
-        <div className='relative flex_center flex-col gap-2 2xl:gap-4 w-fit px-8 py-4 rounded-lg bg-background/70 backdrop-blur-lg lg:ml-[4em]'>
+        <div className='relative flex_center flex-col gap-2 2xl:gap-4 w-fit px-8 py-4 rounded-lg bg-background/40 backdrop-blur-lg lg:ml-[4em]'>
             <h1 className='hidden lg:block text-[1.5em] 2xl:text-[2em] font-medium'>
                 Create new account
             </h1>
@@ -137,7 +137,7 @@ const RegisterForm = () => {
                     className='2xl:w-[500px]'
                     setValue={setConfirmPassword} />
 
-                <Button type='submit' className='flex_center gap-4 text-white' disabled={isLoading}>
+                <Button type='submit' className='flex_center gap-4 text-white hover:bg-primary' disabled={isLoading}>
                     {isLoading ?
                         <Loader2Icon className='animate-spin' />
                         : <UserPlusIcon />
