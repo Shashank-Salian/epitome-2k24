@@ -37,7 +37,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                         isVerified: userExists?.isVerified,
                     }
 
-                    const accessToken = SignToken(userData)
+                    const accessToken = await SignToken(userData)
                     user = { ...userData, accessToken }
 
                     return user
@@ -84,7 +84,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     session: {
         strategy: "jwt",
-        maxAge: 30 * 24 * 60 * 60
+        maxAge: 2 * 60 * 60
     },
     secret: process.env.AUTH_SECRET,
 })
