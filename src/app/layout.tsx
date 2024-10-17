@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import ThreeComp from "@/threeWorks/ThreeComp";
 import Provider from "@/providers/Providers";
+import Cursor from "@/components/CustomUI/Cursor";
 
 const poppins = localFont({
   src: [
@@ -46,7 +47,7 @@ const spaceAge = localFont({
 
 const TITLE = "Epitome | AIMIT IT Fest 2024";
 const DESCRIPTION = "some_description";
-const BASE_URL = new URL("https://arms-v3.vercel.app/");
+const BASE_URL = new URL("https://epitome-aimit.vercel.app/");
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -64,8 +65,12 @@ export const metadata: Metadata = {
     "chirag",
     "chrgchirag",
   ],
-  authors: [{ name: "ChiragChrg" }, { url: "https://chiragchrg.netlify.app/" }],
-  creator: "ChiragChrg",
+  authors: [
+    { name: "ChiragChrg", url: "https://chiragchrg.netlify.app/" },
+    { name: "Harishri B R", url: "https://github.com/Harishri2002" },
+    { name: "Shashank Salian", url: "https://cws-portfolio.vercel.app/" }
+  ],
+  creator: "ChiragChrg, Shashank Salian, Harishri B R",
   metadataBase: BASE_URL,
   alternates: {
     canonical: "/",
@@ -132,11 +137,13 @@ export default function RootLayout({
       <body
         className={`${poppins.variable} ${valorant.variable} ${beyonders.variable} ${spaceAge.variable} bg-background text-foreground`}
       >
-        <ThreeComp />
 
         <Provider>
           {children}
         </Provider>
+
+        <ThreeComp />
+        <Cursor />
       </body>
     </html>
   );

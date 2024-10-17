@@ -1,8 +1,8 @@
 "use client"
-import { FormEvent, useEffect, useState } from 'react'
-import Link from 'next/link'
+import { FormEvent, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { signIn } from 'next-auth/react'
+import Link from 'next/link'
 import toast from 'react-hot-toast'
 
 import Input from '../CustomUI/Input'
@@ -76,7 +76,7 @@ const LoginForm = () => {
     }
 
     return (
-        <div className='relative flex_center flex-col gap-4 2xl:gap-8 w-fit p-8 rounded-lg bg-background/70 backdrop-blur-lg'>
+        <div className='relative flex_center flex-col gap-4 2xl:gap-8 w-fit p-8 rounded-lg bg-background/40 backdrop-blur-lg'>
             <h1 className='hidden lg:block text-[2em] 2xl:text-[2.5em] font-medium'>
                 Welcome to <span className="text-primary">EPITOME</span>
             </h1>
@@ -99,7 +99,7 @@ const LoginForm = () => {
                     <Link href="./forgot-password" className='text-[0.9em] sm:text-[0.8em] 2xl:text-[1em] text-primary self-end'>Forgot Password?</Link>
                 </div>
 
-                <Button type='submit' className='flex_center gap-4 text-white' disabled={isLoading}>
+                <Button type='submit' className='flex_center gap-4 text-white hover:bg-primary' disabled={isLoading}>
                     {isLoading ?
                         <Loader2Icon className='animate-spin' />
                         : <LogInIcon />

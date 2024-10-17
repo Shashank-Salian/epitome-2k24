@@ -59,7 +59,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 const userExists = await UserModel.findOne({ email: profile?.email })
                 if (!userExists) {
                     await UserModel.create({
-                        username: profile?.username,
+                        username: profile?.name,
                         email: profile?.email,
                         picture: profile?.picture,
                     })

@@ -6,6 +6,7 @@ import * as bcrypt from "bcryptjs"
 type RegisterUserType = {
     username: string,
     collegeName: string,
+    phone: string,
     email: string,
     password: string
 }
@@ -15,7 +16,7 @@ type ResponseType = {
     message: string,
 }
 
-export async function registerUser({ username, collegeName, email, password }: RegisterUserType) {
+export async function registerUser({ username, collegeName, phone, email, password }: RegisterUserType) {
     if (!username || !collegeName || !email || !password) {
         throw new Error("Missing Input Fields")
     }
@@ -25,6 +26,10 @@ export async function registerUser({ username, collegeName, email, password }: R
         const userExists = await UserModel.findOne({ email: email })
         if (userExists) {
             throw new Error("User already Exists!")
+            // return {
+            //     status: 409,
+            //     message: "User already Exists!"
+            // } as ResponseType
         }
 
         const salt = await bcrypt.genSalt(10);
@@ -33,6 +38,7 @@ export async function registerUser({ username, collegeName, email, password }: R
         await UserModel.create({
             username: username,
             collegeName: collegeName,
+            phone: phone,
             email: email,
             password: hashedPassword
         })
