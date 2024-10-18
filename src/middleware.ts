@@ -33,6 +33,6 @@ export default auth(async function middleware(req: NextRequest) {
 export const config = {
     matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
     unstable_allowDynamic: [
-        '/lib/database.ts',
+        '/node_modules/mongoose/dist/browser.umd.js',
     ],
 };
