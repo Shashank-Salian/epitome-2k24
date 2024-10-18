@@ -1,10 +1,14 @@
-import { auth } from "@/auth";
 import { publicRoutes, authRoutes, ApiAuthPrefix, DEFAULT_LOGIN_REDIRECT } from '@/lib/routes';
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import authConfig from "./auth.config";
+import NextAuth from "next-auth";
+import { getToken } from 'next-auth/jwt';
 
-export default auth((req) => {
+const { auth } = NextAuth(authConfig)
+
+export default auth(async function middleware(req: NextRequest) {
     const { nextUrl } = req;
-    const isLoggedIn = !!req.auth;
+    const isLoggedIn = !!await getToken({ req: req, secret: process.env.AUTH_SECRET })
     const isApiAuthRoute = nextUrl.pathname.startsWith(ApiAuthPrefix);
     const isPublicRoute = publicRoutes.some(route => nextUrl.pathname === route);
     const isAuthRoute = authRoutes.includes(nextUrl.pathname);
