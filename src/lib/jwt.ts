@@ -1,22 +1,29 @@
-import jwt, { JwtPayload } from "jsonwebtoken"
+import * as jose from 'jose'
+import type { JWTPayload } from 'jose'
 
-interface SignOption {
-    expiresIn?: string | number
-}
+export async function SignToken(payload: JWTPayload) {
+    const secretKey = new TextEncoder().encode(process.env.JWT_SECRET_KEY)
+    const alg = 'HS256'
 
-const DEFAULT_SIGN_OPTION = {}
+    const token = await new jose.SignJWT(payload)
+        .setProtectedHeader({ alg })
+        .setIssuedAt()
+        .setExpirationTime('2h')
+        .sign(secretKey)
 
-export function SignToken(payload: JwtPayload, option: SignOption = DEFAULT_SIGN_OPTION) {
-    const secretKey = process.env.JWT_SECRET_KEY
-    const token = jwt.sign(payload, secretKey as string, option)
     return token
 }
 
-export function VerifyToken(token: string) {
+export async function VerifyToken(token: string) {
     try {
-        const secretKey = process.env.JWT_SECRET_KEY
-        const decoded = jwt.verify(token, secretKey as string)
-        return decoded as JwtPayload
+        const secretKey = new TextEncoder().encode(process.env.JWT_SECRET_KEY)
+        // const decoded = jwt.verify(token, secretKey as string)
+        const { payload, protectedHeader } = await jose.jwtVerify(token, secretKey, {
+            issuer: 'urn:example:issuer',
+            audience: 'urn:example:audience',
+        })
+        console.log({ payload, protectedHeader })
+        return { payload, protectedHeader }
     } catch (error) {
         return null
     }

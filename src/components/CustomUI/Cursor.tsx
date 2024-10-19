@@ -51,8 +51,8 @@ const Cursor = () => {
         <div className="w-screen h-screen absolute inset-0 pointer-events-none z-[99999]">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="40"
-                height="40"
+                width="30"
+                height="30"
                 version="1.2"
                 viewBox="0 0 322 503"
                 id='Custom_Cursor'
