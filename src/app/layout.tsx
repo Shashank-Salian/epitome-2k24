@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import ThreeComp from "@/threeWorks/ThreeComp";
+import ThreeComp from "@/threeWorks/components/ThreeComp";
 import Provider from "@/providers/Providers";
 import Cursor from "@/components/CustomUI/Cursor";
 
@@ -68,7 +68,7 @@ export const metadata: Metadata = {
   authors: [
     { name: "ChiragChrg", url: "https://chiragchrg.netlify.app/" },
     { name: "Harishri B R", url: "https://github.com/Harishri2002" },
-    { name: "Shashank Salian", url: "https://cws-portfolio.vercel.app/" }
+    { name: "Shashank Salian", url: "https://cws-portfolio.vercel.app/" },
   ],
   creator: "ChiragChrg, Shashank Salian, Harishri B R",
   metadataBase: BASE_URL,
@@ -137,10 +137,7 @@ export default function RootLayout({
       <body
         className={`${poppins.variable} ${valorant.variable} ${beyonders.variable} ${spaceAge.variable} bg-background text-foreground`}
       >
-
-        <Provider>
-          {children}
-        </Provider>
+        <Provider>{children}</Provider>
 
         <ThreeComp />
         <Cursor />

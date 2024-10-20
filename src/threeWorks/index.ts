@@ -1,71 +1,78 @@
 "use client";
 
 import * as THREE from "three";
-import { GLTF, GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { RGBELoader } from "three/addons/loaders/RGBELoader.js";
+import { EffectComposer, RenderPass } from "postprocessing";
+import { Clouds } from "@pmndrs/vanilla";
 
 import SceneSetup from "./SceneSetup";
+import { ClientDims } from "./utils";
+
+// Just for dev
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { initCloud } from "./Models/Clouds";
+import { initStars } from "./Models/Stars";
 
 // Setup Scene
 const sceneSetup = new SceneSetup();
+sceneSetup.initialize();
 
-// Loading the 3D models (this needs to be moved to a separate file, class)
-const gltfLoader = new GLTFLoader();
+// Post Processing
+const postRenderPass = new RenderPass(SceneSetup.scene, SceneSetup.camera);
+const effectComposer = new EffectComposer(SceneSetup.renderer);
+effectComposer.addPass(postRenderPass);
 
-let saturnPlanetGlb: GLTF | null = null;
-let saturnMixer: THREE.AnimationMixer | null = null;
+// HDR loading:
+const hdrLoader = new RGBELoader();
+hdrLoader.load("/hdr/night.hdr", (texture) => {
+  texture.mapping = THREE.EquirectangularReflectionMapping;
+  SceneSetup.scene.environment = texture;
+  //   SceneSetup.scene.background;
+});
 
-gltfLoader.load(
-  "/3D/planet_saturn.glb",
-  (gltf) => {
-    saturnPlanetGlb = gltf;
-    // console.log(saturnPlanetGlb);
-    saturnPlanetGlb.scene.scale.set(0.1, 0.1, 0.1);
-    saturnPlanetGlb.scene.position.set(0, 0, 0);
-    sceneSetup.scene.add(saturnPlanetGlb.scene);
+// const blackHoleAsset = blackHoleInit(effectComposer);
 
-    // Animation
-    saturnMixer = new THREE.AnimationMixer(saturnPlanetGlb.scene);
-
-    // Assuming the GLB has animations, let's play the first one
-    const animation = saturnPlanetGlb.animations[0]; // Get the first animation
-
-    // Create an action for the animation
-    const action = saturnMixer.clipAction(animation);
-
-    // Play the animation
-    action.play();
-
-    // I don't know why the colors are not visible, but the textures are applied.
-  },
-  (prog) => {
-    // on progress
-    // console.log(prog);
-  },
-  (error) => {
-    console.error(error);
-  }
+// Controls
+const controls = new OrbitControls(
+  SceneSetup.camera,
+  SceneSetup.renderer.domElement
 );
+// controls.enableDamping = true;
+// controls.autoRotate = true;
+
+let clouds: Clouds | undefined;
+initCloud().then((c) => (clouds = c));
+
+const stars = initStars(effectComposer);
+
+// Canvas background
+const fog = new THREE.FogExp2(0x000001, 0.01);
 
 // Animation loop
-const clock = new THREE.Clock(); // Clock is used for time-based animations
-
+SceneSetup.renderer.setClearColor(fog.color);
 function animate() {
-  //   if (saturnPlanetGlb) {
-  //     saturnPlanetGlb.scene.rotation.y += 0.01;
-  //   }
+  //   blackHoleAsset.update();
 
-  const delta = clock.getDelta(); // Get the time difference between frames
-  if (saturnMixer) saturnMixer.update(delta);
+  controls.update();
+  //   cloud.updateCloud();
+  if (clouds) {
+    clouds.update(
+      SceneSetup.camera,
+      SceneSetup.clock.getElapsedTime(),
+      SceneSetup.clock.getDelta()
+    );
+  }
 
-  sceneSetup.render();
+  //   fog.color.g += 0.00005;
+
+  effectComposer.render(SceneSetup.clock.getDelta());
+  //   sceneSetup.render();
 }
 
-sceneSetup.renderer.setAnimationLoop(animate);
+SceneSetup.renderer.setAnimationLoop(animate);
 
 // Global events
 window.addEventListener("resize", () => {
   sceneSetup.update();
+  effectComposer.setSize(ClientDims.width, ClientDims.height);
 });
-
-window.addEventListener("load", (e) => { });
-sceneSetup.onLoad();
