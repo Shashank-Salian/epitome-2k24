@@ -3,64 +3,61 @@
 import * as THREE from "three";
 
 import { ClientDims } from "@/threeWorks/utils";
+import ModelAssetManager from "./AssetsManager/AssetManager";
 
 class SceneSetup {
-  scene: THREE.Scene;
-  camera: THREE.PerspectiveCamera;
-  renderer: THREE.WebGLRenderer;
+  public static scene: THREE.Scene = new THREE.Scene();
+  public static renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer();
+  public static clock: THREE.Clock = new THREE.Clock();
+  public static camera: THREE.PerspectiveCamera = new THREE.PerspectiveCamera(
+    75,
+    ClientDims.width / ClientDims.height,
+    0.1,
+    1000
+  );
   ambientLight: THREE.AmbientLight;
   directionalLight: THREE.DirectionalLight;
 
   constructor() {
-    // Setting up scene and camera
-    this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera(
-      75,
-      ClientDims.width / ClientDims.height,
-      0.1,
-      1000
-    );
-    this.renderer = new THREE.WebGLRenderer();
-
     // Lighting
     this.ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     this.directionalLight = new THREE.DirectionalLight(0xffffff, 1);
 
-    this.scene.add(this.ambientLight);
-    this.scene.add(this.directionalLight);
+    SceneSetup.scene.add(this.ambientLight);
+    SceneSetup.scene.add(this.directionalLight);
 
     // Setting initial position
     this.directionalLight.position.set(10, 10, 10);
-    this.camera.position.z = 1;
-    this.camera.position.y = 0.05;
-    // console.log(this.camera.position);
+    SceneSetup.camera.position.z = 3;
+    SceneSetup.camera.position.y = 0.1;
 
-    // Temp:
-    const pointLight = new THREE.PointLight(0xffffff, 1.5);
-    pointLight.position.set(0, 0, 0);
-    this.scene.add(pointLight);
-    // console.log("first");
+    SceneSetup.renderer.outputColorSpace = THREE.SRGBColorSpace;
+    SceneSetup.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    SceneSetup.renderer.toneMappingExposure = 1;
   }
 
-  onLoad() {
-    this.renderer.setSize(ClientDims.width, ClientDims.height);
-    this.camera.aspect = ClientDims.width / ClientDims.height;
-    this.camera.updateProjectionMatrix();
+  initialize() {
+    SceneSetup.renderer.setSize(ClientDims.width, ClientDims.height);
+    SceneSetup.camera.aspect = ClientDims.width / ClientDims.height;
+    SceneSetup.camera.updateProjectionMatrix();
 
-    // console.log(document.getElementById("three-work"));
+    // Add space background
+    // const fog = new THREE.FogExp2(0x000514, 0.01);
+    // SceneSetup.renderer.setClearColor(fog.color);
+
     document
       .getElementById("three-work")!
-      .appendChild(this.renderer.domElement);
+      .appendChild(SceneSetup.renderer.domElement);
   }
 
   update() {
-    this.renderer.setSize(ClientDims.width, ClientDims.height);
-    this.camera.aspect = ClientDims.width / ClientDims.height;
-    this.camera.updateProjectionMatrix();
+    SceneSetup.renderer.setSize(ClientDims.width, ClientDims.height);
+    SceneSetup.camera.aspect = ClientDims.width / ClientDims.height;
+    SceneSetup.camera.updateProjectionMatrix();
   }
 
-  render() {
-    this.renderer.render(this.scene, this.camera);
+  render(scene?: THREE.Scene) {
+    SceneSetup.renderer.render(SceneSetup.scene, SceneSetup.camera);
   }
 }
 
