@@ -18,7 +18,7 @@ const Cursor = () => {
             ];
 
             cursorRef.current.animate(keyframes, {
-                duration: 100,
+                duration: 0,
                 easing: 'ease-in-out',
                 fill: 'forwards',
             });
