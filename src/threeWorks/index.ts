@@ -17,7 +17,8 @@ import ModelAssetManager from "./AssetsManager/AssetManager";
 // Setup Scene
 SceneSetup.initialize();
 
-const UPDATE_FUNCS: Function[] = [];
+type UpdateFunction = () => void;
+const UPDATE_FUNCS: UpdateFunction[] = [];
 
 // Post Processing
 const postRenderPass = new RenderPass(SceneSetup.scene, SceneSetup.camera);
