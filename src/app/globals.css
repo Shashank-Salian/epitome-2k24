@@ -49,11 +49,13 @@ body {
     --dodgerBlue: 210, 100%, 56%;
     --purple: 273, 100%, 56%;
 
-    --blueGradient: linear-gradient(to right,
-        hsl(var(--dodgerBlue)),
-        hsl(var(--purple)),
-        hsl(var(--purple)),
-        hsl(var(--dodgerBlue)));
+    --blueGradient: linear-gradient(
+      to right,
+      hsl(var(--dodgerBlue)),
+      hsl(var(--purple)),
+      hsl(var(--purple)),
+      hsl(var(--dodgerBlue))
+    );
 
     --primary: var(--dodgerBlue);
   }
@@ -90,7 +92,8 @@ body {
   * {
     @apply border-border;
 
-    cursor: none !important;
+    /* Make the cursor invisible only if Cursor component is being used (moved to Cursor file) */
+    /* cursor: none !important; */
   }
 
   body {
@@ -112,12 +115,14 @@ body {
   }
 
   .clip_Btn {
-    clip-path: polygon(0 0,
-        calc(100% - 16px) 0,
-        100% 16px,
-        100% 100%,
-        16px 100%,
-        0 calc(100% - 16px));
+    clip-path: polygon(
+      0 0,
+      calc(100% - 16px) 0,
+      100% 16px,
+      100% 100%,
+      16px 100%,
+      0 calc(100% - 16px)
+    );
   }
 
   .gradientText {

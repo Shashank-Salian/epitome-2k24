@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import { Oxanium } from "next/font/google";
 import "./globals.css";
 import ThreeComp from "@/threeWorks/components/ThreeComp";
 import Provider from "@/providers/Providers";
@@ -43,6 +44,12 @@ const spaceAge = localFont({
   src: "../assets/fonts/spaceage.ttf",
   display: "swap",
   variable: "--SpaceAge",
+});
+
+const oxanium = Oxanium({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  variable: "--Oxanium",
 });
 
 const TITLE = "Epitome | AIMIT IT Fest 2024";
@@ -135,12 +142,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.variable} ${valorant.variable} ${beyonders.variable} ${spaceAge.variable} bg-background text-foreground`}
+        className={`${poppins.variable} ${valorant.variable} ${oxanium.className} ${beyonders.variable} ${spaceAge.variable} bg-background text-foreground`}
       >
         <Provider>{children}</Provider>
 
         <ThreeComp />
-        <Cursor />
+        {/* <Cursor /> */}
       </body>
     </html>
   );
