@@ -1,10 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { Oxanium } from "next/font/google";
-import "./globals.css";
 import ThreeComp from "@/threeWorks/components/ThreeComp";
 import Provider from "@/providers/Providers";
 import Cursor from "@/components/CustomUI/Cursor";
+import "./globals.css";
+import "../../node_modules/augmented-ui/augmented-ui.min.css";
+
 
 const poppins = localFont({
   src: [
