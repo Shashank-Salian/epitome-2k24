@@ -36,8 +36,6 @@ export const Header = () => {
             router.push("/")
     }, [status, router])
 
-    console.log(session)
-
     return (
         <header className='sticky top-0 w-full flex justify-between items-center px-4 py-3 bg-background/50 z-10'>
             <a href="#">
