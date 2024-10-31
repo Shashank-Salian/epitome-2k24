@@ -3,7 +3,7 @@ import { useState, SetStateAction, Dispatch, Ref } from "react"
 import { AtSignIcon, Building2Icon, EyeIcon, EyeOffIcon, PhoneIcon, User2Icon } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-interface InputProps {
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     label: string,
     type?: "text" | "email" | "password" | "tel",
     name?: "username" | "collegeName" | any,
@@ -13,7 +13,8 @@ interface InputProps {
     setValue?: Dispatch<SetStateAction<any>>
 }
 
-const Input = ({ label, type = "text", name = "", placeholder, className = "", required = false, setValue }: InputProps) => {
+const Input = (props: InputProps) => {
+    const { label, type = "text", name = "", placeholder, className = "", required = false, setValue } = props
     const [showPassword, setShowPassword] = useState<boolean>(false)
 
     return (
@@ -30,7 +31,9 @@ const Input = ({ label, type = "text", name = "", placeholder, className = "", r
                     required={required}
                     onChange={(e) => setValue && setValue(e.target.value)}
                     pattern={type === "tel" ? "[6789][0-9]{9}" : undefined}
-                    className='text-[1em] w-full bg-background/0 px-2 py-1 border-none outline-none placeholder:text-secondary/40' />
+                    className='text-[1em] w-full bg-background/0 px-2 py-1 border-none outline-none placeholder:text-secondary/40'
+                    {...props}
+                />
 
                 {type === "password" ?
                     <div className="p-1 w-fit absolute right-2 text-secondary/40 cursor-pointer" onClick={() => setShowPassword(prev => !prev)}>
