@@ -10,56 +10,54 @@ import { ClientDims, randomSelect, throttle } from "./utils";
 
 // Just for dev
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-import { initCloud } from "./Models/Clouds";
 import { initStars } from "./Models/Stars";
-import ModelAssetManager from "./AssetsManager/AssetManager";
+import {
+  ModelAssetManager,
+  HDRAssetManager,
+} from "./AssetsManager/AssetManager";
+import { FontManager, FontRepo } from "./Models/TextGeo";
+import GlobalLoader from "./AssetsManager/GlobalLoader";
+import { EventsRayCaster, initEventsModel } from "./Models/EventsModel";
 
 // Setup Scene
 SceneSetup.initialize();
+ClientDims.initMouseEvent();
+EventsRayCaster.init();
 
-const UPDATE_FUNCS: Function[] = [];
+const UPDATE_FUNCS: (() => void)[] = [];
 
 // Post Processing
 const postRenderPass = new RenderPass(SceneSetup.scene, SceneSetup.camera);
 const effectComposer = new EffectComposer(SceneSetup.renderer);
 effectComposer.addPass(postRenderPass);
 
-// HDR loading:
-const hdrLoader = new RGBELoader();
-hdrLoader.load("/hdr/night.hdr", (texture) => {
-  texture.mapping = THREE.EquirectangularReflectionMapping;
-  SceneSetup.scene.environment = texture;
-});
-
 // Controls
-const controls = new OrbitControls(
-  SceneSetup.camera,
-  SceneSetup.renderer.domElement
-);
+// const controls = new OrbitControls(
+//   SceneSetup.camera,
+//   SceneSetup.renderer.domElement
+// );
 
-// const madAdsAsset = new ModelAssetManager("/3D/events/mad_ads.glb");
-// madAdsAsset.load();
+const nightHdr = new HDRAssetManager("/3D/hdr/night.hdr", () => {
+  SceneSetup.scene.environment = nightHdr.texture;
+});
+GlobalLoader.pushFirst(nightHdr);
+
+const spaceAgeFont = new FontManager("/3D/fonts/SpaceAge.json", () => {
+  FontRepo.spaceAge = spaceAgeFont.font;
+});
+GlobalLoader.pushFirst(spaceAgeFont);
+
+const madAdsAsset = initEventsModel("/3D/events/mad_ads.glb");
+GlobalLoader.pushFirst(madAdsAsset);
 
 let clouds: Clouds | undefined;
 // initCloud().then((c) => (clouds = c));
 
 const stars = initStars(effectComposer);
 
-let gradVal = 0.1;
 // Animation loop
 function animate() {
-  //   blackHoleAsset.update();
-
-  controls.update();
-
-  //   cloud.updateCloud();
-  //   if (clouds) {
-  //     clouds.update(
-  //       SceneSetup.camera,
-  //       SceneSetup.clock.getElapsedTime(),
-  //       SceneSetup.clock.getDelta()
-  //     );
-  //   }
+  //   controls.update();
 
   UPDATE_FUNCS.forEach((f) => f());
 
@@ -71,6 +69,7 @@ SceneSetup.renderer.setAnimationLoop(animate);
 function onResize() {
   SceneSetup.update();
 
+  madAdsAsset.updateResizeFactor();
   effectComposer.setSize(ClientDims.width, ClientDims.height);
 }
 

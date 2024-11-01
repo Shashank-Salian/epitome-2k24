@@ -1,12 +1,36 @@
 "use client";
 
+import * as THREE from "three";
+import SceneSetup from "./SceneSetup";
+
 class ClientDims {
+  static mouseX = 0;
+  static mouseY = 0;
+
   static get width() {
     return document.documentElement.clientWidth;
   }
 
   static get height() {
     return document.documentElement.clientHeight;
+  }
+
+  static initMouseEvent() {
+    window.addEventListener(
+      "mousemove",
+      throttle((e) => {
+        const { x, y } = ClientDims.toNDC(e.clientX, e.clientY);
+        ClientDims.mouseX = x;
+        ClientDims.mouseY = y;
+      }, 50)
+    );
+  }
+
+  static toNDC(x: number, y: number) {
+    const xNDC = (x / window.innerWidth) * 2 - 1;
+    const yNDC = -(y / window.innerHeight) * 2 + 1;
+
+    return new THREE.Vector2(xNDC, yNDC);
   }
 }
 
@@ -63,4 +87,41 @@ function randomSelect<T>(arr: T[], threshold = 0.5): T[] {
   return arr.filter(() => Math.random() < threshold);
 }
 
-export { ClientDims, randomInRange, debounce, throttle, randomSelect };
+function convertDOMRectToThreeJS(rect: DOMRect) {
+  const { left, top, width, height } = rect;
+
+  // Convert DOM coordinates to normalized device coordinates (NDC)
+  const xNDC = ((left + width / 2) / window.innerWidth) * 2 - 1;
+  const yNDC = -((top + height / 2) / window.innerHeight) * 2 + 1;
+
+  // Create a 3D vector for the position in NDC space
+  const vector = new THREE.Vector3(xNDC, yNDC, 0.5); // z=0.5 for midpoint depth
+
+  // Unproject this NDC point to 3D space
+  vector.unproject(SceneSetup.camera);
+
+  // Calculate scale factors to adjust size based on depth
+  const distance = SceneSetup.camera.position.distanceTo(vector);
+  const sizeFactor =
+    distance / (SceneSetup.camera.projectionMatrix.elements[5] * 2);
+
+  // Convert the 2D width and height to 3D scale
+  const widthIn3D = (width / window.innerWidth) * 2 * sizeFactor;
+  const heightIn3D = (height / window.innerHeight) * 2 * sizeFactor;
+
+  // Return the 3D position and size
+  return {
+    position: vector,
+    width: widthIn3D,
+    height: heightIn3D,
+  };
+}
+
+export {
+  ClientDims,
+  randomInRange,
+  debounce,
+  throttle,
+  randomSelect,
+  convertDOMRectToThreeJS,
+};

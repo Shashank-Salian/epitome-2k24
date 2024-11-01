@@ -4,7 +4,7 @@ import { BlackHolePP } from "../PostProcessing/PostProcessing";
 
 function blackHoleInit(effectComposer: EffectComposer) {
   const blackHoleAsset = new ModelAssetManager("/3D/blackhole.glb");
-  blackHoleAsset.load();
+  blackHoleAsset.load((prog) => {});
   blackHoleAsset.setPosition(0, 0, 0);
   blackHoleAsset.setScale(0.6, 0.6, 0.6);
 

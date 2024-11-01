@@ -3,7 +3,6 @@
 import * as THREE from "three";
 
 import { ClientDims } from "@/threeWorks/utils";
-import ModelAssetManager from "./AssetsManager/AssetManager";
 
 class SceneSetup {
   public static scene: THREE.Scene = new THREE.Scene();
@@ -35,7 +34,7 @@ class SceneSetup {
     // Setting initial position
     SceneSetup.directionalLight.position.set(10, 10, 10);
     SceneSetup.camera.position.z = 3;
-    SceneSetup.camera.position.y = 0.1;
+    // SceneSetup.camera.position.y = 0.1;
 
     SceneSetup.renderer.outputColorSpace = THREE.SRGBColorSpace;
     SceneSetup.renderer.toneMapping = THREE.ACESFilmicToneMapping;

@@ -5,6 +5,7 @@ const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/containers/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/threeWorks/**/*.{js,ts,jsx,tsx,mdx}",
   ],
@@ -58,6 +59,8 @@ const config: Config = {
         beyonders: ["var(--Beyonders)"],
         spaceAge: ["var(--SpaceAge)"],
         oxanium: ["var(--Oxanium)"],
+        bsd: ["var(--Bsd)"],
+        iceland: ["var(--Iceland)"],
       },
       borderRadius: {
         lg: "var(--radius)",

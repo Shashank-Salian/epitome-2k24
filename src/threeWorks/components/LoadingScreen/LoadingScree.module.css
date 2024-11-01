@@ -1,0 +1,21 @@
+.container {
+  background: linear-gradient(
+    to bottom,
+    rgb(2, 0, 36) 0%,
+    rgb(46, 5, 78) 50%,
+    rgb(12, 18, 84) 100%
+  );
+}
+
+.zoomIn {
+  animation: zoomInAnim 1.5s ease-in-out 0.2s 1 forwards;
+}
+
+@keyframes zoomInAnim {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(60) translateY(10px);
+  }
+}
