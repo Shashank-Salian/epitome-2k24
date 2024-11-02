@@ -49,13 +49,11 @@ body {
     --dodgerBlue: 210, 100%, 56%;
     --purple: 273, 100%, 56%;
 
-    --blueGradient: linear-gradient(
-      to right,
-      hsl(var(--dodgerBlue)),
-      hsl(var(--purple)),
-      hsl(var(--purple)),
-      hsl(var(--dodgerBlue))
-    );
+    --blueGradient: linear-gradient(to right,
+        hsl(var(--dodgerBlue)),
+        hsl(var(--purple)),
+        hsl(var(--purple)),
+        hsl(var(--dodgerBlue)));
 
     --primary: var(--dodgerBlue);
   }
@@ -115,14 +113,12 @@ body {
   }
 
   .clip_Btn {
-    clip-path: polygon(
-      0 0,
-      calc(100% - 16px) 0,
-      100% 16px,
-      100% 100%,
-      16px 100%,
-      0 calc(100% - 16px)
-    );
+    clip-path: polygon(0 0,
+        calc(100% - 16px) 0,
+        100% 16px,
+        100% 100%,
+        16px 100%,
+        0 calc(100% - 16px));
   }
 
   .gradientText {
@@ -165,4 +161,15 @@ body {
     border: 6px solid transparent;
     background-clip: content-box;
   } */
+}
+
+/* Input Autofill background color removed */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: #ffffff;
+  transition: background-color 5000s ease-in-out 0s;
+  box-shadow: inset 0 0 20px 20px transparent;
 }

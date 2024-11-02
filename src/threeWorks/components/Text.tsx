@@ -20,7 +20,7 @@ const Text = ({ children, ...props }: Props) => {
     if (anchor.current) {
       textGeo(children, anchor.current);
     }
-  }, []);
+  }, [children]);
 
   return (
     <div {...props} ref={anchor} className="invisible">
