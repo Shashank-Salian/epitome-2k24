@@ -1,8 +1,11 @@
 "use client";
 
 import * as THREE from "three";
+import { RGBELoader } from "three/addons/loaders/RGBELoader.js";
 import { GLTF, GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import SceneSetup from "../SceneSetup";
+import { CustomLoader, OnProgressFunc } from "./GlobalLoader";
+import { ClientDims } from "../utils";
 
 interface Coord3D {
   x: number;
@@ -10,7 +13,9 @@ interface Coord3D {
   z: number;
 }
 
-class ModelAssetManager {
+type ResizeFactor = { screen: number; min: number; max: number };
+
+class ModelAssetManager implements CustomLoader {
   public static gtlfLoader = new GLTFLoader();
   assetGltf: GLTF | null;
   animMixer: THREE.AnimationMixer | null;
@@ -21,46 +26,76 @@ class ModelAssetManager {
   scale: Coord3D;
   position: Coord3D;
   url: string;
+  scalingFactor: ResizeFactor;
+  positionFactor: { x: ResizeFactor; y: ResizeFactor };
+  group?: THREE.Group;
+  modelName?: string;
 
   /**
    *
    * @param url Path to the GLB file
-   * @param scale Sets the scale of the model after it has been downloaded.
-   * @param position Sets the position of the model after it has been downloaded
    */
   constructor(
     url: string,
-    scale: Coord3D = { x: 1, y: 1, z: 1 },
-    position: Coord3D = { x: 0, y: 0, z: 0 }
+    {
+      scale,
+      position,
+      group = undefined,
+      modelName,
+    }: {
+      scale?: Coord3D;
+      position?: Coord3D;
+      group?: THREE.Group;
+      modelName?: string;
+    }
   ) {
     this.url = url;
 
-    this.scale = scale;
-    this.position = position;
+    this.scale = scale || { x: 1, y: 1, z: 1 };
+    this.position = position || { x: 0, y: 0, z: 0 };
 
     this.assetGltf = null;
     this.animMixer = null;
     this.scene = null;
     this.animPresent = false;
     this.downloaded = false;
+
+    this.scalingFactor = { screen: 1920, min: 0.5, max: 1.5 };
+
+    this.positionFactor = {
+      x: {
+        screen: 1920,
+        min: 0.5,
+        max: 1.5,
+      },
+      y: {
+        screen: 1920,
+        min: 0.5,
+        max: 1.5,
+      },
+    };
+
+    this.group = group;
+    this.modelName = modelName;
   }
 
   /**
    * This function loads the GLB file, applies the animations
    * and adds it to the scene
    */
-  async load() {
+  async load(onProgress: OnProgressFunc) {
     try {
       this.assetGltf = await ModelAssetManager.gtlfLoader.loadAsync(
         this.url,
-        (prog) => {}
+        onProgress
       );
 
-      console.log(this.assetGltf);
+      console.log(this.assetGltf, this.url);
 
       this.downloaded = true;
 
       this.scene = this.assetGltf.scene;
+      this.scene.name = this.modelName || this.scene.name;
 
       this.scene.scale.set(this.scale.x, this.scale.y, this.scale.z);
       this.scene.position.set(
@@ -68,9 +103,16 @@ class ModelAssetManager {
         this.position.y,
         this.position.z
       );
+      this.updateResizeFactor();
 
       //   Add the model to the scene
-      SceneSetup.scene.add(this.scene);
+      let addingScene = this.scene;
+      if (this.group) {
+        this.group.add(this.scene);
+        this.group.name = this.modelName ? this.modelName : this.group.name;
+        addingScene = this.group;
+      }
+      SceneSetup.scene.add(addingScene);
 
       // Add animations if present and play
       this.animMixer = new THREE.AnimationMixer(this.scene);
@@ -126,6 +168,59 @@ class ModelAssetManager {
       this.animMixer.update(SceneSetup.clock.getDelta());
     }
   }
+
+  updateResizeFactor() {
+    const curFactor =
+      Math.min(
+        Math.max(
+          ClientDims.width / this.scalingFactor.screen,
+          this.scalingFactor.min
+        ),
+        this.scalingFactor.max
+      ) - 1;
+
+    const posFactorX = ClientDims.width / this.positionFactor.x.screen;
+
+    if (this.scene) {
+      this.scene.scale.set(
+        this.scale.x + curFactor,
+        this.scale.y + curFactor,
+        this.scale.y + curFactor
+      );
+
+      console.log(
+        this.scene.position.x,
+        posFactorX,
+        this.position.x + posFactorX
+      );
+
+      this.scene.position.setX(this.position.x + posFactorX);
+    }
+  }
 }
 
-export default ModelAssetManager;
+class HDRAssetManager implements CustomLoader {
+  static loader = new RGBELoader();
+  urlPath: string;
+  texture: THREE.DataTexture | null;
+  afterLoad?: () => void;
+
+  constructor(urlPath: string, afterLoad?: () => void) {
+    this.urlPath = urlPath;
+    this.texture = null;
+    this.afterLoad = afterLoad;
+  }
+
+  async load(onProgress: OnProgressFunc) {
+    const hdr = await HDRAssetManager.loader.loadAsync(
+      this.urlPath,
+      onProgress
+    );
+    hdr.mapping = THREE.EquirectangularReflectionMapping;
+    this.texture = hdr;
+
+    if (this.afterLoad) this.afterLoad();
+  }
+}
+
+export { ModelAssetManager, HDRAssetManager };

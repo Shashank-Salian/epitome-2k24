@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import { Oxanium } from "next/font/google";
+import { Oxanium, Big_Shoulders_Display, Iceland } from "next/font/google";
 import "./globals.css";
 import ThreeComp from "@/threeWorks/components/ThreeComp";
 import Provider from "@/providers/Providers";
@@ -48,8 +48,22 @@ const spaceAge = localFont({
 
 const oxanium = Oxanium({
   weight: ["400", "700"],
+  preload: true,
+  display: "swap",
   subsets: ["latin"],
   variable: "--Oxanium",
+});
+
+const bsd = Big_Shoulders_Display({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  variable: "--Bsd",
+});
+
+const iceland = Iceland({
+  weight: ["400"],
+  subsets: ["latin"],
+  variable: "--Iceland",
 });
 
 const TITLE = "Epitome | AIMIT IT Fest 2024";
@@ -142,11 +156,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.variable} ${valorant.variable} ${oxanium.className} ${beyonders.variable} ${spaceAge.variable} bg-background text-foreground`}
+        className={`${poppins.variable} ${valorant.variable} ${oxanium.variable} ${beyonders.variable} ${spaceAge.variable} ${bsd.variable} ${iceland.variable} bg-background text-foreground`}
       >
         <Provider>{children}</Provider>
 
-        <ThreeComp />
+        {/* <ThreeComp /> */}
         {/* <Cursor /> */}
       </body>
     </html>
