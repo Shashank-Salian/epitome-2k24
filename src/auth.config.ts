@@ -51,7 +51,7 @@ export default {
         async signIn({ user, account, profile }) {
 
             if (account?.type === 'credentials' && user !== null) {
-                console.log("\nSignIn_Callback: Cred User Allowed")
+                // console.log("\nSignIn_Callback: Cred User Allowed")
                 return true
             } else {
                 try {
@@ -64,7 +64,7 @@ export default {
                             picture: profile?.picture,
                         })
 
-                        console.log("\nSignIn_Callback: NewOAuth User Created")
+                        // console.log("\nSignIn_Callback: NewOAuth User Created")
                     }
                     return true
                 } catch (err) {
@@ -107,7 +107,7 @@ export default {
             } catch (err) {
                 console.error("Session error:", err)
             }
-            console.log("\nSession_Callback: ", session)
+            // console.log("\nSession_Callback: ", session)
 
             return session
         }
