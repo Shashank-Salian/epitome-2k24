@@ -20,8 +20,8 @@ const ThreeLoader = ({ onProgress }: Props) => {
         console.log("Finished Loading everything")
       );
     }
-    return () => {};
-  }, []);
+    return () => { };
+  }, [onProgress]);
 
   return <></>;
 };
