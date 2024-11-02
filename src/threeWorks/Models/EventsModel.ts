@@ -1,7 +1,12 @@
 import * as THREE from "three";
 
 import { ModelAssetManager } from "../AssetsManager/AssetManager";
-import { ClientDims, throttle } from "../utils";
+import {
+  ClientDims,
+  pushAnimationFrame,
+  removeAnimationFrame,
+  throttle,
+} from "../utils";
 import SceneSetup from "../SceneSetup";
 
 type EventRayCastFunc = (obj: THREE.Object3D, mousePos: THREE.Vector2) => void;
@@ -20,6 +25,45 @@ type MouseData = {
   selectedModel: THREE.Object3D | null;
 };
 
+type MouseCoords = {
+  clientX: number;
+  clientY: number;
+};
+
+const outCircleCurve = new THREE.EllipseCurve(
+  3.9,
+  -3.3,
+  4,
+  4,
+  Math.PI * 0.69,
+  Math.PI,
+  false
+);
+
+const inCircleCurve = new THREE.EllipseCurve(
+  3.9,
+  -3.3,
+  4,
+  4,
+  0,
+  Math.PI * 0.69,
+  false
+);
+
+// Generate points on the circle
+const outPoints = outCircleCurve.getPoints(100);
+const geometry = new THREE.BufferGeometry().setFromPoints(outPoints);
+const material = new THREE.LineBasicMaterial({ color: 0xff0000 });
+const circleLine = new THREE.Line(geometry, material);
+
+const inPoints = inCircleCurve.getPoints(100);
+const geometry2 = new THREE.BufferGeometry().setFromPoints(inPoints);
+const material2 = new THREE.LineBasicMaterial({ color: 0x00ff00 });
+const circleLine2 = new THREE.Line(geometry2, material2);
+
+SceneSetup.scene.add(circleLine2);
+SceneSetup.scene.add(circleLine);
+
 class EventsRayCaster {
   static raycaster: THREE.Raycaster = new THREE.Raycaster();
   static listenObjects: THREE.Group = new THREE.Group();
@@ -30,10 +74,36 @@ class EventsRayCaster {
     selectedModel: null,
     inertia: 0,
   };
-  //   static listenObjectsData: { [key: string]: EventRayCastData } = {};
+  static curModelIndex = 0;
+  static velocity = 0;
+  static eventsModels: ModelAssetManager[] = [];
 
   static init() {
-    // EventsRayCaster.listenObjects = eventsGroup;
+    pushAnimationFrame(() => {
+      const obj = EventsRayCaster.listenObjects.children[0];
+      if (obj && !EventsRayCaster.mouse.selectedModel) {
+        if (EventsRayCaster.velocity < 0.01) {
+          EventsRayCaster.velocity += 0.00004;
+        }
+        // EventsRayCaster.velocity -= 0.00004;
+        obj.rotation.y -= EventsRayCaster.velocity;
+      }
+    });
+
+    document.addEventListener("touchstart", (e) => {
+      EventsRayCaster._onMouseDown({
+        clientX: e.touches[0].clientX,
+        clientY: e.touches[0].clientY,
+      });
+    });
+    document.addEventListener("touchmove", (e) => {
+      EventsRayCaster._onMouseMove({
+        clientX: e.touches[0].clientX,
+        clientY: e.touches[0].clientY,
+      });
+    });
+
+    document.addEventListener("touchend", EventsRayCaster._onMouseUp);
 
     document.addEventListener("mousedown", EventsRayCaster._onMouseDown);
     document.addEventListener("mouseup", EventsRayCaster._onMouseUp);
@@ -43,32 +113,27 @@ class EventsRayCaster {
     );
   }
 
-  private static _onMouseMove(e: MouseEvent) {
+  private static _onMouseMove({ clientX, clientY }: MouseCoords) {
     if (!EventsRayCaster.mouse.down) return;
 
     if (EventsRayCaster.mouse.selectedModel) {
       const obj = EventsRayCaster.mouse.selectedModel;
 
       const rotateFactor = 0.3;
-      EventsRayCaster.mouse.inertia = e.clientX - EventsRayCaster.mouse.x;
+      EventsRayCaster.mouse.inertia = clientX - EventsRayCaster.mouse.x;
       const rotateDir = EventsRayCaster.mouse.inertia < 0 ? -1 : 1;
 
-      console.log(EventsRayCaster.mouse.inertia);
       obj.rotateY(rotateFactor * rotateDir);
 
-      EventsRayCaster.mouse.x = e.clientX;
-      EventsRayCaster.mouse.y = e.clientY;
+      EventsRayCaster.mouse.x = clientX;
+      EventsRayCaster.mouse.y = clientY;
     }
   }
 
-  private static _onMouseDown(e: MouseEvent) {
+  private static _onMouseDown({ clientX, clientY }: MouseCoords) {
     if (EventsRayCaster.listenObjects.children.length === 0) return;
 
-    EventsRayCaster.mouse.down = true;
-    EventsRayCaster.mouse.x = e.clientX;
-    EventsRayCaster.mouse.y = e.clientY;
-
-    const mousePos = ClientDims.toNDC(e.clientX, e.clientY);
+    const mousePos = ClientDims.toNDC(clientX, clientY);
     EventsRayCaster.raycaster.setFromCamera(mousePos, SceneSetup.camera);
 
     const interObjects = EventsRayCaster.raycaster.intersectObjects(
@@ -76,18 +141,28 @@ class EventsRayCaster {
       true
     );
     if (interObjects.length > 0) {
+      EventsRayCaster.mouse.down = true;
+      EventsRayCaster.mouse.x = clientX;
+      EventsRayCaster.mouse.y = clientY;
+      EventsRayCaster.velocity = 0;
+      document.body.style.cursor = "grabbing";
+
       const obj = interObjects[0].object;
       EventsRayCaster.mouse.selectedModel = obj;
     }
   }
 
-  private static _onMouseUp(e: MouseEvent) {
+  private static _onMouseUp() {
+    if (!EventsRayCaster.mouse.down) return;
+
     EventsRayCaster.mouse.down = false;
     EventsRayCaster.mouse.x = -1;
     EventsRayCaster.mouse.y = -1;
+    EventsRayCaster.velocity = 0;
+    document.body.style.cursor = "auto";
 
     // Inertia Decay Factor
-    const decayFactor = 0.5;
+    const decayFactor = 0.75;
     const minInertiaThreshold = 1;
 
     const interval = setInterval(() => {
@@ -101,20 +176,67 @@ class EventsRayCaster {
       // Apply inertia rotation with decay
       const rotateDir = EventsRayCaster.mouse.inertia < 0 ? -1 : 1;
       EventsRayCaster.mouse.selectedModel?.rotateY(
-        Math.abs(EventsRayCaster.mouse.inertia) * 0.009 * rotateDir
+        Math.min(Math.abs(EventsRayCaster.mouse.inertia) * 0.009, 0.7) *
+          rotateDir
       );
 
       // Reduce inertia gradually
       EventsRayCaster.mouse.inertia *= decayFactor;
     }, 50);
   }
+
+  static moveNextEvent() {
+    const obj =
+      EventsRayCaster.listenObjects.children[EventsRayCaster.curModelIndex];
+
+    EventsRayCaster.curModelIndex += 1;
+    if (EventsRayCaster.curModelIndex >= EventsRayCaster.eventsModels.length) {
+      EventsRayCaster.curModelIndex = 0;
+    }
+
+    const incomingModel =
+      EventsRayCaster.eventsModels[EventsRayCaster.curModelIndex];
+
+    EventsRayCaster.listenObjects.add(incomingModel.scene!);
+
+    let progress = 0;
+    const animFunc = () => {
+      progress += 0.004; // Adjust this value to control speed
+      if (progress >= 1) {
+        progress = 0;
+        removeAnimationFrame(animFunc);
+
+        EventsRayCaster.listenObjects.remove(obj);
+
+        return;
+      }
+
+      // Get the point on the curve based on the current progress
+      const point = outCircleCurve.getPoint(progress);
+      const incomingPoint = inCircleCurve.getPoint(progress);
+
+      // Move the model to the point
+      obj.position.set(point.x, point.y, obj.position.z);
+      incomingModel.scene!.position.set(
+        incomingPoint.x,
+        incomingPoint.y,
+        incomingModel.position.z
+      );
+    };
+
+    pushAnimationFrame(animFunc);
+  }
 }
 
-function initEventsModel(url: string) {
+function initEventsModel(url: string, addToScene = false) {
   const eventModel = new ModelAssetManager(url, {
     group: EventsRayCaster.listenObjects,
     modelName: "MadAds",
+    addToScene,
   });
+
+  eventModel.setPosition(0.2, 0, 0);
+
   eventModel.scalingFactor = {
     screen: 1300,
     max: 1.2,

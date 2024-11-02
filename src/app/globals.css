@@ -104,6 +104,10 @@ body {
     @apply flex justify-center items-center;
   }
 
+  button {
+    user-select: none;
+  }
+
   #Custom_Cursor {
     opacity: 0;
     backface-visibility: "hidden";

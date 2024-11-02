@@ -6,7 +6,7 @@ import { EffectComposer, RenderPass } from "postprocessing";
 import { Clouds } from "@pmndrs/vanilla";
 
 import SceneSetup from "./SceneSetup";
-import { ClientDims, randomSelect, throttle } from "./utils";
+import { ClientDims, randomSelect, throttle, UPDATE_FUNCS } from "./utils";
 
 // Just for dev
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
@@ -23,8 +23,6 @@ import { EventsRayCaster, initEventsModel } from "./Models/EventsModel";
 SceneSetup.initialize();
 ClientDims.initMouseEvent();
 EventsRayCaster.init();
-
-const UPDATE_FUNCS: (() => void)[] = [];
 
 // Post Processing
 const postRenderPass = new RenderPass(SceneSetup.scene, SceneSetup.camera);
@@ -47,8 +45,13 @@ const spaceAgeFont = new FontManager("/3D/fonts/SpaceAge.json", () => {
 });
 GlobalLoader.pushFirst(spaceAgeFont);
 
-const madAdsAsset = initEventsModel("/3D/events/mad_ads.glb");
+const madAdsAsset = initEventsModel("/3D/events/mad_ads.glb", true);
 GlobalLoader.pushFirst(madAdsAsset);
+EventsRayCaster.eventsModels.push(madAdsAsset);
+
+const gamingAsset = initEventsModel("/3D/events/gaming.glb");
+GlobalLoader.pushFirst(gamingAsset);
+EventsRayCaster.eventsModels.push(gamingAsset);
 
 let clouds: Clouds | undefined;
 // initCloud().then((c) => (clouds = c));
