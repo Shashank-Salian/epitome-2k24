@@ -45,7 +45,7 @@ async function initCloud() {
     let clouds: Clouds | undefined;
 
     const texture = await textureLoader.loadAsync(
-      `/textures/cloud.png`,
+      `/3D/textures/cloud.png`,
       function (progress) {}
     );
     clouds = new Clouds({

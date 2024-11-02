@@ -12,20 +12,17 @@ import SceneSetup from "../SceneSetup";
 import { randomInRange, randomSelect } from "../utils";
 
 const BLOOM_LAYER = 2;
-const starColors = [0xffffff, 0xe9d14c, 0x3ab9eb, 0xe73c92]; // White, Gold, Light Blue, Pink
+const starColors = [0xffffff, 0xe9d14c, 0x3ab9eb, 0xe73c92];
 
 function initStars(composer: EffectComposer) {
   const stars = [];
   const coloredStars = [];
 
-  const bloomL = new THREE.Layers();
-  bloomL.set(BLOOM_LAYER);
-
   SceneSetup.camera.layers.enable(BLOOM_LAYER);
 
   // Add a light source for the shiny effect
   const pointLight = new THREE.PointLight(0xffffff, 1, 2000);
-  pointLight.position.set(0, 0, 500);
+  pointLight.position.set(0, 0, 100);
   SceneSetup.scene.add(pointLight);
 
   const bloomEffect = new SelectiveBloomEffect(
@@ -39,13 +36,11 @@ function initStars(composer: EffectComposer) {
       intensity: 3.0,
     }
   );
-  bloomEffect.selection.layer = BLOOM_LAYER;
-  //   bloomEffect.inverted = true;
   const effectPass = new EffectPass(SceneSetup.camera, bloomEffect);
   composer.addPass(effectPass);
 
   for (let i = 0; i < 250; ++i) {
-    const geometry = new THREE.SphereGeometry(randomInRange(0.4, 0.8), 32, 32);
+    const geometry = new THREE.SphereGeometry(randomInRange(0.2, 0.6), 32, 32);
 
     let color = new THREE.Color(starColors[0]);
 
@@ -60,7 +55,7 @@ function initStars(composer: EffectComposer) {
     sphere.position.x = randomInRange(-400, 400);
     sphere.position.y = randomInRange(-200, 200);
 
-    sphere.position.z = randomInRange(-200, -400);
+    sphere.position.z = randomInRange(-100, -300);
 
     // Scale it up a bit
     sphere.scale.x = sphere.scale.y = 2;
@@ -71,11 +66,12 @@ function initStars(composer: EffectComposer) {
 
       sphere.material.emissive = color;
       sphere.material.color = color;
+      sphere.material.emissiveIntensity = 8;
 
       coloredStars.push(sphere);
     }
 
-    bloomEffect.selection.toggle(sphere);
+    bloomEffect.selection.add(sphere);
 
     SceneSetup.scene.add(sphere);
     stars.push(sphere);
@@ -92,7 +88,6 @@ function initStars(composer: EffectComposer) {
       exposure: 0.7,
     });
 
-    star.layers.set(BLOOM_LAYER);
     const effectPass = new EffectPass(SceneSetup.camera, godRays);
     composer.addPass(effectPass);
   });

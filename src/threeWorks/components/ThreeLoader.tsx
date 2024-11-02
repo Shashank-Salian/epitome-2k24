@@ -1,9 +1,28 @@
 "use client";
 
 import "@/threeWorks/index";
-// import { Canvas } from "@react-three/fiber";
+import { useEffect } from "react";
+import GlobalLoader, { LoadingState } from "../AssetsManager/GlobalLoader";
 
-const ThreeLoader = () => {
+type Props = {
+  onProgress: (prog: number) => void;
+};
+
+const ThreeLoader = ({ onProgress }: Props) => {
+  useEffect(() => {
+    console.log("RUNNING USE EFFECT");
+    if (GlobalLoader.loadingState === LoadingState.IDLE) {
+      GlobalLoader.onProgressChange = onProgress;
+
+      console.log("USE EFFECT");
+
+      GlobalLoader.loadFirst().then(() =>
+        console.log("Finished Loading everything")
+      );
+    }
+    return () => {};
+  }, []);
+
   return <></>;
 };
 
