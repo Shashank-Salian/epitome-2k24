@@ -13,7 +13,8 @@ type RegisterUserType = {
 
 type ResponseType = {
     status: number,
-    message: string,
+    message?: string,
+    data?: any
 }
 
 export async function registerUser({ username, collegeName, phone, email, password }: RegisterUserType) {
@@ -78,6 +79,28 @@ export async function addCollegeName({ collegeName, email }: AddCollegeNameType)
         return {
             status: 201,
             message: "Updated College Name!"
+        } as ResponseType
+    } catch (err: any) {
+        console.error(err);
+        throw new Error(err.message)
+    }
+}
+
+export async function getUserByEmail(email: string) {
+    if (!email) {
+        throw new Error("Invalid Email!")
+    }
+
+    try {
+        await connectDB();
+        const userExists = await UserModel.findOne({ email: email })
+        if (!userExists) {
+            throw new Error("User Not Found!")
+        }
+
+        return {
+            status: 200,
+            userExists
         } as ResponseType
     } catch (err: any) {
         console.error(err);

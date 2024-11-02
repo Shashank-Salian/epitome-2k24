@@ -31,14 +31,14 @@ const LoginForm = () => {
                 callbackUrl: callback || "/dashboard"
             })
 
-            if (res?.status === 200) {
+            if (!res?.error) {
                 toast.success("Logged in Successfully!", {
                     id: LoginToastID
                 })
 
                 router.push(res?.url as string)
             } else {
-                throw new Error()
+                throw new Error(res.error)
             }
         } catch (err) {
             toast.error("Invalid Email or Password", {

@@ -1,3 +1,5 @@
+"use server"
+
 import type { NextAuthConfig } from "next-auth"
 import Google from "next-auth/providers/google"
 import Credentials from "next-auth/providers/credentials"
@@ -36,10 +38,9 @@ export default {
                         picture: userExists?.picture,
                         isVerified: userExists?.isVerified,
                     }
+                    user = userData
 
-                    const accessToken = await SignToken(userData)
-                    user = { ...userData, accessToken }
-
+                    // console.log("Credentials:", user)
                     return user
                 } catch (err) {
                     console.log(err)
@@ -49,37 +50,68 @@ export default {
         }),
     ],
     callbacks: {
-        async signIn({ user, account, profile, email, credentials }) {
-            console.log("\nSignInCallback", { user, account, profile, email, credentials })
+        async signIn({ user, account, profile }) {
 
-            if (account?.type === 'credentials' && user !== null) return true
+            if (account?.type === 'credentials' && user !== null) {
+                console.log("\nSignIn_Callback: Cred User Allowed")
+                return true
+            } else {
+                try {
+                    await connectDB()
+                    const userExists = await UserModel.findOne({ email: profile?.email })
+                    if (!userExists) {
+                        await UserModel.create({
+                            username: profile?.name,
+                            email: profile?.email,
+                            picture: profile?.picture,
+                        })
+
+                        console.log("\nSignIn_Callback: NewOAuth User Created")
+                    }
+                    return true
+                } catch (err) {
+                    console.log("\nSignin_Callback_Err", err)
+                    return false
+                }
+            }
+        },
+        async jwt({ token }) {
+            const { email } = token
 
             try {
                 await connectDB()
-                const userExists = await UserModel.findOne({ email: profile?.email })
-                if (!userExists) {
-                    await UserModel.create({
-                        username: profile?.name,
-                        email: profile?.email,
-                        picture: profile?.picture,
-                    })
+                const userExists = await UserModel.findOne({ email: email, })
 
-                    // console.log("NewOAuth User")
-                } else {
-                    // console.log("OAuth User Exisits")
-                    // Update profile picture only if they dont match
-                    if (profile?.picture?.length !== 0 && userExists.picture !== profile?.picture) {
-                        userExists.picture = profile?.picture
-                        await userExists.save()
-                    }
+                if (!userExists) throw new Error("Invalid User Credentials")
+
+                const userData = {
+                    uid: userExists?._id,
+                    username: userExists?.username,
+                    collegeName: userExists?.collegeName || null,
+                    email: userExists?.email,
+                    phone: userExists?.phone || null,
+                    picture: userExists?.picture || null,
+                    isVerified: userExists?.isVerified || null,
                 }
-                return true
+
+                const accessToken = await SignToken(userData)
+                token = { ...userData, accessToken }
             } catch (err) {
-                console.log("Signin_Callback_Err", err)
-                return false
+                console.error("JWT error:", err)
             }
 
-            return true
+            // console.log("\nJWT_Callback: Final User Token", token)
+            return token
         },
+        async session({ session, token }) {
+            try {
+                session.user = { ...token }
+            } catch (err) {
+                console.error("Session error:", err)
+            }
+            console.log("\nSession_Callback: ", session)
+
+            return session
+        }
     },
 } satisfies NextAuthConfig

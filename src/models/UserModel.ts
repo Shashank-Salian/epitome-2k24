@@ -9,6 +9,7 @@ const ParticipantsSchema = new Schema({
         type: Number,
         trim: true,
         unique: true,
+        sparse: true,
     }
 })
 
@@ -43,6 +44,7 @@ const UserSchema = new Schema({
         type: Number,
         trim: true,
         unique: true,
+        sparse: true,
     },
     password: {
         type: String,
@@ -53,8 +55,8 @@ const UserSchema = new Schema({
         default: '',
     },
     isVerified: {
-        type: Boolean,
-        default: false,
+        type: Date,
+        default: null,
     },
     events: [EventsSchema],
     createdAt: {

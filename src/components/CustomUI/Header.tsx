@@ -36,6 +36,9 @@ export const Header = () => {
             router.push("/")
     }, [status, router])
 
+    console.log("User : ", session)
+
+
     return (
         <header className='sticky top-0 w-full flex justify-between items-center px-4 py-3 bg-background/50 z-10'>
             <a href="#">
@@ -53,7 +56,7 @@ export const Header = () => {
                         <User2Icon size={25} />
                     </div>
 
-                    <span>Welcome {session?.user?.name} !</span>
+                    <span>Welcome {session?.user?.username} !</span>
 
                     <ChevronDown />
                 </div>
