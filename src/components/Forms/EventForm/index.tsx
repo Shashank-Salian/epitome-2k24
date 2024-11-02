@@ -2,7 +2,7 @@
 import React, { FormEvent, useState } from 'react'
 import Input from '../../CustomUI/Input'
 import { Button } from '../../ui/button'
-import { Loader2Icon, UserPlusIcon } from 'lucide-react'
+import { CheckCircleIcon, Loader2Icon, UserPlusIcon } from 'lucide-react'
 import EventGroup from './EventGroup'
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry"
 import EventSelector from './EventSelector'
@@ -35,12 +35,12 @@ const EventForm = () => {
                     </Masonry>
                 </ResponsiveMasonry>
 
-                <Button type='submit' className='flex_center gap-4 max-w-[500px] text-white hover:bg-primary' disabled={isLoading}>
+                <Button type='submit' className='flex_center gap-4 max-w-[500px] text-[1em] text-white font-bold tracking-wide hover:bg-primary' disabled={isLoading}>
                     {isLoading ?
                         <Loader2Icon className='animate-spin' />
-                        : <UserPlusIcon />
+                        : <CheckCircleIcon />
                     }
-                    CREATE ACCOUNT
+                    Complete Registration
                 </Button>
             </form>
         </div>
