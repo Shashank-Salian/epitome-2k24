@@ -30,13 +30,14 @@ const LoginForm = () => {
                 redirect: false,
                 callbackUrl: callback || "/dashboard"
             })
+            console.log("LoginRes", res)
 
             if (!res?.error) {
                 toast.success("Logged in Successfully!", {
                     id: LoginToastID
                 })
 
-                router.push(res?.url as string)
+                router.push(res?.url || "/dashboard")
             } else {
                 throw new Error(res.error)
             }
@@ -64,6 +65,7 @@ const LoginForm = () => {
             toast.success("Logged in Successfully!", {
                 id: OAuthTostID
             })
+            router.push(res?.url || "/dashboard")
         } catch (err) {
             toast.error("Something went wrong!", {
                 id: OAuthTostID
