@@ -8,7 +8,7 @@ function blackHoleInit(effectComposer: EffectComposer) {
   blackHoleAsset.setPosition(0, 0, 0);
   blackHoleAsset.setScale(0.6, 0.6, 0.6);
 
-  blackHoleAsset.postProcess = function () {
+  (blackHoleAsset as any).postProcess = function () {
     // const bloom = new BlackHolePP(effectComposer);
     //   if (blackHoleAsset.scene) blackHoleAsset.scene.visible = false;
     this.scene?.rotation.set(0.05, 0, 0.1);
@@ -17,7 +17,7 @@ function blackHoleInit(effectComposer: EffectComposer) {
       this.animMixer.timeScale = 0.1;
     }
 
-    this.scene?.traverse((child) => {
+    this.scene?.traverse((child: any) => {
       if (child.name === "Blackhole_ring") {
         // bloom.bloomEffect.selection.toggle(child);
         console.log("Added bloom");
@@ -27,5 +27,4 @@ function blackHoleInit(effectComposer: EffectComposer) {
 
   return blackHoleAsset;
 }
-
 export default blackHoleInit;
