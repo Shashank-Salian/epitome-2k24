@@ -1,30 +1,24 @@
 "use client";
 
-import * as THREE from "three";
-import { RGBELoader } from "three/addons/loaders/RGBELoader.js";
 import { EffectComposer, RenderPass } from "postprocessing";
 import { Clouds } from "@pmndrs/vanilla";
 
 import SceneSetup from "./SceneSetup";
-import { ClientDims, randomSelect, throttle } from "./utils";
+import { ClientDims, throttle, UPDATE_FUNCS } from "./utils";
 
 // Just for dev
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { initStars } from "./Models/Stars";
-import {
-  ModelAssetManager,
-  HDRAssetManager,
-} from "./AssetsManager/AssetManager";
-import { FontManager, FontRepo } from "./Models/TextGeo";
+import { HDRAssetManager } from "./AssetsManager/AssetManager";
 import GlobalLoader from "./AssetsManager/GlobalLoader";
 import { EventsRayCaster, initEventsModel } from "./Models/EventsModel";
+
+import EventList from "@/utils/EventList";
 
 // Setup Scene
 SceneSetup.initialize();
 ClientDims.initMouseEvent();
 EventsRayCaster.init();
-
-const UPDATE_FUNCS: (() => void)[] = [];
 
 // Post Processing
 const postRenderPass = new RenderPass(SceneSetup.scene, SceneSetup.camera);
@@ -42,13 +36,11 @@ const nightHdr = new HDRAssetManager("/3D/hdr/night.hdr", () => {
 });
 GlobalLoader.pushFirst(nightHdr);
 
-const spaceAgeFont = new FontManager("/3D/fonts/SpaceAge.json", () => {
-  FontRepo.spaceAge = spaceAgeFont.font;
+EventList.forEach((eventInfo, i) => {
+  const asset = initEventsModel(`/3D/events/${eventInfo.modelName}`, i === 0);
+  GlobalLoader.pushFirst(asset);
+  EventsRayCaster.eventsModels.push(asset);
 });
-GlobalLoader.pushFirst(spaceAgeFont);
-
-const madAdsAsset = initEventsModel("/3D/events/mad_ads.glb");
-GlobalLoader.pushFirst(madAdsAsset);
 
 let clouds: Clouds | undefined;
 // initCloud().then((c) => (clouds = c));
@@ -69,7 +61,8 @@ SceneSetup.renderer.setAnimationLoop(animate);
 function onResize() {
   SceneSetup.update();
 
-  madAdsAsset.updateResizeFactor();
+  EventsRayCaster.eventsModels.forEach((asset) => asset.updateResizeFactor());
+
   effectComposer.setSize(ClientDims.width, ClientDims.height);
 }
 

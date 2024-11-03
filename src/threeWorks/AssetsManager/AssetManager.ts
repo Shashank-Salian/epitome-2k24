@@ -22,7 +22,7 @@ class ModelAssetManager implements CustomLoader {
   scene: THREE.Group<THREE.Object3DEventMap> | null;
   animPresent: boolean;
   downloaded: boolean;
-  postProcess: (() => void) | undefined;
+  onLoaded: (() => void) | undefined;
   scale: Coord3D;
   position: Coord3D;
   url: string;
@@ -30,6 +30,8 @@ class ModelAssetManager implements CustomLoader {
   positionFactor: { x: ResizeFactor; y: ResizeFactor };
   group?: THREE.Group;
   modelName?: string;
+  addToScene: boolean;
+  onResize?: () => void;
 
   /**
    *
@@ -38,21 +40,27 @@ class ModelAssetManager implements CustomLoader {
   constructor(
     url: string,
     {
-      scale,
-      position,
-      group = undefined,
+      scale = { x: 1, y: 1, z: 1 },
+      position = { x: 0, y: 0, z: 0 },
+      group,
       modelName,
+      addToScene = true,
+      onLoaded,
+      onResize,
     }: {
       scale?: Coord3D;
       position?: Coord3D;
       group?: THREE.Group;
       modelName?: string;
-    }
+      addToScene?: boolean;
+      onLoaded?: () => void;
+      onResize?: () => void;
+    } = {}
   ) {
     this.url = url;
 
-    this.scale = scale || { x: 1, y: 1, z: 1 };
-    this.position = position || { x: 0, y: 0, z: 0 };
+    this.scale = scale;
+    this.position = position;
 
     this.assetGltf = null;
     this.animMixer = null;
@@ -77,6 +85,9 @@ class ModelAssetManager implements CustomLoader {
 
     this.group = group;
     this.modelName = modelName;
+    this.addToScene = addToScene;
+    this.onLoaded = onLoaded;
+    this.onResize = onResize;
   }
 
   /**
@@ -106,13 +117,16 @@ class ModelAssetManager implements CustomLoader {
       this.updateResizeFactor();
 
       //   Add the model to the scene
-      let addingScene = this.scene;
-      if (this.group) {
-        this.group.add(this.scene);
-        this.group.name = this.modelName ? this.modelName : this.group.name;
-        addingScene = this.group;
+      if (this.addToScene) {
+        let addingScene = this.scene;
+        if (this.group) {
+          this.group.add(this.scene);
+          this.group.name = this.modelName ? this.modelName : this.group.name;
+          addingScene = this.group;
+        }
+
+        SceneSetup.scene.add(addingScene);
       }
-      SceneSetup.scene.add(addingScene);
 
       // Add animations if present and play
       this.animMixer = new THREE.AnimationMixer(this.scene);
@@ -123,7 +137,7 @@ class ModelAssetManager implements CustomLoader {
         action?.play();
       });
 
-      if (this.postProcess) this.postProcess();
+      if (this.onLoaded) this.onLoaded();
     } catch (err) {
       // TODO: Add error handling
       alert(
@@ -188,13 +202,9 @@ class ModelAssetManager implements CustomLoader {
         this.scale.y + curFactor
       );
 
-      console.log(
-        this.scene.position.x,
-        posFactorX,
-        this.position.x + posFactorX
-      );
-
       this.scene.position.setX(this.position.x + posFactorX);
+
+      if (this.onResize) this.onResize();
     }
   }
 }

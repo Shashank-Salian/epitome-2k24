@@ -3,6 +3,9 @@
 import * as THREE from "three";
 import SceneSetup from "./SceneSetup";
 
+// Array of functions which will be run on every frame
+const UPDATE_FUNCS: (() => void)[] = [];
+
 class ClientDims {
   static mouseX = 0;
   static mouseY = 0;
@@ -117,6 +120,14 @@ function convertDOMRectToThreeJS(rect: DOMRect) {
   };
 }
 
+function pushAnimationFrame(callback: () => void) {
+  UPDATE_FUNCS.push(callback);
+}
+
+function removeAnimationFrame(callback: () => void) {
+  UPDATE_FUNCS.splice(UPDATE_FUNCS.indexOf(callback), 1);
+}
+
 export {
   ClientDims,
   randomInRange,
@@ -124,4 +135,7 @@ export {
   throttle,
   randomSelect,
   convertDOMRectToThreeJS,
+  pushAnimationFrame,
+  UPDATE_FUNCS,
+  removeAnimationFrame,
 };
