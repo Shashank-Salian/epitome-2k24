@@ -198,3 +198,73 @@ const EventList: EventType = [
 ];
 
 export default EventList;
+
+// Event Register List
+export type EventRegType = {
+  title: string,
+  category: string,
+  participants: number,
+}
+
+export const eventRegisterList: EventRegType[] = [
+  {
+    title: "Binary Universe",
+    category: "Coding",
+    participants: 2,
+  },
+  {
+    title: "Rhythmic Resonance (5-10)",
+    category: "Dance",
+    participants: 5,
+  },
+  {
+    title: "Battle of Bytes",
+    category: "Debate",
+    participants: 1,
+  },
+  {
+    title: "Matrix Minds",
+    category: "Quiz",
+    participants: 2,
+  },
+  {
+    title: "Galactic Frames",
+    category: "Videography",
+    participants: 1,
+  },
+  {
+    title: "Quasar Invictus",
+    category: "IT Manager",
+    participants: 1,
+  },
+  {
+    title: "Cosmic Creatives (4-6)",
+    category: "Mad Ads",
+    participants: 4,
+  },
+  {
+    title: "Cosmic Webcraft",
+    category: "Web Design",
+    participants: 2,
+  },
+  {
+    title: "Ultimate Showdown",
+    category: "Gaming",
+    participants: 4,
+  },
+  {
+    title: "Eliptica",
+    category: "Treasure Hunt",
+    participants: 2,
+  },
+  {
+    title: "Meme Mania",
+    category: "AI Meme Gen",
+    participants: 1,
+  },
+  {
+    title: "Surprise Event",
+    category: "Surprise",
+    participants: 2,
+  }
+]
