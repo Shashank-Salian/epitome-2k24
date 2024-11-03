@@ -8,7 +8,11 @@ type Props = {
 
 const Event = (props: Props) => {
   const onNextClick = () => {
-    EventsRayCaster.moveNextEvent();
+    EventsRayCaster.moveEvent();
+  };
+
+  const onPreviousClick = () => {
+    EventsRayCaster.moveEvent(false);
   };
 
   return (
@@ -21,11 +25,24 @@ const Event = (props: Props) => {
         through a series of tech-oriented tasks.
       </p>
       <div className="flex justify-end mt-8">
+        <button className="font-iceland text-2xl border-2 border-[#0048FF] px-9 py-1">
+          Challenge Me
+        </button>
+      </div>
+
+      <div className="flex justify-around mt-8">
+        <button
+          className="font-iceland text-2xl border-2 border-[#0048FF] px-9 py-1"
+          onClick={onPreviousClick}
+        >
+          Previous Challenge
+        </button>
+
         <button
           className="font-iceland text-2xl border-2 border-[#0048FF] px-9 py-1"
           onClick={onNextClick}
         >
-          Challenge Me
+          Next Challenge
         </button>
       </div>
     </div>

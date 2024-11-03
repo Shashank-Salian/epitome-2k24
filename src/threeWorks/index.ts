@@ -40,10 +40,10 @@ const nightHdr = new HDRAssetManager("/3D/hdr/night.hdr", () => {
 });
 GlobalLoader.pushFirst(nightHdr);
 
-const spaceAgeFont = new FontManager("/3D/fonts/SpaceAge.json", () => {
-  FontRepo.spaceAge = spaceAgeFont.font;
-});
-GlobalLoader.pushFirst(spaceAgeFont);
+// const spaceAgeFont = new FontManager("/3D/fonts/SpaceAge.json", () => {
+//   FontRepo.spaceAge = spaceAgeFont.font;
+// });
+// GlobalLoader.pushFirst(spaceAgeFont);
 
 const madAdsAsset = initEventsModel("/3D/events/mad_ads.glb", true);
 GlobalLoader.pushFirst(madAdsAsset);
@@ -52,6 +52,10 @@ EventsRayCaster.eventsModels.push(madAdsAsset);
 const gamingAsset = initEventsModel("/3D/events/gaming.glb");
 GlobalLoader.pushFirst(gamingAsset);
 EventsRayCaster.eventsModels.push(gamingAsset);
+
+const danceAsset = initEventsModel("/3D/events/dance.glb");
+GlobalLoader.pushFirst(danceAsset);
+EventsRayCaster.eventsModels.push(danceAsset);
 
 let clouds: Clouds | undefined;
 // initCloud().then((c) => (clouds = c));
@@ -73,6 +77,9 @@ function onResize() {
   SceneSetup.update();
 
   madAdsAsset.updateResizeFactor();
+  gamingAsset.updateResizeFactor();
+  danceAsset.updateResizeFactor();
+
   effectComposer.setSize(ClientDims.width, ClientDims.height);
 }
 

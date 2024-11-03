@@ -52,15 +52,15 @@ const inCircleCurve = new THREE.EllipseCurve(
 
 // Generate points on the circle
 const outPoints = outCircleCurve.getPoints(100);
+const inPoints = inCircleCurve.getPoints(100);
+
+// Development purpose
 const geometry = new THREE.BufferGeometry().setFromPoints(outPoints);
 const material = new THREE.LineBasicMaterial({ color: 0xff0000 });
 const circleLine = new THREE.Line(geometry, material);
-
-const inPoints = inCircleCurve.getPoints(100);
 const geometry2 = new THREE.BufferGeometry().setFromPoints(inPoints);
 const material2 = new THREE.LineBasicMaterial({ color: 0x00ff00 });
 const circleLine2 = new THREE.Line(geometry2, material2);
-
 SceneSetup.scene.add(circleLine2);
 SceneSetup.scene.add(circleLine);
 
@@ -77,6 +77,7 @@ class EventsRayCaster {
   static curModelIndex = 0;
   static velocity = 0;
   static eventsModels: ModelAssetManager[] = [];
+  static transitioning = false;
 
   static init() {
     pushAnimationFrame(() => {
@@ -185,43 +186,66 @@ class EventsRayCaster {
     }, 50);
   }
 
-  static moveNextEvent() {
-    const obj =
-      EventsRayCaster.listenObjects.children[EventsRayCaster.curModelIndex];
+  static moveEvent(next = true) {
+    if (EventsRayCaster.transitioning) return;
 
-    EventsRayCaster.curModelIndex += 1;
+    EventsRayCaster.transitioning = true;
+    const outgoingModel =
+      EventsRayCaster.eventsModels[EventsRayCaster.curModelIndex].scene!;
+
+    EventsRayCaster.curModelIndex += next ? 1 : -1;
     if (EventsRayCaster.curModelIndex >= EventsRayCaster.eventsModels.length) {
       EventsRayCaster.curModelIndex = 0;
     }
+    if (EventsRayCaster.curModelIndex < 0) {
+      EventsRayCaster.curModelIndex = EventsRayCaster.eventsModels.length - 1;
+    }
 
     const incomingModel =
-      EventsRayCaster.eventsModels[EventsRayCaster.curModelIndex];
+      EventsRayCaster.eventsModels[EventsRayCaster.curModelIndex].scene!;
 
-    EventsRayCaster.listenObjects.add(incomingModel.scene!);
+    EventsRayCaster.listenObjects.add(incomingModel);
+
+    const postTransition = () => {
+      removeAnimationFrame(animFunc);
+      SceneSetup.background.index =
+        (SceneSetup.background.index + 1) % SceneSetup.colorSets.length;
+
+      EventsRayCaster.listenObjects.remove(outgoingModel);
+
+      EventsRayCaster.transitioning = false;
+    };
 
     let progress = 0;
-    const animFunc = () => {
-      progress += 0.004; // Adjust this value to control speed
-      if (progress >= 1) {
-        progress = 0;
-        removeAnimationFrame(animFunc);
+    let direction = 1;
+    let oModel = outgoingModel;
+    let iModel = incomingModel;
+    if (!next) {
+      oModel = incomingModel;
+      iModel = outgoingModel;
+      progress = 1;
+      direction = -1;
+    }
 
-        EventsRayCaster.listenObjects.remove(obj);
+    const animFunc = () => {
+      progress += 0.004 * direction; // Adjust this value to control speed
+
+      if (progress >= 1 || progress <= 0) {
+        progress = 0;
+        postTransition();
 
         return;
       }
 
       // Get the point on the curve based on the current progress
-      const point = outCircleCurve.getPoint(progress);
+      const outgoingPoint = outCircleCurve.getPoint(progress);
       const incomingPoint = inCircleCurve.getPoint(progress);
 
       // Move the model to the point
-      obj.position.set(point.x, point.y, obj.position.z);
-      incomingModel.scene!.position.set(
-        incomingPoint.x,
-        incomingPoint.y,
-        incomingModel.position.z
-      );
+      oModel.position.set(outgoingPoint.x, outgoingPoint.y, oModel.position.z);
+      iModel.position.set(incomingPoint.x, incomingPoint.y, iModel.position.z);
+
+      SceneSetup.changeBg(progress);
     };
 
     pushAnimationFrame(animFunc);
