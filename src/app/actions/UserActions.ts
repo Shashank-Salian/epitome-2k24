@@ -13,6 +13,12 @@ type RegisterUserType = {
     password: string
 }
 
+type ResponseType = {
+    status: number,
+    message?: string,
+    data?: any
+}
+
 export async function registerUser({ username, collegeName, phone, email, password }: RegisterUserType) {
     if (!username || !collegeName || !email || !password) {
         throw new Error("Missing Input Fields")
@@ -22,7 +28,11 @@ export async function registerUser({ username, collegeName, phone, email, passwo
         await connectDB();
         const userExists = await UserModel.findOne({ email: email })
         if (userExists) {
-            return NextResponse.json({ message: "User already Exists!" }, { status: 403 });
+            throw new Error("User already Exists!")
+            // return {
+            //     status: 409,
+            //     message: "User already Exists!"
+            // } as ResponseType
         }
 
         const salt = await bcrypt.genSalt(10);
@@ -36,10 +46,13 @@ export async function registerUser({ username, collegeName, phone, email, passwo
             password: hashedPassword
         })
 
-        return NextResponse.json({ message: "User Created Successfully!" }, { status: 201 });
+        return {
+            status: 201,
+            message: "User Created Successfully!"
+        } as ResponseType
     } catch (err: any) {
         console.error(err);
-        return NextResponse.json({ error: err.message }, { status: 500 });
+        throw new Error(err.message)
     }
 }
 
@@ -65,10 +78,13 @@ export async function addCollegeName({ collegeName, email }: AddCollegeNameType)
         userExists.collegeName = collegeName;
         await userExists.save()
 
-        return NextResponse.json({ message: "Updated College Name!" }, { status: 201 });
+        return {
+            status: 201,
+            message: "Updated College Name!"
+        } as ResponseType
     } catch (err: any) {
         console.error(err);
-        return NextResponse.json({ error: err.message }, { status: 500 });
+        throw new Error(err.message)
     }
 }
 
