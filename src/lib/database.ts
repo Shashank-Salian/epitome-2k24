@@ -2,35 +2,41 @@
 import mongoose from "mongoose"
 
 const MONGODB_URI = process.env.MONGODB_URI!
-let cached = (global as any).mongoose
+let cached = global as typeof globalThis & {
+    mongoose: any
+}
 
-if (!cached) {
-    cached = (global as any).mongoose = { conn: null, promise: null }
+if (!cached.mongoose) {
+    cached.mongoose = { conn: null, promise: null }
 }
 
 export const connectDB = async () => {
-    if (cached.conn) {
-        return cached.conn
+    if (cached.mongoose.conn) {
+        return cached.mongoose.conn
     }
 
-    if (!cached.promise) {
-        const opts = {
-            bufferCommands: false,
-        }
+    // if (!cached.mongoose.promise) {
+    //     const opts = {
+    //         bufferCommands: false,
+    //     }
 
-        cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-            return mongoose
-        })
-    }
+    //     cached.mongoose.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+    //         return mongoose
+    //     })
+    // }
 
     try {
-        cached.conn = await cached.promise
+        // cached.mongoose.conn = await cached.mongoose.promise
+        const conn = await mongoose.connect(MONGODB_URI)
+        cached.mongoose.conn = conn
+
         console.log("MongoDB Connected")
+        return conn
     } catch (err) {
-        cached.promise = null
+        cached.mongoose.promise = null
         console.log(err)
         throw err
     }
 
-    return cached.conn
+    // return cached.mongoose.conn
 }
