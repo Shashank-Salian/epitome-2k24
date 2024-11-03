@@ -10,12 +10,13 @@ import { getUserByEmail } from "@/app/actions/UserActions";
 import { ChevronDown, User2Icon } from 'lucide-react'
 import ButtonUI from "./ButtonUI";
 
-const PUBLIC_ROUTES = ["/", "/login", "/register"];
+const AUTH_ROUTES = ["/login", "/register", "/forgot-password", "/reset-password"];
+const PUBLIC_ROUTES = [...AUTH_ROUTES, "/", "/about", "/commitee"]
+
 const PUBLIC_NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/", label: "About" },
   { href: "/", label: "Commitee" },
-  { href: "/events", label: "Events" },
 ];
 const PROTECTED_NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -31,14 +32,14 @@ const Header = () => {
   const pathname = usePathname();
 
   useEffect(() => {
-    const isPublicRoute = PUBLIC_ROUTES.includes(pathname);
+    const isAuthRoute = AUTH_ROUTES.includes(pathname);
+    const isProtectedRoute = !PUBLIC_ROUTES.includes(pathname);
 
-    if (status === "authenticated" && isPublicRoute) {
+    if (status === "authenticated" && isAuthRoute) {
       router.push("/dashboard");
-      return;
     }
 
-    if (status === "unauthenticated" || !session?.user?.email) {
+    if (status === "unauthenticated" && isProtectedRoute) {
       router.push("/");
     }
   }, [session, status, router, pathname]);
@@ -70,8 +71,8 @@ const Header = () => {
         </Link>
 
         <nav className="flex_center gap-6">
-          {status === "unauthenticated" ?
-            PUBLIC_NAV_LINKS.map(({ href, label }) => (
+          {status === "authenticated" ?
+            PROTECTED_NAV_LINKS.map(({ href, label }) => (
               <Link
                 key={label}
                 href={href}
@@ -81,7 +82,7 @@ const Header = () => {
               </Link>
             ))
             :
-            PROTECTED_NAV_LINKS.map(({ href, label }) => (
+            PUBLIC_NAV_LINKS.map(({ href, label }) => (
               <Link
                 key={label}
                 href={href}
