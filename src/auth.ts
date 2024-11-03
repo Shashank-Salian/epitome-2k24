@@ -7,5 +7,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         strategy: "jwt",
         maxAge: 2 * 60 * 60
     },
+    pages: {
+        signIn: '/login'
+    },
     secret: process.env.AUTH_SECRET,
 })
