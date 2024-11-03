@@ -178,7 +178,7 @@ class EventsRayCaster {
       const rotateDir = EventsRayCaster.mouse.inertia < 0 ? -1 : 1;
       EventsRayCaster.mouse.selectedModel?.rotateY(
         Math.min(Math.abs(EventsRayCaster.mouse.inertia) * 0.009, 0.7) *
-          rotateDir
+        rotateDir
       );
 
       // Reduce inertia gradually
@@ -270,10 +270,10 @@ function initEventsModel(url: string, addToScene = false) {
       eventModel.scene!.position.set(pos.x, pos.y, 0);
     },
     onResize: () => {
-      inCircleCurve.aX;
-      inCircleCurve.aY;
-      inCircleCurve.xRadius;
-      inCircleCurve.yRadius;
+      inCircleCurve.aX = inCircleCurve.aX;
+      inCircleCurve.aY = inCircleCurve.aY;
+      inCircleCurve.xRadius = inCircleCurve.xRadius;
+      inCircleCurve.yRadius = inCircleCurve.yRadius;
 
       const pos = outCircleCurve.getPointAt(0);
       eventModel.scene!.position.set(pos.x, pos.y, 0);
