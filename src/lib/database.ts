@@ -1,18 +1,36 @@
+"use server"
 import mongoose from "mongoose"
 
-export const connectDB = async () => {
-    mongoose.set('strictQuery', true)
+const MONGODB_URI = process.env.MONGODB_URI!
+let cached = (global as any).mongoose
 
-    try {
-        if (mongoose.connections[0].readyState) {
-            console.log("MongoDB is running")
-            return true
+if (!cached) {
+    cached = (global as any).mongoose = { conn: null, promise: null }
+}
+
+export const connectDB = async () => {
+    if (cached.conn) {
+        return cached.conn
+    }
+
+    if (!cached.promise) {
+        const opts = {
+            bufferCommands: false,
         }
 
-        await mongoose.connect(process.env.MONGODB_URI as string)
+        cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+            return mongoose
+        })
+    }
 
+    try {
+        cached.conn = await cached.promise
         console.log("MongoDB Connected")
     } catch (err) {
+        cached.promise = null
         console.log(err)
+        throw err
     }
+
+    return cached.conn
 }
