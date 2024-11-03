@@ -1,7 +1,9 @@
 "use server"
 import { connectDB } from "@/lib/database";
 import UserModel from "@/models/UserModel";
+import { UserTypes } from "@/store/useUserStore";
 import * as bcrypt from "bcryptjs"
+import { NextResponse } from "next/server";
 
 type RegisterUserType = {
     username: string,
@@ -12,7 +14,6 @@ type RegisterUserType = {
 }
 
 type ResponseType = {
-    userExists?: any;
     status: number,
     message?: string,
     data?: any
@@ -88,6 +89,7 @@ export async function addCollegeName({ collegeName, email }: AddCollegeNameType)
 }
 
 export async function getUserByEmail(email: string) {
+    console.log("UserEmail", email)
     if (!email) {
         throw new Error("Invalid Email!")
     }
@@ -99,12 +101,23 @@ export async function getUserByEmail(email: string) {
             throw new Error("User Not Found!")
         }
 
-        return {
-            status: 200,
-            userExists
-        } as ResponseType
+        const userData = {
+            uid: userExists?._id.toString(),
+            username: userExists?.username,
+            collegeName: userExists?.collegeName,
+            email: userExists?.email,
+            phone: userExists?.phone,
+            picture: userExists?.picture,
+            events: userExists?.events,
+            isVerified: userExists?.isVerified,
+            createdAt: userExists?.createdAt.toISOString()
+        }
+
+        console.log("\nuserData", userData)
+
+        return userData as UserTypes
     } catch (err: any) {
         console.error("getUserByEmail :", err);
-        throw new Error(err.message)
+        return NextResponse.json({ error: err.message }, { status: 500 });
     }
 }

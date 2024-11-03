@@ -1,4 +1,4 @@
-import { Header } from '@/components/CustomUI/Header';
+import Header from '@/components/CustomUI/Header';
 import React from 'react'
 
 export default function Layout({
