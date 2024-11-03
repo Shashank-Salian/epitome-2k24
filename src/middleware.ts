@@ -8,7 +8,7 @@ const { auth } = NextAuth(authConfig)
 
 export default auth(async function middleware(req: NextRequest) {
     const { nextUrl } = req;
-    console.log("\nMiddlewareToken : ", await getToken({ req: req, secret: process.env.AUTH_SECRET }))
+    console.log("\nMiddlewareToken : ", { secret: process.env.AUTH_SECRET, req }, await getToken({ req: req, secret: process.env.AUTH_SECRET }))
     const isLoggedIn = !!await getToken({ req: req, secret: process.env.AUTH_SECRET })
     const isApiAuthRoute = nextUrl.pathname.startsWith(ApiAuthPrefix);
     const isPublicRoute = publicRoutes.some(route => nextUrl.pathname === route);
