@@ -1,23 +1,19 @@
 "use client";
 
-import * as THREE from "three";
-import { RGBELoader } from "three/addons/loaders/RGBELoader.js";
 import { EffectComposer, RenderPass } from "postprocessing";
 import { Clouds } from "@pmndrs/vanilla";
 
 import SceneSetup from "./SceneSetup";
-import { ClientDims, randomSelect, throttle, UPDATE_FUNCS } from "./utils";
+import { ClientDims, throttle, UPDATE_FUNCS } from "./utils";
 
 // Just for dev
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { initStars } from "./Models/Stars";
-import {
-  ModelAssetManager,
-  HDRAssetManager,
-} from "./AssetsManager/AssetManager";
-import { FontManager, FontRepo } from "./Models/TextGeo";
+import { HDRAssetManager } from "./AssetsManager/AssetManager";
 import GlobalLoader from "./AssetsManager/GlobalLoader";
 import { EventsRayCaster, initEventsModel } from "./Models/EventsModel";
+
+import EventList from "@/utils/EventList";
 
 // Setup Scene
 SceneSetup.initialize();
@@ -40,22 +36,11 @@ const nightHdr = new HDRAssetManager("/3D/hdr/night.hdr", () => {
 });
 GlobalLoader.pushFirst(nightHdr);
 
-// const spaceAgeFont = new FontManager("/3D/fonts/SpaceAge.json", () => {
-//   FontRepo.spaceAge = spaceAgeFont.font;
-// });
-// GlobalLoader.pushFirst(spaceAgeFont);
-
-const madAdsAsset = initEventsModel("/3D/events/mad_ads.glb", true);
-GlobalLoader.pushFirst(madAdsAsset);
-EventsRayCaster.eventsModels.push(madAdsAsset);
-
-const gamingAsset = initEventsModel("/3D/events/gaming.glb");
-GlobalLoader.pushFirst(gamingAsset);
-EventsRayCaster.eventsModels.push(gamingAsset);
-
-const danceAsset = initEventsModel("/3D/events/dance.glb");
-GlobalLoader.pushFirst(danceAsset);
-EventsRayCaster.eventsModels.push(danceAsset);
+EventList.forEach((eventInfo, i) => {
+  const asset = initEventsModel(`/3D/events/${eventInfo.modelName}`, i === 0);
+  GlobalLoader.pushFirst(asset);
+  EventsRayCaster.eventsModels.push(asset);
+});
 
 let clouds: Clouds | undefined;
 // initCloud().then((c) => (clouds = c));
@@ -76,9 +61,7 @@ SceneSetup.renderer.setAnimationLoop(animate);
 function onResize() {
   SceneSetup.update();
 
-  madAdsAsset.updateResizeFactor();
-  gamingAsset.updateResizeFactor();
-  danceAsset.updateResizeFactor();
+  EventsRayCaster.eventsModels.forEach((asset) => asset.updateResizeFactor());
 
   effectComposer.setSize(ClientDims.width, ClientDims.height);
 }

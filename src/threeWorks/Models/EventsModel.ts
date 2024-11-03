@@ -31,8 +31,8 @@ type MouseCoords = {
 };
 
 const outCircleCurve = new THREE.EllipseCurve(
-  3.9,
-  -3.3,
+  3.5,
+  -3.5,
   4,
   4,
   Math.PI * 0.69,
@@ -41,18 +41,18 @@ const outCircleCurve = new THREE.EllipseCurve(
 );
 
 const inCircleCurve = new THREE.EllipseCurve(
-  3.9,
-  -3.3,
+  3.5,
+  -3.5,
   4,
   4,
-  0,
+  Math.PI * 0.3,
   Math.PI * 0.69,
   false
 );
 
 // Generate points on the circle
-const outPoints = outCircleCurve.getPoints(100);
-const inPoints = inCircleCurve.getPoints(100);
+let outPoints = outCircleCurve.getPoints(100);
+let inPoints = inCircleCurve.getPoints(100);
 
 // Development purpose
 const geometry = new THREE.BufferGeometry().setFromPoints(outPoints);
@@ -270,6 +270,11 @@ function initEventsModel(url: string, addToScene = false) {
       eventModel.scene!.position.set(pos.x, pos.y, 0);
     },
     onResize: () => {
+      inCircleCurve.aX;
+      inCircleCurve.aY;
+      inCircleCurve.xRadius;
+      inCircleCurve.yRadius;
+
       const pos = outCircleCurve.getPointAt(0);
       eventModel.scene!.position.set(pos.x, pos.y, 0);
     },
@@ -280,11 +285,11 @@ function initEventsModel(url: string, addToScene = false) {
   eventModel.scalingFactor = {
     screen: 1300,
     max: 1.2,
-    min: 0.8,
+    min: 0.5,
   };
   eventModel.positionFactor.x = {
     ...eventModel.positionFactor.x,
-    screen: 1300,
+    screen: 1900,
   };
 
   return eventModel;
