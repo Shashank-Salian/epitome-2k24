@@ -187,7 +187,7 @@ class SceneSetup {
    *
    * linear-gradient(90deg, rgb(168, 39, 148) 0%, 27.5728%, rgb(47, 45, 146) 55.1456%, 77.5728%, rgb(2, 18, 72) 100%)
    */
-  static changeBg(progress: number) {
+  static changeBg(progress: number, dir: 1 | -1 = 1) {
     const { canvasCtx } = SceneSetup.background;
 
     // Gradient color stops for different progress levels
@@ -207,7 +207,9 @@ class SceneSetup {
 
     // Choose two sets of colors to interpolate between based on progress
     const startIndex = SceneSetup.background.index;
-    const endIndex = (startIndex + 1) % SceneSetup.colorSets.length;
+    let endIndex = (startIndex + dir) % SceneSetup.colorSets.length;
+
+    if (endIndex < 0) endIndex = SceneSetup.colorSets.length - 1;
 
     const startColors = SceneSetup.colorSets[startIndex].stops;
     const endColors = SceneSetup.colorSets[endIndex].stops;

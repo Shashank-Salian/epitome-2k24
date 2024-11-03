@@ -209,7 +209,11 @@ class EventsRayCaster {
     const postTransition = () => {
       removeAnimationFrame(animFunc);
       SceneSetup.background.index =
-        (SceneSetup.background.index + 1) % SceneSetup.colorSets.length;
+        (SceneSetup.background.index + (next ? 1 : -1)) %
+        SceneSetup.colorSets.length;
+
+      if (SceneSetup.background.index < 0)
+        SceneSetup.background.index = SceneSetup.colorSets.length - 1;
 
       EventsRayCaster.listenObjects.remove(outgoingModel);
 
@@ -217,7 +221,8 @@ class EventsRayCaster {
     };
 
     let progress = 0;
-    let direction = 1;
+    let fProg = 0;
+    let direction: 1 | -1 = 1;
     let oModel = outgoingModel;
     let iModel = incomingModel;
     if (!next) {
@@ -227,11 +232,14 @@ class EventsRayCaster {
       direction = -1;
     }
 
+    const speed = 0.007; // Adjust this value to control speed
     const animFunc = () => {
-      progress += 0.004 * direction; // Adjust this value to control speed
+      progress += speed * direction;
+      fProg += speed;
 
-      if (progress >= 1 || progress <= 0) {
+      if (fProg >= 1) {
         progress = 0;
+        fProg = 0;
         postTransition();
 
         return;
@@ -245,7 +253,7 @@ class EventsRayCaster {
       oModel.position.set(outgoingPoint.x, outgoingPoint.y, oModel.position.z);
       iModel.position.set(incomingPoint.x, incomingPoint.y, iModel.position.z);
 
-      SceneSetup.changeBg(progress);
+      SceneSetup.changeBg(fProg, direction);
     };
 
     pushAnimationFrame(animFunc);
