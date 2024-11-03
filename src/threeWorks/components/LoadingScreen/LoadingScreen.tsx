@@ -25,7 +25,7 @@ const LoadingScreen = ({ progress }: Props) => {
 
   return (
     <div
-      className={`fixed top-0 left-0 w-dvw h-dvh flex justify-center items-center flex-col z-[100] ${
+      className={`fixed top-0 left-0 w-dvw h-dvh flex justify-center items-center flex-col z-[100] select-none ${
         classes.container
       } ${progress === 100 ? classes.zoomIn : ""}`}
     >

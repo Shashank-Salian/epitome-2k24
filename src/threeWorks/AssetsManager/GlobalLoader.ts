@@ -56,14 +56,14 @@ class GlobalLoader {
     GlobalLoader.firstPriorLoaders.push({
       loader,
       onProgress: (prog) => {
-        GlobalLoader.onIndividualAssetProgress(prog, idx);
+        GlobalLoader.onIndividualProgress(prog, idx);
       },
       progress: 0,
       completed: false,
     });
   }
 
-  private static onIndividualAssetProgress(prog: ProgressEvent, i: number) {
+  private static onIndividualProgress(prog: ProgressEvent, i: number) {
     const percent = prog.total === 0 ? 100 : (prog.loaded / prog.total) * 100;
 
     GlobalLoader.firstPriorLoaders[i].progress = percent;
