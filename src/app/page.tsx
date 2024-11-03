@@ -15,20 +15,20 @@ const Events = dynamic(() => import("@/containers/Events/Events"), {
 });
 
 export default function Home() {
-  const { loadingCompleted, loadingProgress } = useLoader()
+  const { loadingCompleted, loadingProgress, isInitialLoad } = useLoader()
   // console.log("LoadingState", { loadingCompleted, loadingProgress })
 
   return (
     <>
-      {loadingCompleted ? (
+      {(isInitialLoad && !loadingCompleted) ?
+        <LoadingScreen progress={loadingProgress} />
+        :
         <main className="w-full">
           <Header />
           <Events />
         </main>
-      )
-        :
-        <LoadingScreen progress={loadingProgress} />
       }
+
       <ThreeComp />
     </>
   );
