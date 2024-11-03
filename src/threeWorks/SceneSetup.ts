@@ -18,6 +18,7 @@ class SceneSetup {
   static directionalLight: THREE.DirectionalLight;
 
   static background: {
+    canvas: HTMLCanvasElement;
     gradient: CanvasGradient;
     gradientTexture: THREE.CanvasTexture;
     canvasCtx: CanvasRenderingContext2D;
@@ -83,10 +84,6 @@ class SceneSetup {
     SceneSetup.camera.aspect = ClientDims.width / ClientDims.height;
     SceneSetup.camera.updateProjectionMatrix();
 
-    // Add space background
-    // const fog = new THREE.FogExp2(0x000514, 0.01);
-    // SceneSetup.renderer.setClearColor(fog.color);
-
     document
       .getElementById("three-work")!
       .appendChild(SceneSetup.renderer.domElement);
@@ -102,6 +99,46 @@ class SceneSetup {
     SceneSetup.renderer.setSize(ClientDims.width, ClientDims.height);
     SceneSetup.camera.aspect = ClientDims.width / ClientDims.height;
     SceneSetup.camera.updateProjectionMatrix();
+
+    SceneSetup.background.canvas.width = ClientDims.width;
+    SceneSetup.background.canvas.height = ClientDims.height;
+
+    SceneSetup.background.gradientTexture.dispose();
+
+    SceneSetup.background.gradient =
+      SceneSetup.background.canvasCtx.createLinearGradient(
+        ClientDims.width / 2,
+        ClientDims.height,
+        ClientDims.width / 2,
+        0
+      );
+
+    const curIdx = SceneSetup.background.index;
+    for (let i = 0; i < SceneSetup.colorSets[curIdx].stops.length; i++) {
+      const { r, g, b } = SceneSetup.colorSets[curIdx].stops[i].color;
+      SceneSetup.background.gradient.addColorStop(
+        SceneSetup.colorSets[curIdx].stops[i].offset,
+        `rgb(${r}, ${g}, ${b})`
+      );
+    }
+
+    SceneSetup.background.canvasCtx.fillStyle = SceneSetup.background.gradient;
+    SceneSetup.background.canvasCtx.fillRect(
+      0,
+      0,
+      ClientDims.width,
+      ClientDims.height
+    );
+
+    SceneSetup.background.gradientTexture = new THREE.CanvasTexture(
+      SceneSetup.background.canvas
+    );
+
+    SceneSetup.background.gradientTexture.needsUpdate = true;
+
+    SceneSetup.scene.background = SceneSetup.background.gradientTexture;
+
+    console.log(ClientDims.width, ClientDims.height);
   }
 
   private static setupBg() {
@@ -133,6 +170,7 @@ class SceneSetup {
       gradient,
       gradientTexture,
       canvasCtx,
+      canvas,
     };
 
     // gradientTexture.rotation = 12;
@@ -170,8 +208,6 @@ class SceneSetup {
     // Choose two sets of colors to interpolate between based on progress
     const startIndex = SceneSetup.background.index;
     const endIndex = (startIndex + 1) % SceneSetup.colorSets.length;
-    const localProgress = (progress * (SceneSetup.colorSets.length - 1)) % 1;
-    console.log(startIndex, endIndex, localProgress);
 
     const startColors = SceneSetup.colorSets[startIndex].stops;
     const endColors = SceneSetup.colorSets[endIndex].stops;
@@ -204,7 +240,7 @@ class SceneSetup {
     SceneSetup.background.gradientTexture.needsUpdate = true;
   }
 
-  render(scene?: THREE.Scene) {
+  render() {
     SceneSetup.renderer.render(SceneSetup.scene, SceneSetup.camera);
   }
 }

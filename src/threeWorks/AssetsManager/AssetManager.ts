@@ -31,6 +31,7 @@ class ModelAssetManager implements CustomLoader {
   group?: THREE.Group;
   modelName?: string;
   addToScene: boolean;
+  onResize?: () => void;
 
   /**
    *
@@ -45,6 +46,7 @@ class ModelAssetManager implements CustomLoader {
       modelName,
       addToScene = true,
       onLoaded,
+      onResize,
     }: {
       scale?: Coord3D;
       position?: Coord3D;
@@ -52,6 +54,7 @@ class ModelAssetManager implements CustomLoader {
       modelName?: string;
       addToScene?: boolean;
       onLoaded?: () => void;
+      onResize?: () => void;
     } = {}
   ) {
     this.url = url;
@@ -84,6 +87,7 @@ class ModelAssetManager implements CustomLoader {
     this.modelName = modelName;
     this.addToScene = addToScene;
     this.onLoaded = onLoaded;
+    this.onResize = onResize;
   }
 
   /**
@@ -198,13 +202,9 @@ class ModelAssetManager implements CustomLoader {
         this.scale.y + curFactor
       );
 
-      console.log(
-        this.scene.position.x,
-        posFactorX,
-        this.position.x + posFactorX
-      );
-
       this.scene.position.setX(this.position.x + posFactorX);
+
+      if (this.onResize) this.onResize();
     }
   }
 }

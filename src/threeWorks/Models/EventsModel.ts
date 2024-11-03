@@ -257,6 +257,14 @@ function initEventsModel(url: string, addToScene = false) {
     group: EventsRayCaster.listenObjects,
     modelName: "MadAds",
     addToScene,
+    onLoaded: () => {
+      const pos = outCircleCurve.getPointAt(0);
+      eventModel.scene!.position.set(pos.x, pos.y, 0);
+    },
+    onResize: () => {
+      const pos = outCircleCurve.getPointAt(0);
+      eventModel.scene!.position.set(pos.x, pos.y, 0);
+    },
   });
 
   eventModel.setPosition(0.2, 0, 0);
