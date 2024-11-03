@@ -12,6 +12,7 @@ type RegisterUserType = {
 }
 
 type ResponseType = {
+    userExists?: any;
     status: number,
     message?: string,
     data?: any
@@ -103,7 +104,7 @@ export async function getUserByEmail(email: string) {
             userExists
         } as ResponseType
     } catch (err: any) {
-        console.error(err);
+        console.error("getUserByEmail :", err);
         throw new Error(err.message)
     }
 }
