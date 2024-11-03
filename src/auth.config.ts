@@ -29,12 +29,9 @@ export default {
                     if (!userExists || !matchPassword) throw new Error("Invalid Email or Password")
 
                     const userData = {
-                        uid: userExists?._id,
                         username: userExists?.username,
-                        collegeName: userExists?.collegeName,
                         email: userExists?.email,
                         picture: userExists?.picture,
-                        isVerified: userExists?.isVerified,
                     }
                     user = userData
 
@@ -77,23 +74,8 @@ export default {
             const { email } = token
 
             try {
-                await connectDB()
-                const userExists = await UserModel.findOne({ email: email, })
-
-                if (!userExists) throw new Error("Invalid User Credentials")
-
-                const userData = {
-                    uid: userExists?._id,
-                    username: userExists?.username,
-                    collegeName: userExists?.collegeName || null,
-                    email: userExists?.email,
-                    phone: userExists?.phone || null,
-                    picture: userExists?.picture || null,
-                    isVerified: userExists?.isVerified || null,
-                }
-
-                const accessToken = await SignToken(userData)
-                token = { ...userData, accessToken }
+                const accessToken = await SignToken({ email })
+                token = { email, accessToken }
             } catch (err) {
                 console.error("JWT error:", err)
             }
@@ -102,12 +84,13 @@ export default {
             return token
         },
         async session({ session, token }) {
+            // console.log("\nSession_Final: ", { session, token })
             try {
                 session.user = { ...token }
             } catch (err) {
                 console.error("Session error:", err)
             }
-            // console.log("\nSession_Callback: ", session)
+            // console.log("\nSession_Final: ", session)
 
             return session
         }
