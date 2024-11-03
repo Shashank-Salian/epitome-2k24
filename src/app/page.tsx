@@ -7,23 +7,29 @@ import Header from "@/components/CustomUI/Header";
 import ThreeComp from "@/threeWorks/components/ThreeComp";
 import { useState } from "react";
 import NoSSR from "@/components/NoSSR/NoSSR";
+import useLoader from "@/store/useLoader";
+import LoadingScreen from "@/threeWorks/components/LoadingScreen/LoadingScreen";
 
 const Events = dynamic(() => import("@/containers/Events/Events"), {
   ssr: false,
 });
 
 export default function Home() {
-  const [finishedLoading, setFinishedLoading] = useState(false);
+  const { loadingCompleted, loadingProgress } = useLoader()
+  // console.log("LoadingState", { loadingCompleted, loadingProgress })
 
   return (
     <>
-      {finishedLoading ? (
+      {loadingCompleted ? (
         <main className="w-full">
           <Header />
           <Events />
         </main>
-      ) : null}
-      <ThreeComp onFinishLoading={() => setFinishedLoading(true)} />
+      )
+        :
+        <LoadingScreen progress={loadingProgress} />
+      }
+      <ThreeComp />
     </>
   );
 }

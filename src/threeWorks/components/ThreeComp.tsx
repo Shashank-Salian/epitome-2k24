@@ -1,35 +1,29 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useState } from "react";
-import LoadingScreen from "./LoadingScreen/LoadingScreen";
+import useLoader from "@/store/useLoader";
 
 const ThreeLoader = dynamic(() => import("./ThreeLoader"), {
   ssr: false,
 });
 
-const ThreeComp = ({ onFinishLoading }: { onFinishLoading: () => void }) => {
-  const [loadingState, setLoadingState] = useState(0);
-  const [removeLoad, setRemoveLoad] = useState(false);
+const ThreeComp = () => {
+  const { setLoadingCompleted, updateLoadingProgress } = useLoader()
 
-  const onProgress = (prog: number) => {
-    setLoadingState(prog);
-
-    if (prog === 100) {
+  const onProgress = (progress: number) => {
+    if (progress === 100) {
       setTimeout(() => {
-        setRemoveLoad(true);
-        onFinishLoading();
+        setLoadingCompleted(true)
       }, 1600);
     }
+
+    updateLoadingProgress(progress)
   };
 
   return (
-    <>
-      {removeLoad ? null : <LoadingScreen progress={loadingState} />}
-      <div id="three-work" className="fixed top-0 left-0 z-[-10]">
-        <ThreeLoader onProgress={onProgress} />
-      </div>
-    </>
+    <div id="three-work" className="fixed top-0 left-0 z-[-10]">
+      <ThreeLoader onProgress={onProgress} />
+    </div>
   );
 };
 

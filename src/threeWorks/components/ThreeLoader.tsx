@@ -3,12 +3,15 @@
 import "@/threeWorks/index";
 import { useEffect } from "react";
 import GlobalLoader, { LoadingState } from "../AssetsManager/GlobalLoader";
+// import useLoader from "@/store/useLoader";
 
 type Props = {
   onProgress: (prog: number) => void;
 };
 
 const ThreeLoader = ({ onProgress }: Props) => {
+  // const {updateLoadingProgress} = useLoader()
+
   useEffect(() => {
     console.log("RUNNING USE EFFECT");
     if (GlobalLoader.loadingState === LoadingState.IDLE) {
