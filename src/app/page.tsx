@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 
-import { LandingHeader } from "@/components/CustomUI/Header";
+import Header from "@/components/CustomUI/Header";
 // import Events from "@/containers/Events/Events";
 import ThreeComp from "@/threeWorks/components/ThreeComp";
 import { useState } from "react";
@@ -19,7 +19,7 @@ export default function Home() {
     <>
       {finishedLoading ? (
         <main className="w-full">
-          <LandingHeader />
+          <Header />
           <Events />
         </main>
       ) : null}

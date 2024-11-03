@@ -1,7 +1,9 @@
 "use server"
 import { connectDB } from "@/lib/database";
 import UserModel from "@/models/UserModel";
+import { UserTypes } from "@/store/useUserStore";
 import * as bcrypt from "bcryptjs"
+import { NextResponse } from "next/server";
 
 type RegisterUserType = {
     username: string,
@@ -9,13 +11,6 @@ type RegisterUserType = {
     phone: string,
     email: string,
     password: string
-}
-
-type ResponseType = {
-    userExists?: any;
-    status: number,
-    message?: string,
-    data?: any
 }
 
 export async function registerUser({ username, collegeName, phone, email, password }: RegisterUserType) {
@@ -27,11 +22,7 @@ export async function registerUser({ username, collegeName, phone, email, passwo
         await connectDB();
         const userExists = await UserModel.findOne({ email: email })
         if (userExists) {
-            throw new Error("User already Exists!")
-            // return {
-            //     status: 409,
-            //     message: "User already Exists!"
-            // } as ResponseType
+            return NextResponse.json({ message: "User already Exists!" }, { status: 403 });
         }
 
         const salt = await bcrypt.genSalt(10);
@@ -45,13 +36,10 @@ export async function registerUser({ username, collegeName, phone, email, passwo
             password: hashedPassword
         })
 
-        return {
-            status: 201,
-            message: "User Created Successfully!"
-        } as ResponseType
+        return NextResponse.json({ message: "User Created Successfully!" }, { status: 201 });
     } catch (err: any) {
         console.error(err);
-        throw new Error(err.message)
+        return NextResponse.json({ error: err.message }, { status: 500 });
     }
 }
 
@@ -77,17 +65,15 @@ export async function addCollegeName({ collegeName, email }: AddCollegeNameType)
         userExists.collegeName = collegeName;
         await userExists.save()
 
-        return {
-            status: 201,
-            message: "Updated College Name!"
-        } as ResponseType
+        return NextResponse.json({ message: "Updated College Name!" }, { status: 201 });
     } catch (err: any) {
         console.error(err);
-        throw new Error(err.message)
+        return NextResponse.json({ error: err.message }, { status: 500 });
     }
 }
 
 export async function getUserByEmail(email: string) {
+    console.log("UserEmail", email)
     if (!email) {
         throw new Error("Invalid Email!")
     }
@@ -99,12 +85,23 @@ export async function getUserByEmail(email: string) {
             throw new Error("User Not Found!")
         }
 
-        return {
-            status: 200,
-            userExists
-        } as ResponseType
+        const userData = {
+            uid: userExists?._id.toString(),
+            username: userExists?.username,
+            collegeName: userExists?.collegeName,
+            email: userExists?.email,
+            phone: userExists?.phone,
+            picture: userExists?.picture,
+            events: userExists?.events,
+            isVerified: userExists?.isVerified,
+            createdAt: userExists?.createdAt.toISOString()
+        }
+
+        console.log("\nuserData", userData)
+
+        return userData as UserTypes
     } catch (err: any) {
         console.error("getUserByEmail :", err);
-        throw new Error(err.message)
+        return NextResponse.json({ error: err.message }, { status: 500 });
     }
 }
