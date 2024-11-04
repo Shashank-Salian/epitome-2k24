@@ -69,6 +69,7 @@ const config: Config = {
       },
       backgroundImage: {
         blueGradient: "var(--blueGradient)",
+        blueGradientAlt: "var(--blueGradientAlt)",
       },
     },
   },

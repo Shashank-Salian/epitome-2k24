@@ -4,7 +4,7 @@ import { AtSignIcon, Building2Icon, EyeIcon, EyeOffIcon, PhoneIcon, User2Icon } 
 import { cn } from "@/lib/utils"
 
 interface InputProps {
-    label: string,
+    label?: string,
     type?: "text" | "email" | "password" | "tel",
     name?: "username" | "collegeName" | any,
     placeholder?: string,
@@ -18,10 +18,10 @@ const Input = ({ label, type = "text", name = "", placeholder, className = "", r
 
     return (
         <div className={cn("relative min-w-[350px]", className)}>
-            <label className='text-[0.9em] bg-background/0 px-1'>
+            {label && <label className='text-[0.9em] bg-background/0 px-1'>
                 {label}
                 {required && <span className="text-red-600">*</span>}
-            </label>
+            </label>}
 
             <div className="flex items-center border border-muted-foreground sm:focus-within:border-primary rounded p-1">
                 <input

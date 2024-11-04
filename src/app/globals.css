@@ -52,9 +52,13 @@ body {
     --blueGradient: linear-gradient(
       to right,
       hsl(var(--dodgerBlue)),
-      hsl(var(--purple)),
-      hsl(var(--purple)),
-      hsl(var(--dodgerBlue))
+      hsl(var(--purple))
+    );
+
+    --blueGradientAlt: linear-gradient(
+      45deg,
+      hsl(var(--dodgerBlue), 0.8),
+      hsl(var(--purple), 0.6)
     );
 
     --primary: var(--dodgerBlue);
@@ -96,12 +100,22 @@ body {
     /* cursor: none !important; */
   }
 
+  html {
+    scroll-snap-type: y mandatory;
+  }
+
   body {
     @apply bg-background text-foreground;
+
+    scroll-snap-type: y mandatory;
   }
 
   .flex_center {
     @apply flex justify-center items-center;
+  }
+
+  button {
+    user-select: none;
   }
 
   #Custom_Cursor {
@@ -165,4 +179,15 @@ body {
     border: 6px solid transparent;
     background-clip: content-box;
   } */
+}
+
+/* Input Autofill background color removed */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: #ffffff;
+  transition: background-color 5000s ease-in-out 0s;
+  box-shadow: inset 0 0 20px 20px transparent;
 }

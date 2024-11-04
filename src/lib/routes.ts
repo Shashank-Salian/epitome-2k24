@@ -1,8 +1,6 @@
-export const publicRoutes = [
-    "/",
-    "/about",
-    "/contact",
-    "/aimit",
+export const protectedRoutes = [
+    "/dashboard",
+    "/event",
 ];
 
 export const authRoutes = [
@@ -11,7 +9,5 @@ export const authRoutes = [
     "/forgot-password",
     "/reset-password"
 ];
-
-export const ApiAuthPrefix = "/api/";
 
 export const DEFAULT_LOGIN_REDIRECT = "/dashboard";

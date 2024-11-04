@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils'
 import React from 'react'
 
-type Props = {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     value: string,
     type?: "button" | "submit" | "reset",
     disabled?: boolean,
@@ -9,12 +9,15 @@ type Props = {
 
 }
 
-const ButtonUI = ({ value, type = "button", disabled = false, className }: Props) => {
+const ButtonUI = (props: ButtonProps) => {
+    const { value, type = "button", disabled = false, className } = props;
+
     return (
         <button
             type={type}
             disabled={disabled}
             className={cn("bg-primary font-beyonders text-white px-10 py-[0.8em] clip_Btn rounded-md", className)}
+            {...props}
         >
             {value}
         </button>

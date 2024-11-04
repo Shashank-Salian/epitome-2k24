@@ -29,17 +29,13 @@ export default {
                     if (!userExists || !matchPassword) throw new Error("Invalid Email or Password")
 
                     const userData = {
-                        uid: userExists?._id,
                         username: userExists?.username,
-                        collegeName: userExists?.collegeName,
                         email: userExists?.email,
                         picture: userExists?.picture,
-                        isVerified: userExists?.isVerified,
                     }
+                    user = userData
 
-                    const accessToken = await SignToken(userData)
-                    user = { ...userData, accessToken }
-
+                    // console.log("Credentials:", user)
                     return user
                 } catch (err) {
                     console.log(err)
@@ -49,37 +45,54 @@ export default {
         }),
     ],
     callbacks: {
-        async signIn({ user, account, profile, email, credentials }) {
-            console.log("\nSignInCallback", { user, account, profile, email, credentials })
+        async signIn({ user, account, profile }) {
 
-            if (account?.type === 'credentials' && user !== null) return true
+            if (account?.type === 'credentials' && user !== null) {
+                // console.log("\nSignIn_Callback: Cred User Allowed")
+                return true
+            } else {
+                try {
+                    await connectDB()
+                    const userExists = await UserModel.findOne({ email: profile?.email })
+                    if (!userExists) {
+                        await UserModel.create({
+                            username: profile?.name,
+                            email: profile?.email,
+                            picture: profile?.picture,
+                        })
+
+                        // console.log("\nSignIn_Callback: NewOAuth User Created")
+                    }
+                    return true
+                } catch (err) {
+                    console.log("\nSignin_Callback_Err", err)
+                    return false
+                }
+            }
+        },
+        async jwt({ token }) {
+            const { email } = token
 
             try {
-                await connectDB()
-                const userExists = await UserModel.findOne({ email: profile?.email })
-                if (!userExists) {
-                    await UserModel.create({
-                        username: profile?.name,
-                        email: profile?.email,
-                        picture: profile?.picture,
-                    })
-
-                    // console.log("NewOAuth User")
-                } else {
-                    // console.log("OAuth User Exisits")
-                    // Update profile picture only if they dont match
-                    if (profile?.picture?.length !== 0 && userExists.picture !== profile?.picture) {
-                        userExists.picture = profile?.picture
-                        await userExists.save()
-                    }
-                }
-                return true
+                const accessToken = await SignToken({ email })
+                token = { email, accessToken }
             } catch (err) {
-                console.log("Signin_Callback_Err", err)
-                return false
+                console.error("JWT error:", err)
             }
 
-            return true
+            // console.log("\nJWT_Callback: Final User Token", token)
+            return token
         },
+        async session({ session, token }) {
+            // console.log("\nSession_Final: ", { session, token })
+            try {
+                session.user = { ...token }
+            } catch (err) {
+                console.error("Session error:", err)
+            }
+            // console.log("\nSession_Final: ", session)
+
+            return session
+        }
     },
 } satisfies NextAuthConfig

@@ -30,15 +30,16 @@ const LoginForm = () => {
                 redirect: false,
                 callbackUrl: callback || "/dashboard"
             })
+            console.log("LoginRes", res)
 
-            if (res?.status === 200) {
+            if (!res?.error) {
                 toast.success("Logged in Successfully!", {
                     id: LoginToastID
                 })
 
-                router.push(res?.url as string)
+                router.push(res?.url || "/dashboard")
             } else {
-                throw new Error()
+                throw new Error(res.error)
             }
         } catch (err) {
             toast.error("Invalid Email or Password", {
@@ -64,6 +65,7 @@ const LoginForm = () => {
             toast.success("Logged in Successfully!", {
                 id: OAuthTostID
             })
+            router.push(res?.url || "/dashboard")
         } catch (err) {
             toast.error("Something went wrong!", {
                 id: OAuthTostID
@@ -76,7 +78,7 @@ const LoginForm = () => {
     }
 
     return (
-        <div className='relative flex_center flex-col gap-4 2xl:gap-8 w-fit p-8 rounded-lg bg-background/40 backdrop-blur-lg'>
+        <div className='relative flex_center flex-col gap-4 2xl:gap-8 w-fit p-8 rounded-lg bg-background/30 z-10 backdrop-blur-md'>
             <h1 className='hidden lg:block text-[2em] 2xl:text-[2.5em] font-medium'>
                 Welcome to <span className="text-primary">EPITOME</span>
             </h1>

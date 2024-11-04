@@ -19,7 +19,7 @@ const LandingPage = () => {
             </span>{" "}
             <p className={style.Para}>Level</p>
             <Image
-             className={style.Img}
+              className={style.Img}
               src="/Icons/star.png"
               width={25}
               height={25}
@@ -99,8 +99,8 @@ const LandingPage = () => {
                 shimmered, <Glitch text="broadcasting" /> a warning: “Echoes of
                 the Void Awaken.” Shadows stirred among the stars, spectral and
                 ancient. Zara hit the thrusters, escaping as dark tendrils
-                reached out. She knew then—space held <Glitch text="Secrets" />, and they had just
-                scratched the surface.
+                reached out. She knew then—space held <Glitch text="Secrets" />,
+                and they had just scratched the surface.
               </p>
             </div>
           </div>
@@ -108,12 +108,7 @@ const LandingPage = () => {
             className={style.arrow}
             data-augmented-ui="all-triangle-right border"
           >
-            <Image
-              src="/Icons/play.png"
-              width={55}
-              height={0}
-              alt="Trailer"
-            />
+            <Image src="/Icons/play.png" width={55} height={0} alt="Trailer" />
           </div>
           <div
             className={style.arrow}
