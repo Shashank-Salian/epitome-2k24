@@ -78,7 +78,7 @@ const LoginForm = () => {
     }
 
     return (
-        <div className='relative flex_center flex-col gap-4 2xl:gap-8 w-fit p-8 rounded-lg bg-background/40 backdrop-blur-lg'>
+        <div className='relative flex_center flex-col gap-4 2xl:gap-8 w-fit p-8 rounded-lg bg-background/30 z-10 backdrop-blur-md'>
             <h1 className='hidden lg:block text-[2em] 2xl:text-[2.5em] font-medium'>
                 Welcome to <span className="text-primary">EPITOME</span>
             </h1>

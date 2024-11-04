@@ -12,7 +12,7 @@ const EventGroup = ({ eventName, participants = 2, setValue }: Props) => {
     return (
         <div
             data-augmented-ui="tl-clip tr-2-clip-x br-clip bl-2-clip-x"
-            className='styleme relative flex flex-col gap-4 bg-red-700/80 p-6'>
+            className='styleme relative flex flex-col gap-4 bg-blueGradientAlt p-6'>
             <span className="">{eventName}</span>
 
             {Array.from({ length: participants }).map((_, index) => (

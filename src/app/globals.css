@@ -51,9 +51,11 @@ body {
 
     --blueGradient: linear-gradient(to right,
         hsl(var(--dodgerBlue)),
-        hsl(var(--purple)),
-        hsl(var(--purple)),
-        hsl(var(--dodgerBlue)));
+        hsl(var(--purple)));
+
+    --blueGradientAlt: linear-gradient(45deg,
+        hsl(var(--dodgerBlue), 0.8),
+        hsl(var(--purple), 0.6));
 
     --primary: var(--dodgerBlue);
   }
