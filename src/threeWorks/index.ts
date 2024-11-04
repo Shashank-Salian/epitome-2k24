@@ -37,10 +37,12 @@ const nightHdr = new HDRAssetManager("/3D/hdr/night.hdr", () => {
 GlobalLoader.pushFirst(nightHdr);
 
 EventList.forEach((eventInfo, i) => {
-  const asset = initEventsModel(`/3D/events/${eventInfo.modelName}`, i === 0);
+  const asset = initEventsModel(`/3D/events/${eventInfo.modelName}`);
   GlobalLoader.pushFirst(asset);
   EventsRayCaster.eventsModels.push(asset);
 });
+
+SceneSetup.scene.add(EventsRayCaster.listenObjects);
 
 let clouds: Clouds | undefined;
 // initCloud().then((c) => (clouds = c));

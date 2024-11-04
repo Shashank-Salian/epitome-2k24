@@ -13,22 +13,28 @@ import LoadingScreen from "@/threeWorks/components/LoadingScreen/LoadingScreen";
 const Events = dynamic(() => import("@/containers/Events/Events"), {
   ssr: false,
 });
+const LandingPage = dynamic(
+  () => import("@/containers/LandingPage/LandingPage"),
+  {
+    ssr: false,
+  }
+);
 
 export default function Home() {
-  const { loadingCompleted, loadingProgress, isInitialLoad } = useLoader()
+  const { loadingCompleted, loadingProgress, isInitialLoad } = useLoader();
   // console.log("LoadingState", { loadingCompleted, loadingProgress })
 
   return (
     <>
-      {(isInitialLoad && !loadingCompleted) ?
+      {isInitialLoad && !loadingCompleted ? (
         <LoadingScreen progress={loadingProgress} />
-        :
-        <main className="w-full">
-          <Header />
+      ) : (
+        <main className="w-full" style={{ scrollSnapType: "y mandatory" }}>
+          {/* <LandingHeader /> */}
+          <LandingPage />
           <Events />
         </main>
-      }
-
+      )}
       <ThreeComp />
     </>
   );
