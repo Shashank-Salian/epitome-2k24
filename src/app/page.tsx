@@ -11,6 +11,9 @@ import NoSSR from "@/components/NoSSR/NoSSR";
 const Events = dynamic(() => import("@/containers/Events/Events"), {
   ssr: false,
 });
+const LandingPage = dynamic(() => import("@/containers/LandingPage/LandingPage"), {
+  ssr: false,
+});
 
 export default function Home() {
   const [finishedLoading, setFinishedLoading] = useState(false);
@@ -19,11 +22,12 @@ export default function Home() {
     <>
       {finishedLoading ? (
         <main className="w-full">
-          <LandingHeader />
-          <Events />
+          {/* <LandingHeader />
+          <Events /> */}
+          <LandingPage/>
         </main>
-      ) : null}
-      <ThreeComp onFinishLoading={() => setFinishedLoading(true)} />
+        ) : null}
+      <ThreeComp onFinishLoading={() => setFinishedLoading(true)} />  
     </>
   );
 }
