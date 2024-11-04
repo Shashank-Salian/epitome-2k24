@@ -2,14 +2,16 @@
 
 import { EventsRayCaster } from "@/threeWorks/Models/EventsModel";
 import EventList from "@/utils/EventList";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Props = {
   eventName?: string;
+  intersecting?: boolean;
 };
 
-const Event = (props: Props) => {
+const Event = ({ intersecting }: Props) => {
   const [curEventIndex, setCurEventIndex] = useState(0);
+  const doneAdding = useRef(false);
 
   const onNextClick = () => {
     EventsRayCaster.moveEvent();
@@ -22,6 +24,13 @@ const Event = (props: Props) => {
       (prev) => (prev - 1 + EventList.length) % EventList.length
     );
   };
+
+  useEffect(() => {
+    if (intersecting && !doneAdding.current) {
+      doneAdding.current = true;
+      EventsRayCaster.moveEvent();
+    }
+  }, [intersecting]);
 
   return (
     <div className="mt-12 w-6/12 max-w-screen-md">
