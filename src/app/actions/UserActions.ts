@@ -118,6 +118,6 @@ export async function getUserByEmail(email: string) {
         return userData as UserTypes
     } catch (err: any) {
         console.error("getUserByEmail :", err);
-        return NextResponse.json({ error: err.message }, { status: 500 });
+        return err.message
     }
 }

@@ -1,6 +1,7 @@
 export const protectedRoutes = [
     "/dashboard",
     "/event",
+    "/payment"
 ];
 
 export const authRoutes = [
