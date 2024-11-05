@@ -23,10 +23,10 @@ const EventForm = () => {
     const isLoading = false
 
     return (
-        <div className='flex_center flex-col w-full h-full bg-background/50'>
+        <div className='flex_center flex-col w-full h-full bg-background/30 rounded-md'>
             <EventSelector />
 
-            <form onSubmit={HandleRegister} className='w-full h-full p-8'>
+            <form onSubmit={HandleRegister} className='w-full h-full p-8 flex_center flex-col'>
                 <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }} className='w-full'>
                     <Masonry gutter='2em' >
                         {selectedEvents?.map((event, index) => (

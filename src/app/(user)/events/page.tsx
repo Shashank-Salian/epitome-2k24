@@ -3,8 +3,8 @@ import React from 'react'
 
 const page = () => {
     return (
-        <div>
-            <h1>Events</h1>
+        <div className='px-8 mt-8'>
+            {/* <h1>Events</h1> */}
 
             <EventForm />
         </div>
