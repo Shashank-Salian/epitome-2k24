@@ -1,10 +1,11 @@
 import type { NextAuthConfig } from "next-auth"
 import Google from "next-auth/providers/google"
 import Credentials from "next-auth/providers/credentials"
-import UserModel from "./models/UserModel"
+// import UserModel from "./models/UserModel"
 import { SignToken } from "./lib/jwt"
-import { connectDB } from "./lib/database"
+// import { connectDB } from "./lib/database"
 import bcrypt from "bcryptjs"
+import axios from "axios"
 
 export default {
     providers: [
@@ -22,16 +23,17 @@ export default {
                         return null
                     }
 
-                    await connectDB()
-                    const userExists = await UserModel.findOne({ email: credentials?.email, password: { $exists: true, $ne: null } })
-                    const matchPassword = await bcrypt.compare(credentials?.password as string, userExists?.password)
+                    // await connectDB()
+                    // const userExists = await UserModel.findOne({ email: credentials?.email, password: { $exists: true, $ne: null } })
+                    const userExists = await axios.post("/api/post/user", { email: credentials?.email, getPassword: true })
+                    const matchPassword = await bcrypt.compare(credentials?.password as string, userExists?.data?.password)
 
-                    if (!userExists || !matchPassword) throw new Error("Invalid Email or Password")
+                    if (!userExists?.data?.email || !matchPassword) throw new Error("Invalid Email or Password")
 
                     const userData = {
-                        username: userExists?.username,
-                        email: userExists?.email,
-                        picture: userExists?.picture,
+                        username: userExists?.data?.username,
+                        email: userExists?.data?.email,
+                        picture: userExists?.data?.picture,
                     }
                     user = userData
 
@@ -52,14 +54,25 @@ export default {
                 return true
             } else {
                 try {
-                    await connectDB()
-                    const userExists = await UserModel.findOne({ email: profile?.email })
-                    if (!userExists) {
-                        await UserModel.create({
+                    // await connectDB()
+                    // const userExists = await UserModel.findOne({ email: profile?.email })
+                    const userExists = await axios.post("/api/post/user", { email: profile?.email })
+                    if (!userExists?.data?.email) {
+                        // await UserModel.create({
+                        //     username: profile?.name,
+                        //     email: profile?.email,
+                        //     picture: profile?.picture,
+                        // })
+
+                        const res = await axios.post("api/post/registerOauthUser", {
                             username: profile?.name,
                             email: profile?.email,
                             picture: profile?.picture,
                         })
+
+                        if (res.status !== 201) {
+                            throw new Error(res.data.message || "Failed to Create OAuth User")
+                        }
 
                         // console.log("\nSignIn_Callback: NewOAuth User Created")
                     }

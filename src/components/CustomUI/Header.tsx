@@ -9,6 +9,7 @@ import Container from "@/containers/Container/Container";
 import { getUserByEmail } from "@/app/actions/UserActions";
 import { ChevronDown, User2Icon } from 'lucide-react'
 import ButtonUI from "./ButtonUI";
+import axios from "axios";
 
 const AUTH_ROUTES = ["/login", "/register", "/forgot-password", "/reset-password"];
 const PUBLIC_ROUTES = [...AUTH_ROUTES, "/", "/about", "/commitee"]
@@ -47,7 +48,12 @@ const Header = () => {
   // User Data Fetching
   const { data: userData } = useQuery({
     queryKey: ["user", session?.user?.email],
-    queryFn: () => session?.user?.email ? getUserByEmail(session.user.email) : null,
+    // queryFn: () => session?.user?.email ? getUserByEmail(session.user.email) : null,
+    queryFn: async () => {
+      const res = await axios.post("/api/post/user", { email: session?.user?.email })
+      console.log(res)
+      return res.data
+    },
     enabled: !!session?.user?.email,
   });
 
