@@ -1,73 +1,72 @@
-@import url('../../../node_modules/augmented-ui/augmented-ui.min.css');
+/* @import url('../../../node_modules/augmented-ui/augmented-ui.min.css'); */
 
-.Main{
-    margin: 0px;
-    padding: 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    font-family: var(--SpaceAge);
+.Main {
+  margin: 0px;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--SpaceAge);
 }
-.Left{
-    width: 35%;
+
+.Left {
+  width: 35%;
 }
-.Right{
+
+.Right {
   padding: 20px;
   align-items: center;
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
-.Level{
-    display: flex;
-    margin:5%;
+
+.Level {
+  display: flex;
+  margin: 5%;
 }
 
-.Span{
-    color: white;
-    color:rgb(61, 126, 247);
-    margin-right: 5px;
-    font: 80px;
-    font-weight: 600;
+.Span {
+  color: white;
+  color: rgb(61, 126, 247);
+  margin-right: 5px;
+  font: 80px;
+  font-weight: 600;
 }
-.Para{
-    margin-right:5px;
+
+.Para {
+  margin-right: 5px;
 }
-.Img{
-    margin-right: 5px;
-    margin-left: 10px;
+
+.Img {
+  margin-right: 5px;
+  margin-left: 10px;
 
 }
 
-  
+
 .reticle {
-    margin-top: 25%;
-    align-items: center;
-    margin-left: 5%;
-    --aug-all-width: 170px;
-    color: #00bfff;
-    --reticle-color: currentColor;
-    --reticle-size: calc(var(--aug-all-width) * 0.25);
-    --aug-border-bg: radial-gradient(
-        circle at top center,
-        var(--reticle-color) var(--reticle-size),
-        transparent var(--reticle-size)
-      ),
-      radial-gradient(
-        circle at bottom 13.92% right 6.89%,
-        var(--reticle-color) var(--reticle-size),
-        transparent var(--reticle-size)
-      ),
-      radial-gradient(
-        circle at bottom 13.92% left 6.89%,
-        var(--reticle-color) var(--reticle-size),
-        transparent var(--reticle-size)
-      );
-    transform-origin: 50% 56%;
-    transform: rotateZ(0deg);
-    transition: transform 0.75s ease-out, color 0.75s ease-out;
-    background: rgba(102, 51, 153, 0.25);
-  }
+  margin-top: 25%;
+  align-items: center;
+  margin-left: 5%;
+  --aug-all-width: 170px;
+  color: #00bfff;
+  --reticle-color: currentColor;
+  --reticle-size: calc(var(--aug-all-width) * 0.25);
+  --aug-border-bg: radial-gradient(circle at top center,
+      var(--reticle-color) var(--reticle-size),
+      transparent var(--reticle-size)),
+    radial-gradient(circle at bottom 13.92% right 6.89%,
+      var(--reticle-color) var(--reticle-size),
+      transparent var(--reticle-size)),
+    radial-gradient(circle at bottom 13.92% left 6.89%,
+      var(--reticle-color) var(--reticle-size),
+      transparent var(--reticle-size));
+  transform-origin: 50% 56%;
+  transform: rotateZ(0deg);
+  transition: transform 0.75s ease-out, color 0.75s ease-out;
+  background: rgba(102, 51, 153, 0.25);
+}
 
 .listContainer {
   position: relative;
@@ -77,14 +76,17 @@
   color: #00bfff;
   padding: 10px 10px;
 }
-.listItem{
-    padding: 2px;
-    color: white;
+
+.listItem {
+  padding: 2px;
+  color: white;
 }
-.list{
-    padding: 10px;
+
+.list {
+  padding: 10px;
 }
-.writer{
+
+.writer {
   display: inline-block;
 }
 
@@ -99,6 +101,7 @@
   margin: 20px;
   transform: translateZ(0px);
 }
+
 .borch span {
   font-family: sans-serif;
   font-size: 1.125em;
@@ -109,43 +112,46 @@
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
-  
+
 }
-.Download{
+
+.Download {
   width: 20px;
   height: 20px;
 }
-.Story{
+
+.Story {
   padding: 10px 20px;
   font-size: 12px;
   justify-content: center;
 }
-.title{
+
+.title {
   font-size: 20px;
 }
+
 .landing {
   margin-top: 20%;
   width: 300px;
-aspect-ratio: 1 / 1;
---aug-border: initial;
---aug-border-bg: linear-gradient(
-  to bottom right,
-  rgb(0, 72, 255),
-  rgb(0, 85, 128)
-);
---aug-border-all: 5px;
---aug-clip-tl1: initial;
---aug-round-tr1: initial;
---aug-clip-br1: initial;
---aug-clip-bl1: initial;
---aug-tl1: 20px;
---aug-tr1: 20px;
---aug-br1: 20px;
---aug-bl1: 20px;
+  aspect-ratio: 1 / 1;
+  --aug-border: initial;
+  --aug-border-bg: linear-gradient(to bottom right,
+      rgb(0, 72, 255),
+      rgb(0, 85, 128));
+  --aug-border-all: 5px;
+  --aug-clip-tl1: initial;
+  --aug-round-tr1: initial;
+  --aug-clip-br1: initial;
+  --aug-clip-bl1: initial;
+  --aug-tl1: 20px;
+  --aug-tr1: 20px;
+  --aug-br1: 20px;
+  --aug-bl1: 20px;
 }
-.arrow{
-   width: 70px;
-   height: 70px;
-   padding-left: 5px;
-  
+
+.arrow {
+  width: 70px;
+  height: 70px;
+  padding-left: 5px;
+
 }

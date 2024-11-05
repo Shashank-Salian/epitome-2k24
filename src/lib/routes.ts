@@ -1,6 +1,6 @@
 export const protectedRoutes = [
     "/dashboard",
-    "/event",
+    "/events",
     "/payment"
 ];
 

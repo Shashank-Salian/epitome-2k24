@@ -4,7 +4,6 @@ import { NextResponse } from "next/server";
 import uniqid from "uniqid"
 import sha256 from "sha256"
 import axios from "axios"
-import { redirect } from "next/dist/server/api-utils";
 
 export async function eventPayment(props: any) {
     console.log("Payment_Props", props)
@@ -27,10 +26,12 @@ export async function eventPayment(props: any) {
             }
         }
 
+        console.log("\nPayment_Payload : ", payload)
         // SHA256(base64 encoded payload + “/pg/v1/pay” +
         //     salt key) + ### + salt index
         const EncodedPayload = Buffer.from(JSON.stringify(payload) + API_ENDPOINT + process.env.PHONEPE_SALT_KEY).toString("base64")
         const xVerify = sha256(EncodedPayload) + "###" + process.env.PHONEPE_SALT_INDEX
+        console.log("\nPayment_Encode : ", { EncodedPayload, xVerify })
 
         // const options = {
         //     method: 'post',
