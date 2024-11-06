@@ -5,11 +5,8 @@ import useUserStore from "@/store/useUserStore";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
-// import Container from "@/containers/Container/Container";
-// import { getUserByEmail } from "@/app/actions/UserActions";
 import { ChevronDown, User2Icon } from 'lucide-react'
 import ButtonUI from "./ButtonUI";
-import axios from "axios";
 
 const AUTH_ROUTES = ["/login", "/register", "/forgot-password", "/reset-password"];
 const PUBLIC_ROUTES = [...AUTH_ROUTES, "/", "/about", "/commitee"]
@@ -48,15 +45,20 @@ const Header = () => {
   // User Data Fetching
   const { data: userData } = useQuery({
     queryKey: ["user", session?.user?.email],
-    // queryFn: () => session?.user?.email ? getUserByEmail(session.user.email) : null,
     queryFn: async () => {
-      const res = await axios.post("/api/post/user", { email: session?.user?.email })
-      console.log(res)
-      return res.data
+      const res = await fetch("/api/post/user", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email: session?.user?.email })
+      });
+
+      const data = await res.json();
+      return data;
     },
     enabled: !!session?.user?.email,
   });
-
   // Update User Store
   useEffect(() => {
     if (userData && 'uid' in userData && user?.uid !== userData.uid) {
