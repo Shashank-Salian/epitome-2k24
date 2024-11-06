@@ -193,7 +193,7 @@ class ModelAssetManager implements CustomLoader {
         this.scalingFactor.max
       ) - 1;
 
-    const posFactorX = ClientDims.width / this.positionFactor.x.screen;
+    // const posFactorX = ClientDims.width / this.positionFactor.x.screen;
 
     if (this.scene) {
       this.scene.scale.set(
@@ -202,7 +202,7 @@ class ModelAssetManager implements CustomLoader {
         this.scale.y + curFactor
       );
 
-      this.scene.position.setX(this.position.x + posFactorX);
+      //   this.scene.position.setX(this.position.x + posFactorX);
 
       if (this.onResize) this.onResize();
     }

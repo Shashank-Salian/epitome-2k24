@@ -11,14 +11,16 @@ type Props = {
 
 const Event = ({ intersecting }: Props) => {
   const [curEventIndex, setCurEventIndex] = useState(0);
-  const doneAdding = useRef(false);
+  const observerRef = useRef<HTMLButtonElement>(null);
 
   const onNextClick = () => {
+    if (EventsRayCaster.transitioning) return;
     EventsRayCaster.moveEvent();
     setCurEventIndex((prev) => (prev + 1) % EventList.length);
   };
 
   const onPreviousClick = () => {
+    if (EventsRayCaster.transitioning) return;
     EventsRayCaster.moveEvent(false);
     setCurEventIndex(
       (prev) => (prev - 1 + EventList.length) % EventList.length
@@ -26,14 +28,20 @@ const Event = ({ intersecting }: Props) => {
   };
 
   useEffect(() => {
-    if (intersecting && !doneAdding.current) {
-      doneAdding.current = true;
-      EventsRayCaster.moveEvent();
-    }
-  }, [intersecting]);
+    const iObserver = new IntersectionObserver((entities) => {
+      entities.forEach((entity) => {
+        if (entity.isIntersecting) {
+          EventsRayCaster.moveEvent(true, true);
+        } else {
+          EventsRayCaster.removeEvents();
+        }
+      });
+    });
+    if (observerRef.current) iObserver.observe(observerRef.current);
+  }, []);
 
   return (
-    <div className="mt-12 w-6/12 max-w-screen-md">
+    <div className="mt-12 w-full lg:w-6/12 lg:max-w-screen-md">
       <h1 className="font-iceland text-6xl font-bold">
         {EventList[curEventIndex].title}
       </h1>
@@ -46,22 +54,27 @@ const Event = ({ intersecting }: Props) => {
         through a series of tech-oriented tasks.
       </p>
       <div className="flex justify-end mt-8">
-        <button className="font-iceland text-2xl border-2 border-[#0048FF] px-9 py-1">
+        <button
+          className="font-iceland text-2xl border-2 border-[#0048FF] px-9 py-1"
+          ref={observerRef}
+        >
           Challenge Me
         </button>
       </div>
 
       <div className="flex justify-around mt-8">
         <button
-          className="font-iceland text-2xl border-2 border-[#0048FF] px-9 py-1"
+          className="font-iceland text-2xl px-10 py-3"
           onClick={onPreviousClick}
+          data-augmented-ui="bl-clip tr-clip border"
         >
           Previous Challenge
         </button>
 
         <button
-          className="font-iceland text-2xl border-2 border-[#0048FF] px-9 py-1"
+          className="font-iceland text-2xl px-9 py-1"
           onClick={onNextClick}
+          data-augmented-ui="bl-clip tr-clip border"
         >
           Next Challenge
         </button>

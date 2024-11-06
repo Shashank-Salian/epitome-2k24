@@ -11,7 +11,11 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { initStars } from "./Models/Stars";
 import { HDRAssetManager } from "./AssetsManager/AssetManager";
 import GlobalLoader from "./AssetsManager/GlobalLoader";
-import { EventsRayCaster, initEventsModel } from "./Models/EventsModel";
+import {
+  EventsRayCaster,
+  initEventsModel,
+  updateCurvePath,
+} from "./Models/EventsModel";
 
 import EventList from "@/utils/EventList";
 
@@ -26,10 +30,10 @@ const effectComposer = new EffectComposer(SceneSetup.renderer);
 effectComposer.addPass(postRenderPass);
 
 // Controls
-// const controls = new OrbitControls(
-//   SceneSetup.camera,
-//   SceneSetup.renderer.domElement
-// );
+const controls = new OrbitControls(
+  SceneSetup.camera,
+  SceneSetup.renderer.domElement
+);
 
 const nightHdr = new HDRAssetManager("/3D/hdr/night.hdr", () => {
   SceneSetup.scene.environment = nightHdr.texture;
@@ -63,7 +67,12 @@ SceneSetup.renderer.setAnimationLoop(animate);
 function onResize() {
   SceneSetup.update();
 
-  EventsRayCaster.eventsModels.forEach((asset) => asset.updateResizeFactor());
+  updateCurvePath();
+
+  EventsRayCaster.eventsModels.forEach((asset) => {
+    console.log("resizing...");
+    asset.updateResizeFactor();
+  });
 
   effectComposer.setSize(ClientDims.width, ClientDims.height);
 }
