@@ -70,7 +70,6 @@ function onResize() {
   updateCurvePath();
 
   EventsRayCaster.eventsModels.forEach((asset) => {
-    console.log("resizing...");
     asset.updateResizeFactor();
   });
 

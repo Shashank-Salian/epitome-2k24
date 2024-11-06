@@ -13,17 +13,14 @@ const ThreeLoader = ({ onProgress }: Props) => {
   // const {updateLoadingProgress} = useLoader()
 
   useEffect(() => {
-    console.log("RUNNING USE EFFECT");
     if (GlobalLoader.loadingState === LoadingState.IDLE) {
       GlobalLoader.onProgressChange = onProgress;
-
-      console.log("USE EFFECT");
 
       GlobalLoader.loadFirst().then(() =>
         console.log("Finished Loading everything")
       );
     }
-    return () => { };
+    return () => {};
   }, [onProgress]);
 
   return <></>;
