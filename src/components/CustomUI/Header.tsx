@@ -71,7 +71,7 @@ const Header = () => {
     // <Container parentClassName="!h-fit">
     <header
       data-augmented-ui="br-2-clip-y bl-2-clip-y"
-      className="styleme sticky top-0 flex justify-between items-center mx-8 px-10 py-3 bg-background/30 z-10 backdrop-blur-md">
+      className="styleme sticky top-0 w-full flex justify-between items-center inset-x-10 px-10 py-3 bg-background/30 z-10 backdrop-blur-md">
       <Link href="/">
         <h1 className="text-[1.5em] font-beyonders">LOGO</h1>
       </Link>

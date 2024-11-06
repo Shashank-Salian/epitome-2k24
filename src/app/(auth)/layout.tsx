@@ -7,7 +7,7 @@ export default function Layout({
     children: React.ReactNode;
 }>) {
     return (
-        <main className='px-8'>
+        <main className='w-full h-screen flex_center flex-col px-8'>
             <Header />
             {children}
         </main>
