@@ -30,7 +30,7 @@ export default function Home() {
         <LoadingScreen progress={loadingProgress} />
       ) : (
         <main className="w-full" style={{ scrollSnapType: "y mandatory" }}>
-          {/* <LandingHeader /> */}
+          {/* <Header /> */}
           <LandingPage />
           <Events />
         </main>

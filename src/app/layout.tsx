@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-// import { Oxanium, Big_Shoulders_Display, Iceland } from "next/font/google";
 import "./globals.css";
 import ThreeComp from "@/threeWorks/components/ThreeComp";
 import Provider from "@/providers/Providers";
@@ -26,47 +25,74 @@ const poppins = localFont({
       style: "normal",
     },
   ],
+  preload: true,
   display: "swap",
   variable: "--Poppins",
 });
 
 const valorant = localFont({
   src: "../assets/fonts/valorant.woff2",
+  preload: true,
   display: "swap",
   variable: "--Valorant",
 });
 
 const beyonders = localFont({
   src: "../assets/fonts/beyonders.woff2",
+  preload: true,
   display: "swap",
   variable: "--Beyonders",
 });
 
 const spaceAge = localFont({
-  src: "../assets/fonts/spaceage.ttf",
+  src: "../assets/fonts/spaceage.woff2",
+  preload: true,
   display: "swap",
   variable: "--SpaceAge",
 });
 
-// const oxanium = Oxanium({
-//   weight: ["400", "700"],
-//   preload: true,
-//   display: "swap",
-//   subsets: ["latin"],
-//   variable: "--Oxanium",
-// });
+const oxanium = localFont({
+  src: [
+    {
+      path: "../assets/fonts/Oxanium-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../assets/fonts/Oxanium-Bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  preload: true,
+  display: "swap",
+  variable: "--Oxanium",
+});
 
-// const bsd = Big_Shoulders_Display({
-//   weight: ["400", "700"],
-//   subsets: ["latin"],
-//   variable: "--Bsd",
-// });
+const bsd = localFont({
+  src: [
+    {
+      path: "../assets/fonts/BigShouldersDisplay-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../assets/fonts/BigShouldersDisplay-Bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  preload: true,
+  display: "swap",
+  variable: "--Bsd",
+});
 
-// const iceland = Iceland({
-//   weight: ["400"],
-//   subsets: ["latin"],
-//   variable: "--Iceland",
-// });
+const iceland = localFont({
+  src: "../assets/fonts/Iceland-Regular.woff2",
+  preload: true,
+  display: "swap",
+  variable: "--Iceland",
+});
 
 const TITLE = "Epitome | AIMIT IT Fest 2024";
 const DESCRIPTION = "some_description";
@@ -158,11 +184,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.variable} ${valorant.variable} ${beyonders.variable} ${spaceAge.variable} bg-blueGradient text-foreground`}
+        className={`${poppins.variable} ${valorant.variable} ${oxanium.variable} ${beyonders.variable} ${spaceAge.variable} ${bsd.variable} ${iceland.variable} bg-blueGradientAlt text-foreground`}
       >
-        {/* 
-        className={`${poppins.variable} ${valorant.variable} ${oxanium.variable} ${beyonders.variable} ${spaceAge.variable} ${bsd.variable} ${iceland.variable} bg-background text-foreground`}
-         */}
         <Provider>{children}</Provider>
 
         {/* <ThreeComp /> */}

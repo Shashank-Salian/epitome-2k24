@@ -5,10 +5,11 @@ import useUserStore from "@/store/useUserStore";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
-import Container from "@/containers/Container/Container";
-import { getUserByEmail } from "@/app/actions/UserActions";
+// import Container from "@/containers/Container/Container";
+// import { getUserByEmail } from "@/app/actions/UserActions";
 import { ChevronDown, User2Icon } from 'lucide-react'
 import ButtonUI from "./ButtonUI";
+import axios from "axios";
 
 const AUTH_ROUTES = ["/login", "/register", "/forgot-password", "/reset-password"];
 const PUBLIC_ROUTES = [...AUTH_ROUTES, "/", "/about", "/commitee"]
@@ -47,7 +48,12 @@ const Header = () => {
   // User Data Fetching
   const { data: userData } = useQuery({
     queryKey: ["user", session?.user?.email],
-    queryFn: () => session?.user?.email ? getUserByEmail(session.user.email) : null,
+    // queryFn: () => session?.user?.email ? getUserByEmail(session.user.email) : null,
+    queryFn: async () => {
+      const res = await axios.post("/api/post/user", { email: session?.user?.email })
+      console.log(res)
+      return res.data
+    },
     enabled: !!session?.user?.email,
   });
 
@@ -62,53 +68,53 @@ const Header = () => {
   }, [userData, session?.user?.accessToken, user, setUser]);
 
   return (
-    <Container>
-      <header
-        data-augmented-ui="br-2-clip-y bl-2-clip-y"
-        className="styleme sticky top-0 w-full flex justify-between items-center px-10 py-3 bg-background/30 z-10 backdrop-blur-md">
-        <Link href="/">
-          <h1 className="text-[1.5em] font-beyonders">LOGO</h1>
-        </Link>
+    // <Container parentClassName="!h-fit">
+    <header
+      data-augmented-ui="br-2-clip-y bl-2-clip-y"
+      className="styleme sticky top-0 flex justify-between items-center mx-8 px-10 py-3 bg-background/30 z-10 backdrop-blur-md">
+      <Link href="/">
+        <h1 className="text-[1.5em] font-beyonders">LOGO</h1>
+      </Link>
 
-        <nav className="flex_center gap-6">
-          {status === "authenticated" ?
-            PROTECTED_NAV_LINKS.map(({ href, label }) => (
-              <Link
-                key={label}
-                href={href}
-                className="text-[1.25em]"
-              >
-                {label}
-              </Link>
-            ))
-            :
-            PUBLIC_NAV_LINKS.map(({ href, label }) => (
-              <Link
-                key={label}
-                href={href}
-                className="text-[1.25em]"
-              >
-                {label}
-              </Link>
-            ))
-          }
-
-          {!user?.username ? (
-            <Link href="/login" className="ml-4">
-              <ButtonUI value="LOGIN" />
+      <nav className="flex_center gap-6">
+        {status === "authenticated" ?
+          PROTECTED_NAV_LINKS.map(({ href, label }) => (
+            <Link
+              key={label}
+              href={href}
+              className="text-[1.25em]"
+            >
+              {label}
             </Link>
-          ) : (
-            <div className="clip_Btn flex_center gap-4 bg-primary px-2 rounded-md">
-              <div className="flex_center rounded-full bg-background/20 p-3">
-                <User2Icon size={25} />
-              </div>
-              <span>Welcome {user.username}!</span>
-              <ChevronDown />
+          ))
+          :
+          PUBLIC_NAV_LINKS.map(({ href, label }) => (
+            <Link
+              key={label}
+              href={href}
+              className="text-[1.25em]"
+            >
+              {label}
+            </Link>
+          ))
+        }
+
+        {!user?.username ? (
+          <Link href="/login" className="ml-4">
+            <ButtonUI value="LOGIN" />
+          </Link>
+        ) : (
+          <div className="clip_Btn flex_center gap-4 bg-primary px-2 rounded-md">
+            <div className="flex_center rounded-full bg-background/20 p-3">
+              <User2Icon size={25} />
             </div>
-          )}
-        </nav>
-      </header>
-    </Container>
+            <span>Welcome {user.username}!</span>
+            <ChevronDown />
+          </div>
+        )}
+      </nav>
+    </header>
+    // </Container>
   );
 };
 
