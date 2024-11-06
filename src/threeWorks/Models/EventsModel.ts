@@ -305,7 +305,7 @@ class EventsRayCaster {
     const movingObj = EventsRayCaster.listenObjects.children[0];
 
     let progress = 0;
-    const speed = 2.2;
+    const speed = 4;
     const animFunc = () => {
       const delta = SceneSetup.clock.getDelta();
       progress += speed * delta;

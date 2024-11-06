@@ -13,6 +13,7 @@ type EventType = {
   }[];
   rules: string[];
   modelName: string;
+  description: string;
 }[];
 
 const EventList: EventType = [
@@ -34,6 +35,8 @@ const EventList: EventType = [
       "Systems will be provided without internet connection.",
     ],
     modelName: "coding.glb",
+    description:
+      "A simulation of real-world business challenges, where participants showcase their management, leadership, and decision-making skills through a series of tech-oriented tasks.",
   },
   {
     title: "Quasar Invictus",
@@ -59,6 +62,8 @@ const EventList: EventType = [
       "Participants are required to bring their personal laptops.",
     ],
     modelName: "it_manager.glb",
+    description:
+      "A simulation of real-world business challenges, where participants showcase their management, leadership, and decision-making skills through a series of tech-oriented tasks.",
   },
   {
     title: "Matrix Minds",
@@ -84,6 +89,8 @@ const EventList: EventType = [
       "The quiz will be based on the current events in the IT Sector.",
     ],
     modelName: "quiz.glb",
+    description:
+      "A simulation of real-world business challenges, where participants showcase their management, leadership, and decision-making skills through a series of tech-oriented tasks.",
   },
   {
     title: "Cosmic Webcraft",
@@ -108,6 +115,8 @@ const EventList: EventType = [
       "The competition will consist of multiple rounds. The details of each round, such as time limits and tasks, will be provided at the beginning of each round.",
     ],
     modelName: "webdev_new.glb",
+    description:
+      "A simulation of real-world business challenges, where participants showcase their management, leadership, and decision-making skills through a series of tech-oriented tasks.",
   },
   {
     title: "Rhythmic Resonance",
@@ -138,6 +147,8 @@ const EventList: EventType = [
       "Judges decision is final.",
     ],
     modelName: "dance.glb",
+    description:
+      "A simulation of real-world business challenges, where participants showcase their management, leadership, and decision-making skills through a series of tech-oriented tasks.",
   },
   {
     title: "Battle of the Bytes",
@@ -164,6 +175,8 @@ const EventList: EventType = [
       "In case of a tie, an additional 2-minute round will be held where both teams make closing arguments on a key point of contention.",
     ],
     modelName: "debate.glb",
+    description:
+      "A simulation of real-world business challenges, where participants showcase their management, leadership, and decision-making skills through a series of tech-oriented tasks.",
   },
   {
     title: "Cosmic Creatives",
@@ -194,6 +207,8 @@ const EventList: EventType = [
       "Judges decision are final.",
     ],
     modelName: "mad_ads.glb",
+    description:
+      "A simulation of real-world business challenges, where participants showcase their management, leadership, and decision-making skills through a series of tech-oriented tasks.",
   },
 ];
 
@@ -201,10 +216,10 @@ export default EventList;
 
 // Event Register List
 export type EventRegType = {
-  title: string,
-  category: string,
-  participants: number,
-}
+  title: string;
+  category: string;
+  participants: number;
+};
 
 export const eventRegisterList: EventRegType[] = [
   {
@@ -266,5 +281,5 @@ export const eventRegisterList: EventRegType[] = [
     title: "Surprise Event",
     category: "Surprise",
     participants: 2,
-  }
-]
+  },
+];
