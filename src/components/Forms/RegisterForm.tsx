@@ -3,18 +3,11 @@ import { FormEvent, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { signIn } from 'next-auth/react'
-import { registerUser } from '@/app/actions/UserActions'
 
 import Input from '../CustomUI/Input'
 import toast from 'react-hot-toast'
 import { Button } from '../ui/button'
 import { Loader2Icon, UserPlusIcon } from 'lucide-react'
-
-type ResponseType = {
-    status: number,
-    message: string,
-}
-
 
 const RegisterForm = () => {
     const [username, setUsername] = useState<string>("")
@@ -58,6 +51,7 @@ const RegisterForm = () => {
 
             if (res?.status === 201) {
                 const data = await res.json()
+
                 toast.success(data?.message, {
                     id: SignupToastID
                 })

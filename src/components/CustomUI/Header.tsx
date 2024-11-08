@@ -5,8 +5,6 @@ import useUserStore from "@/store/useUserStore";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
-// import Container from "@/containers/Container/Container";
-// import { getUserByEmail } from "@/app/actions/UserActions";
 import { ChevronDown, User2Icon } from 'lucide-react'
 import ButtonUI from "./ButtonUI";
 
@@ -68,7 +66,6 @@ const Header = () => {
     },
     enabled: !!session?.user?.email,
   });
-
   // Update User Store
   useEffect(() => {
     if (userData && 'uid' in userData && user?.uid !== userData.uid) {
