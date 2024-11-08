@@ -13,7 +13,6 @@ export interface EventRegProp {
     setTotalParticipants: (value: number) => void
 }
 
-
 const useEventRegister = create<EventRegProp>((set) => ({
     selectedEvents: [],
     setSelectedEvents: (event: EventRegType[] | []) => set({ selectedEvents: event }),

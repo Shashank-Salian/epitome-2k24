@@ -47,7 +47,7 @@ const EventSelector = () => {
 }
 
 const EventButton = ({ event }: EventButtonProp) => {
-    const { selectedEvents, setSelectedEvents, totalParticipants, setTotalParticipants } = useEventRegister()
+    const { selectedEvents, setSelectedEvents, totalParticipants, setTotalParticipants, setDisplayForm } = useEventRegister()
 
     const isSelected = useMemo(() =>
         selectedEvents?.some(item => event.title === item.title),
@@ -55,6 +55,8 @@ const EventButton = ({ event }: EventButtonProp) => {
     )
 
     const handleEventSelection = useCallback(() => {
+        setDisplayForm(false)
+
         if (isSelected) {
             setSelectedEvents(selectedEvents?.filter(item => item.title !== event.title) || null)
             setTotalParticipants(totalParticipants - event.participantCount)
@@ -66,7 +68,7 @@ const EventButton = ({ event }: EventButtonProp) => {
             setSelectedEvents([...(selectedEvents || []), event])
             setTotalParticipants(totalParticipants + event.participantCount)
         }
-    }, [isSelected, selectedEvents, event, setSelectedEvents])
+    }, [isSelected, selectedEvents, event, totalParticipants, setSelectedEvents, setDisplayForm, setTotalParticipants])
 
     return (
         <Button

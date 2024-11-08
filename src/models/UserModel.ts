@@ -6,7 +6,7 @@ const ParticipantsSchema = new Schema({
         trim: true,
     },
     phone: {
-        type: Number,
+        type: String,
         trim: true,
         unique: true,
         sparse: true,
@@ -17,6 +17,10 @@ const EventsSchema = new Schema({
     EventName: {
         type: String,
         trim: true,
+    },
+    EventType: {
+        type: String,
+        trim: true
     },
     participants: [ParticipantsSchema]
 })

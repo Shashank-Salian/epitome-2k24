@@ -16,7 +16,7 @@ interface InputProps {
     onChange?: React.ChangeEventHandler<HTMLInputElement>
 }
 
-const Input = ({ label, type = "text", name = "", placeholder, className = "", required = false, setValue, ref, onChange }: InputProps) => {
+const Input = ({ label, type = "text", name = "", placeholder, className = "", required = false, value, setValue, ref, onChange }: InputProps) => {
     const [showPassword, setShowPassword] = useState<boolean>(false)
 
     return (
@@ -31,6 +31,7 @@ const Input = ({ label, type = "text", name = "", placeholder, className = "", r
                     type={showPassword ? "text" : type}
                     placeholder={placeholder}
                     required={required}
+                    defaultValue={value || ""}
                     onChange={onChange ? onChange : (e) => setValue && setValue(e.target.value)}
                     pattern={type === "tel" ? "[6789][0-9]{9}" : undefined}
                     ref={ref}

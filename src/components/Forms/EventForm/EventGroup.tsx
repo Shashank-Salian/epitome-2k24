@@ -19,7 +19,7 @@ const EventGroup = ({ eventName, participants = 2 }: Props) => {
                 <span>{eventName}</span>
 
                 {Array.from({ length: participants }).map((_, index) => (
-                    <EventField key={index} index={index} eventName={eventName} participants={participants} />
+                    <EventField key={index} index={index} eventName={eventName} />
                 ))}
             </div>
         );
