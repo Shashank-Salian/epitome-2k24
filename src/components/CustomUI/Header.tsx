@@ -46,15 +46,22 @@ const Header = () => {
   const { data: userData } = useQuery({
     queryKey: ["user", session?.user?.email],
     queryFn: async () => {
+      if (!session?.user?.email) return null;
+
       const res = await fetch("/api/post/user", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email: session?.user?.email })
+        body: JSON.stringify({ email: session.user.email }),
       });
 
+      if (res.status !== 200) {
+        throw new Error("Network response was not ok");
+      }
+
       const data = await res.json();
+      console.log("UserData:", data);
       return data;
     },
     enabled: !!session?.user?.email,
@@ -73,7 +80,7 @@ const Header = () => {
     // <Container parentClassName="!h-fit">
     <header
       data-augmented-ui="br-2-clip-y bl-2-clip-y"
-      className="styleme sticky top-0 w-full flex justify-between items-center inset-x-10 px-10 py-3 bg-background/30 z-10 backdrop-blur-md">
+      className="styleme sticky w-full top-0 flex justify-between items-center px-10 py-3 bg-background/30 z-10 backdrop-blur-md">
       <Link href="/">
         <h1 className="text-[1.5em] font-beyonders">LOGO</h1>
       </Link>

@@ -35,10 +35,10 @@ const RegisterForm = () => {
         setIsLoading(true)
 
         try {
-            const res = await fetch("api/post/registerUser", {
+            const res = await fetch("/api/post/registerUser", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
                     username,
@@ -46,12 +46,12 @@ const RegisterForm = () => {
                     phone,
                     email,
                     password
-                })
-            })
+                }),
+            });
 
-            const data = await res.json()
+            if (res?.status === 201) {
+                const data = await res.json()
 
-            if (data?.status === 201) {
                 toast.success(data?.message, {
                     id: SignupToastID
                 })
