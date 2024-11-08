@@ -9,10 +9,7 @@ import { ClientDims, throttle, UPDATE_FUNCS } from "./utils";
 // Just for dev
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { initStars } from "./Models/Stars";
-import {
-  HDRAssetManager,
-  ModelAssetManager,
-} from "./AssetsManager/AssetManager";
+import { HDRAssetManager } from "./AssetsManager/AssetManager";
 import GlobalLoader from "./AssetsManager/GlobalLoader";
 import {
   EventsRayCaster,
@@ -21,6 +18,7 @@ import {
 } from "./Models/EventsModel";
 
 import EventList from "@/utils/EventList";
+import { SpaceShip } from "./Models/SpaceShip";
 
 // Setup Scene
 SceneSetup.initialize();
@@ -32,16 +30,13 @@ const postRenderPass = new RenderPass(SceneSetup.scene, SceneSetup.camera);
 const effectComposer = new EffectComposer(SceneSetup.renderer);
 effectComposer.addPass(postRenderPass);
 
-const cockPit = new ModelAssetManager("/3D/CockPit.glb");
-GlobalLoader.pushFirst(cockPit);
-
-cockPit.setPosition(0, 0, -1);
+SpaceShip.init();
 
 // Controls
-const controls = new OrbitControls(
-  SceneSetup.camera,
-  SceneSetup.renderer.domElement
-);
+// const controls = new OrbitControls(
+//   SceneSetup.camera,
+//   SceneSetup.renderer.domElement
+// );
 
 const nightHdr = new HDRAssetManager("/3D/hdr/night.hdr", () => {
   SceneSetup.scene.environment = nightHdr.texture;
