@@ -68,10 +68,7 @@ class GlobalLoader {
 
     GlobalLoader.firstPriorLoaders[i].progress = percent;
 
-    // console.log(`Percent : ${percent}`);
-
     throttle(GlobalLoader.updateGlobalProgress, 100)();
-    // GlobalLoader.updateGlobalProgress();
   }
 
   static updateGlobalProgress() {

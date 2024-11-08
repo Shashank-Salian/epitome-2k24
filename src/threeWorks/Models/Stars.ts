@@ -9,13 +9,13 @@ import {
 } from "postprocessing";
 
 import SceneSetup from "../SceneSetup";
-import { randomInRange, randomSelect } from "../utils";
+import { pushAnimationFrame, randomInRange, randomSelect } from "../utils";
 
 const BLOOM_LAYER = 2;
 const starColors = [0xffffff, 0xe9d14c, 0x3ab9eb, 0xe73c92];
 
 function initStars(composer: EffectComposer) {
-  const stars = [];
+  const stars = new THREE.Group();
   const coloredStars = [];
 
   SceneSetup.camera.layers.enable(BLOOM_LAYER);
@@ -39,7 +39,7 @@ function initStars(composer: EffectComposer) {
   const effectPass = new EffectPass(SceneSetup.camera, bloomEffect);
   composer.addPass(effectPass);
 
-  for (let i = 0; i < 250; ++i) {
+  for (let i = 0; i < 300; ++i) {
     const geometry = new THREE.SphereGeometry(randomInRange(0.2, 0.6), 32, 32);
 
     let color = new THREE.Color(starColors[0]);
@@ -52,10 +52,10 @@ function initStars(composer: EffectComposer) {
     });
     const sphere = new THREE.Mesh(geometry, material);
 
-    sphere.position.x = randomInRange(-400, 400);
+    sphere.position.x = randomInRange(-350, 350);
     sphere.position.y = randomInRange(-200, 200);
 
-    sphere.position.z = randomInRange(-100, -300);
+    sphere.position.z = randomInRange(-100, -400);
 
     // Scale it up a bit
     sphere.scale.x = sphere.scale.y = 2;
@@ -73,8 +73,8 @@ function initStars(composer: EffectComposer) {
 
     bloomEffect.selection.add(sphere);
 
-    SceneSetup.scene.add(sphere);
-    stars.push(sphere);
+    // SceneSetup.scene.add(sphere);
+    stars.add(sphere);
   }
 
   const rayEffectStars = randomSelect(coloredStars, 0.3);
@@ -82,15 +82,17 @@ function initStars(composer: EffectComposer) {
   rayEffectStars.forEach((star) => {
     const godRays = new GodRaysEffect(SceneSetup.camera, star, {
       blur: false,
-      density: 0.7,
+      density: 0.98,
       decay: 0.92,
-      weight: 0.5,
+      weight: 0.7,
       exposure: 0.7,
     });
 
     const effectPass = new EffectPass(SceneSetup.camera, godRays);
     composer.addPass(effectPass);
   });
+
+  SceneSetup.scene.add(stars);
 
   return stars;
 }

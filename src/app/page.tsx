@@ -10,9 +10,6 @@ import NoSSR from "@/components/NoSSR/NoSSR";
 import useLoader from "@/store/useLoader";
 import LoadingScreen from "@/threeWorks/components/LoadingScreen/LoadingScreen";
 
-const Events = dynamic(() => import("@/containers/Events/Events"), {
-  ssr: false,
-});
 const LandingPage = dynamic(
   () => import("@/containers/LandingPage/LandingPage"),
   {
@@ -29,13 +26,13 @@ export default function Home() {
       {isInitialLoad && !loadingCompleted ? (
         <LoadingScreen progress={loadingProgress} />
       ) : (
-        <main className="w-full" style={{ scrollSnapType: "y mandatory" }}>
-          {/* <Header /> */}
-          <LandingPage />
-          <Events />
-        </main>
+        <>
+          <main className="w-full" style={{ scrollSnapType: "y mandatory" }}>
+            {/* <LandingHeader /> */}
+            <LandingPage />
+          </main>
+        </>
       )}
-      <ThreeComp />
     </>
   );
 }

@@ -5,8 +5,7 @@ import ThreeComp from "@/threeWorks/components/ThreeComp";
 import Provider from "@/providers/Providers";
 import Cursor from "@/components/CustomUI/Cursor";
 import "./globals.css";
-import "../../node_modules/augmented-ui/augmented-ui.min.css";
-
+import "augmented-ui";
 
 const poppins = localFont({
   src: [
@@ -188,8 +187,7 @@ export default function RootLayout({
         className={`${poppins.variable} ${valorant.variable} ${oxanium.variable} ${beyonders.variable} ${spaceAge.variable} ${bsd.variable} ${iceland.variable} bg-blueGradientAlt text-foreground`}
       >
         <Provider>{children}</Provider>
-
-        {/* <ThreeComp /> */}
+        <ThreeComp />
         {/* <Cursor /> */}
       </body>
     </html>
