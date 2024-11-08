@@ -36,7 +36,9 @@ function Glitch({ text, glitchChars = "!@#$%^&*()", glitchDuration = 100, pauseD
     return () => clearTimeout(timeout);
   }, [text, glitchChars, glitchDuration, pauseDuration, isGlitching]);
 
-  return <span className="inline-block" >{displayedText}</span>;
+  return <span className="inline-block">{displayedText}</span>;
 }
 
 export default Glitch;
+
+

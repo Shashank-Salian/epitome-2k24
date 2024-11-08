@@ -8,16 +8,16 @@ const ThreeLoader = dynamic(() => import("./ThreeLoader"), {
 });
 
 const ThreeComp = () => {
-  const { setLoadingCompleted, updateLoadingProgress } = useLoader()
+  const { setLoadingCompleted, updateLoadingProgress } = useLoader();
 
   const onProgress = (progress: number) => {
     if (progress === 100) {
       setTimeout(() => {
-        setLoadingCompleted(true)
+        setLoadingCompleted(true);
       }, 1600);
     }
 
-    updateLoadingProgress(progress)
+    updateLoadingProgress(progress);
   };
 
   return (

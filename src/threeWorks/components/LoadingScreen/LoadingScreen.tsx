@@ -25,16 +25,16 @@ const LoadingScreen = ({ progress }: Props) => {
 
   return (
     <div
-      className={`fixed top-0 left-0 w-dvw h-dvh flex justify-center items-center flex-col z-[100] select-none ${
+      className={`fixed top-0 left-0 w-dvw h-dvh flex justify-center items-center flex-col z-[100] select-none px-2 md:px-0 ${
         classes.container
       } ${progress === 100 ? classes.zoomIn : ""}`}
     >
       <div className="flex">
-        <h1 className="font-spaceAge text-8xl">LOADING</h1>
-        <p className="min-w-20 font-spaceAge text-8xl">{dots}</p>
+        <h1 className="font-spaceAge text-5xl lg:text-8xl">LOADING</h1>
+        <p className="min-w-20 font-spaceAge text-5xl lg:text-8xl">{dots}</p>
       </div>
 
-      <div className="w-full max-w-xl mx-2 h-4 rounded-2xl mt-7 bg-slate-500">
+      <div className="w-full max-w-xl h-4 rounded-2xl mt-7 bg-slate-500">
         <div
           className="bg-white h-full rounded-2xl"
           style={{ width: `${progress < 1 ? 4 : progress}%` }}

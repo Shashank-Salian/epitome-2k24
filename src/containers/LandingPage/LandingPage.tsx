@@ -1,16 +1,60 @@
 import React from "react";
 import Container from "@/containers/Container/Container";
 import style from "./LandingPage.module.css";
-import { useState, useEffect } from "react";
-import Typewriter from "./TypeWriter";
-import { STLExporter } from "three/examples/jsm/Addons.js";
+import { useState, useEffect, useRef } from "react";
+import Typewriter from "@/components/CustomUI/TypeWriter";
 import CountDown from "../../components/CustomUI/CountDown";
 import Glitch from "./Glitch";
 import Image from "next/image";
+// @ts-ignore
+import { PowerGlitch } from "powerglitch";
+import PageButtons from "./PageButtons/PageButtons";
 
 const LandingPage = () => {
+  const glitchRef = useRef(null);
+  const glitchRefs = useRef<HTMLDivElement[]>([]);
+
+  const addGlitchRef = (el: HTMLDivElement | null) => {
+    if (el && !glitchRefs.current.includes(el)) {
+      glitchRefs.current.push(el);
+    }
+  };
+
+  useEffect(() => {
+    glitchRefs.current.forEach((glitchRef) => {
+      if (glitchRef) {
+        PowerGlitch.glitch(glitchRef, {
+          playMode: "always",
+          createContainer: true,
+          timing: {
+            duration: 2000,
+            iterations: "Infinity",
+            easing: "ease-in-out",
+          },
+          glitchTimeSpan: { start: 0.4, end: 0.7 },
+          shake: { velocity: 20, amplitudeX: 0.02, amplitudeY: 0.02 },
+          slice: {
+            count: 6,
+            velocity: 15,
+            minHeight: 0.02,
+            maxHeight: 0.15,
+            hueRotate: true,
+          },
+          color: {
+            r: 0.1,
+            g: 0.3,
+            b: 0.1,
+            glitchTimeSpan: { start: 0.2, end: 0.5 },
+          },
+        });
+      }
+    });
+  }, []);
   return (
-    <Container parentClassName="landing-page-container">
+    <Container
+      parentClassName="landing-page-container"
+      className={style.Parent}
+    >
       <div className={style.Main}>
         <div className={style.Left}>
           <div className={style.Level}>
@@ -37,9 +81,21 @@ const LandingPage = () => {
             <div
               data-augmented-ui="all-hexangle-up border"
               className={style.reticle}
-            ></div>
+            >
+              <Image
+                src="/Icons/martian.jpg"
+                width={505}
+                height={525}
+                alt="Profile"
+                ref={addGlitchRef}
+              />
+            </div>
             {/* Player Info */}
-            <div className={style.listContainer}>
+            <div
+              className={style.listContainer}
+              data-augmented-ui
+              ref={addGlitchRef}
+            >
               <ul
                 data-augmented-ui="bl-clip tr-clip br-clip-x border"
                 className={style.list}
@@ -75,7 +131,7 @@ const LandingPage = () => {
                 </li>
                 Status
                 <li className={style.listItem}>
-                  <a>Twitter</a>
+                  <a>Surviving</a>
                 </li>
               </ul>
             </div>
@@ -88,9 +144,23 @@ const LandingPage = () => {
             <span>Brochure </span>
           </span>
         </div>
+        <div className={style.Middle}>
+          <Image
+            className={style.Img}
+            src="/Icons/Epitome.png"
+            width={825}
+            height={825}
+            alt="Epitome Logo"
+            ref={addGlitchRef}
+          />
+          <PageButtons />
+        </div>
         <div className={style.Right}>
-          <CountDown />
-          <div className={style.landing} data-augmented-ui>
+          <div className={style.watch}>
+            <CountDown />
+          </div>
+
+          <div className={style.landing} data-augmented-ui ref={addGlitchRef}>
             <div className={style.Story}>
               <h1 className={style.title}>Ecstacy</h1>
               <p>
@@ -108,7 +178,13 @@ const LandingPage = () => {
             className={style.arrow}
             data-augmented-ui="all-triangle-right border"
           >
-            <Image src="/Icons/play.png" width={55} height={0} alt="Trailer" />
+            <Image
+              src="/Icons/play.png"
+              width={50}
+              height={0}
+              alt="Trailer"
+              className={style.arrow_item1}
+            />
           </div>
           <div
             className={style.arrow}
@@ -116,9 +192,10 @@ const LandingPage = () => {
           >
             <Image
               src="/Icons/instagram.png"
-              width={90}
-              height={50}
+              width={30}
+              height={60}
               alt="instagram"
+              className={style.arrow_item2}
             />
           </div>
         </div>
