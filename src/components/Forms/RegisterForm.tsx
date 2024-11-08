@@ -9,7 +9,6 @@ import Input from '../CustomUI/Input'
 import toast from 'react-hot-toast'
 import { Button } from '../ui/button'
 import { Loader2Icon, UserPlusIcon } from 'lucide-react'
-import axios from 'axios'
 
 type ResponseType = {
     status: number,
@@ -43,23 +42,23 @@ const RegisterForm = () => {
         setIsLoading(true)
 
         try {
-            // const res = await registerUser({
-            //     username,
-            //     collegeName,
-            //     phone,
-            //     email,
-            //     password
-            // }) as ResponseType
-            const res = await axios.post("api/post/registerUser", {
-                username,
-                collegeName,
-                phone,
-                email,
-                password
-            })
+            const res = await fetch("/api/post/registerUser", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    username,
+                    collegeName,
+                    phone,
+                    email,
+                    password
+                }),
+            });
 
             if (res?.status === 201) {
-                toast.success(res?.data.message, {
+                const data = await res.json()
+                toast.success(data?.message, {
                     id: SignupToastID
                 })
 
