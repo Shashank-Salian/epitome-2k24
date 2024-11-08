@@ -11,7 +11,10 @@ import star from "/Icons/star.png";
 import ButtonUI from "@/components/CustomUI/ButtonUI";
 import { Button } from "@/components/ui/button";
 import { SquareArrowOutUpLeft } from "lucide-react";
-const PowerGlitch = require('powerglitch');
+// @ts-ignore
+import { PowerGlitch } from 'powerglitch';
+
+
 
 const LandingPage = () => {
   const glitchRef = useRef(null);
