@@ -9,7 +9,10 @@ import { ClientDims, throttle, UPDATE_FUNCS } from "./utils";
 // Just for dev
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { initStars } from "./Models/Stars";
-import { HDRAssetManager } from "./AssetsManager/AssetManager";
+import {
+  HDRAssetManager,
+  ModelAssetManager,
+} from "./AssetsManager/AssetManager";
 import GlobalLoader from "./AssetsManager/GlobalLoader";
 import {
   EventsRayCaster,
@@ -28,6 +31,11 @@ EventsRayCaster.init();
 const postRenderPass = new RenderPass(SceneSetup.scene, SceneSetup.camera);
 const effectComposer = new EffectComposer(SceneSetup.renderer);
 effectComposer.addPass(postRenderPass);
+
+const cockPit = new ModelAssetManager("/3D/CockPit.glb");
+GlobalLoader.pushFirst(cockPit);
+
+cockPit.setPosition(0, 0, -1);
 
 // Controls
 const controls = new OrbitControls(
@@ -58,6 +66,14 @@ function animate() {
   //   controls.update();
 
   UPDATE_FUNCS.forEach((f) => f());
+
+  for (let i = 0; i < stars.children.length; i++) {
+    const star = stars.children[i];
+
+    star.position.z += i / 100;
+
+    if (star.position.z > 100) star.position.z = -400;
+  }
 
   effectComposer.render(SceneSetup.clock.getDelta());
 }

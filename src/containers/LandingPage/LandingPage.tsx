@@ -2,7 +2,7 @@ import React from "react";
 import Container from "@/containers/Container/Container";
 import style from "./LandingPage.module.css";
 import { useState, useEffect } from "react";
-import Typewriter from "./TypeWriter";
+import Typewriter from "../../components/CustomUI/TypeWriter";
 import { STLExporter } from "three/examples/jsm/Addons.js";
 import CountDown from "../../components/CustomUI/CountDown";
 import Glitch from "./Glitch";

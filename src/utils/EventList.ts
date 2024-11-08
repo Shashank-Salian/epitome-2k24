@@ -36,7 +36,7 @@ const EventList: EventType = [
     ],
     modelName: "coding.glb",
     description:
-      "A simulation of real-world business challenges, where participants showcase their management, leadership, and decision-making skills through a series of tech-oriented tasks.",
+      "A thrilling fusion of logic, creativity, and precision, where minds tackle intricate algorithms and innovative problem-solving to push the boundaries of code and technology.",
   },
   {
     title: "Quasar Invictus",
