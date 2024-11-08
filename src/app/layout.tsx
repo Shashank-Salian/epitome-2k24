@@ -187,8 +187,7 @@ export default function RootLayout({
         className={`${poppins.variable} ${valorant.variable} ${oxanium.variable} ${beyonders.variable} ${spaceAge.variable} ${bsd.variable} ${iceland.variable} bg-blueGradientAlt text-foreground`}
       >
         <Provider>{children}</Provider>
-
-        {/* <ThreeComp /> */}
+        <ThreeComp />
         {/* <Cursor /> */}
       </body>
     </html>

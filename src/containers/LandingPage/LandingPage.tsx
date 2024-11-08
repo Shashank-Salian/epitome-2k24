@@ -3,16 +3,12 @@ import Container from "@/containers/Container/Container";
 import style from "./LandingPage.module.css";
 import { useState, useEffect, useRef } from "react";
 import Typewriter from "@/components/CustomUI/TypeWriter";
-import { STLExporter } from "three/examples/jsm/Addons.js";
 import CountDown from "../../components/CustomUI/CountDown";
 import Glitch from "./Glitch";
 import Image from "next/image";
-import star from "/Icons/star.png";
-import ButtonUI from "@/components/CustomUI/ButtonUI";
-import { Button } from "@/components/ui/button";
-import { SquareArrowOutUpLeft } from "lucide-react";
 // @ts-ignore
 import { PowerGlitch } from "powerglitch";
+import PageButtons from "./PageButtons/PageButtons";
 
 const LandingPage = () => {
   const glitchRef = useRef(null);
@@ -157,25 +153,7 @@ const LandingPage = () => {
             alt="Epitome Logo"
             ref={addGlitchRef}
           />
-          <Button
-            className={style.button}
-            data-augmented-ui="bl-clip tr-clip border"
-          >
-            <span>Registration</span>
-          </Button>
-
-          <Button
-            className={style.button}
-            data-augmented-ui="bl-clip tr-clip border"
-          >
-            <span>Events</span>
-          </Button>
-          <Button
-            className={style.button}
-            data-augmented-ui="bl-clip tr-clip border"
-          >
-            <span>About</span>
-          </Button>
+          <PageButtons />
         </div>
         <div className={style.Right}>
           <div className={style.watch}>

@@ -91,9 +91,9 @@ class SceneSetup {
     SceneSetup.renderer.domElement.addEventListener("contextmenu", (e) =>
       e.preventDefault()
     );
-    SceneSetup.renderer.domElement.addEventListener("contextlost", () =>
-      location.reload()
-    );
+    SceneSetup.renderer.domElement.addEventListener("contextlost", () => {
+      location.reload();
+    });
 
     SceneSetup.setupBg();
   }
