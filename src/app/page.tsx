@@ -26,16 +26,16 @@ export default function Home() {
 
   return (
     <>
-      {isInitialLoad && !loadingCompleted ? (
+      {/* {isInitialLoad && !loadingCompleted ? (
         <LoadingScreen progress={loadingProgress} />
-      ) : (
-        <main className="w-full" style={{ scrollSnapType: "y mandatory" }}>
-          {/* <Header /> */}
-          <LandingPage />
-          <Events />
-        </main>
-      )}
-      <ThreeComp />
+      ) : ( */}
+      <main className="w-full" style={{ scrollSnapType: "y mandatory" }}>
+        {/* <LandingHeader /> */}
+        <LandingPage />
+        {/* <Events /> */}
+      </main>
+      {/* )}
+      <ThreeComp /> */}
     </>
   );
 }
