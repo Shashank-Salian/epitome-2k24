@@ -11,9 +11,14 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { initStars } from "./Models/Stars";
 import { HDRAssetManager } from "./AssetsManager/AssetManager";
 import GlobalLoader from "./AssetsManager/GlobalLoader";
-import { EventsRayCaster, initEventsModel } from "./Models/EventsModel";
+import {
+  EventsRayCaster,
+  initEventsModel,
+  updateCurvePath,
+} from "./Models/EventsModel";
 
 import EventList from "@/utils/EventList";
+import { SpaceShip } from "./Models/SpaceShip";
 
 // Setup Scene
 SceneSetup.initialize();
@@ -24,6 +29,8 @@ EventsRayCaster.init();
 const postRenderPass = new RenderPass(SceneSetup.scene, SceneSetup.camera);
 const effectComposer = new EffectComposer(SceneSetup.renderer);
 effectComposer.addPass(postRenderPass);
+
+SpaceShip.init();
 
 // Controls
 // const controls = new OrbitControls(
@@ -55,6 +62,14 @@ function animate() {
 
   UPDATE_FUNCS.forEach((f) => f());
 
+  for (let i = 0; i < stars.children.length; i++) {
+    const star = stars.children[i];
+
+    star.position.z += i / 100;
+
+    if (star.position.z > 100) star.position.z = -400;
+  }
+
   effectComposer.render(SceneSetup.clock.getDelta());
 }
 
@@ -63,7 +78,11 @@ SceneSetup.renderer.setAnimationLoop(animate);
 function onResize() {
   SceneSetup.update();
 
-  EventsRayCaster.eventsModels.forEach((asset) => asset.updateResizeFactor());
+  updateCurvePath();
+
+  EventsRayCaster.eventsModels.forEach((asset) => {
+    asset.updateResizeFactor();
+  });
 
   effectComposer.setSize(ClientDims.width, ClientDims.height);
 }

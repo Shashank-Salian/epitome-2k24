@@ -6,6 +6,8 @@ import SceneSetup from "./SceneSetup";
 // Array of functions which will be run on every frame
 const UPDATE_FUNCS: (() => void)[] = [];
 
+const MOBILE_WIDTH = 1024;
+
 class ClientDims {
   static mouseX = 0;
   static mouseY = 0;
@@ -15,7 +17,7 @@ class ClientDims {
   }
 
   static get height() {
-    return document.documentElement.clientHeight;
+    return window.innerHeight;
   }
 
   static initMouseEvent() {
@@ -138,4 +140,5 @@ export {
   pushAnimationFrame,
   UPDATE_FUNCS,
   removeAnimationFrame,
+  MOBILE_WIDTH,
 };

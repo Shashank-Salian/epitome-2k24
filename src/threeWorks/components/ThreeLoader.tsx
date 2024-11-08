@@ -1,30 +1,52 @@
 "use client";
 
-import "@/threeWorks/index";
+import { useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
+
+import "@/threeWorks/index";
 import GlobalLoader, { LoadingState } from "../AssetsManager/GlobalLoader";
-// import useLoader from "@/store/useLoader";
+import { SpaceShip } from "../Models/SpaceShip";
 
 type Props = {
   onProgress: (prog: number) => void;
 };
 
 const ThreeLoader = ({ onProgress }: Props) => {
-  // const {updateLoadingProgress} = useLoader()
+  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
-    console.log("RUNNING USE EFFECT");
     if (GlobalLoader.loadingState === LoadingState.IDLE) {
       GlobalLoader.onProgressChange = onProgress;
 
-      console.log("USE EFFECT");
+      GlobalLoader.loadFirst().then(() => {
+        if (pathname === "/") {
+          SpaceShip.add();
 
-      GlobalLoader.loadFirst().then(() =>
-        console.log("Finished Loading everything")
-      );
+          return () => SpaceShip.remove();
+        }
+
+        if (pathname === "/challenges") {
+          SpaceShip.remove();
+          return;
+        }
+        console.log("Finished Loading everything");
+      });
     }
-    return () => { };
-  }, [onProgress]);
+
+    if (GlobalLoader.loadingState === LoadingState.LOADED) {
+      if (pathname === "/") {
+        SpaceShip.add();
+
+        return () => {
+          SpaceShip.remove();
+        };
+      }
+
+      SpaceShip.remove();
+    }
+    return () => {};
+  }, [onProgress, pathname]);
 
   return <></>;
 };
