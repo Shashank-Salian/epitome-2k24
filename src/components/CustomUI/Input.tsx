@@ -5,15 +5,18 @@ import { cn } from "@/lib/utils"
 
 interface InputProps {
     label?: string,
-    type?: "text" | "email" | "password" | "tel",
+    type?: "text" | "email" | "password" | "tel" | "number",
     name?: "username" | "collegeName" | any,
     placeholder?: string,
     className?: string,
     required?: boolean,
-    setValue?: Dispatch<SetStateAction<any>>
+    value?: string | number,
+    setValue?: Dispatch<SetStateAction<any>>,
+    ref?: Ref<HTMLInputElement>,
+    onChange?: React.ChangeEventHandler<HTMLInputElement>
 }
 
-const Input = ({ label, type = "text", name = "", placeholder, className = "", required = false, setValue }: InputProps) => {
+const Input = ({ label, type = "text", name = "", placeholder, className = "", required = false, setValue, ref, onChange }: InputProps) => {
     const [showPassword, setShowPassword] = useState<boolean>(false)
 
     return (
@@ -28,8 +31,9 @@ const Input = ({ label, type = "text", name = "", placeholder, className = "", r
                     type={showPassword ? "text" : type}
                     placeholder={placeholder}
                     required={required}
-                    onChange={(e) => setValue && setValue(e.target.value)}
+                    onChange={onChange ? onChange : (e) => setValue && setValue(e.target.value)}
                     pattern={type === "tel" ? "[6789][0-9]{9}" : undefined}
+                    ref={ref}
                     className='text-[1em] w-full bg-background/0 px-2 py-1 border-none outline-none placeholder:text-secondary/40' />
 
                 {type === "password" ?

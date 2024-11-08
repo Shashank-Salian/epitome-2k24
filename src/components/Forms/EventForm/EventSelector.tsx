@@ -2,17 +2,22 @@ import React, { useCallback, useMemo, useState } from 'react'
 import { eventRegisterList, EventRegType } from '@/utils/EventList'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { X } from 'lucide-react'
+import { CheckCircleIcon, X } from 'lucide-react'
 import useEventRegister from '@/store/useEventRegister'
+import toast from 'react-hot-toast'
 
 type EventButtonProp = {
     event: EventRegType
 }
 
 const EventSelector = () => {
-    const { selectedEvents } = useEventRegister()
+    const { totalParticipants, selectedEvents, setDisplayForm, setParticipantsDetails } = useEventRegister()
 
-    console.log("Events", selectedEvents)
+    // console.log("Events", selectedEvents)
+    const handleEventConfirm = () => {
+        setParticipantsDetails(selectedEvents || [])
+        setDisplayForm(true)
+    }
 
     return (
         <div className="flex flex-col gap-4 p-4">
@@ -24,17 +29,25 @@ const EventSelector = () => {
                 </Button> */}
             </div>
 
-            <div className='grid grid-cols-6 gap-4'>
+            <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4'>
                 {eventRegisterList.map((event, index) => (
                     <EventButton key={index} event={event} />
                 ))}
             </div>
-        </div>
+
+            <div className="flex justify-between items-center">
+                <div className="px-4 py-2 border border-secondary rounded">Total Participants : {totalParticipants} / 15</div>
+                <Button type='submit' onClick={handleEventConfirm} className='flex_center gap-4 max-w-[500px] text-[1em] text-white font-bold tracking-wide hover:bg-primary'>
+                    <CheckCircleIcon />
+                    Confirm Selected Events
+                </Button>
+            </div>
+        </div >
     )
 }
 
 const EventButton = ({ event }: EventButtonProp) => {
-    const { selectedEvents, setSelectedEvents } = useEventRegister()
+    const { selectedEvents, setSelectedEvents, totalParticipants, setTotalParticipants } = useEventRegister()
 
     const isSelected = useMemo(() =>
         selectedEvents?.some(item => event.title === item.title),
@@ -44,8 +57,14 @@ const EventButton = ({ event }: EventButtonProp) => {
     const handleEventSelection = useCallback(() => {
         if (isSelected) {
             setSelectedEvents(selectedEvents?.filter(item => item.title !== event.title) || null)
+            setTotalParticipants(totalParticipants - event.participantCount)
         } else {
+            if (totalParticipants > 15 || (totalParticipants + event.participantCount) > 15) {
+                toast.error("Max 15 Participants Allowed!")
+                return
+            }
             setSelectedEvents([...(selectedEvents || []), event])
+            setTotalParticipants(totalParticipants + event.participantCount)
         }
     }, [isSelected, selectedEvents, event, setSelectedEvents])
 
@@ -54,12 +73,19 @@ const EventButton = ({ event }: EventButtonProp) => {
             variant={'outline'}
             onClick={handleEventSelection}
             className={cn(
-                'flex justify-center items-start flex-col text-start px-2 py-6 bg-transparent font-bold hover:bg-foreground/40',
+                'flex justify-between items-center gap-4 px-2 py-6 bg-transparent font-bold hover:bg-foreground/40',
                 isSelected && "bg-foreground text-background"
             )}
         >
-            <span>{event.title}</span>
-            <span className='text-[0.8em] opacity-80'>{event.category}</span>
+            <div className="flex justify-center items-start flex-col text-start">
+                <span>{event.title}</span>
+                <span className='text-[0.8em] opacity-80'>{event.category}</span>
+            </div>
+
+            <div className='flex_center flex-col'>
+                <span className='text-[1.2em] font-bold'>{event.participantCount}</span>
+                <span>Count</span>
+            </div>
         </Button>
     )
 }
