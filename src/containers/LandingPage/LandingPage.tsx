@@ -6,12 +6,11 @@ import Typewriter from "@/components/CustomUI/TypeWriter";
 import CountDown from "../../components/CustomUI/CountDown";
 import Glitch from "./Glitch";
 import Image from "next/image";
-// @ts-ignore
 import { PowerGlitch } from "powerglitch";
 import PageButtons from "./PageButtons/PageButtons";
 
 const LandingPage = () => {
-  const glitchRef = useRef(null);
+  // const glitchRef = useRef(null);
   const glitchRefs = useRef<HTMLDivElement[]>([]);
 
   const addGlitchRef = (el: HTMLDivElement | null) => {
