@@ -34,18 +34,25 @@ export async function POST(request: NextRequest) {
             throw new Error("User Not Found!")
         }
 
-        participantsDetails.forEach(event => {
-            userExists.events.push({
-                eventName: event.title,
-                eventType: event.category,
-                participants: event.participants.map(p => ({
-                    name: p.name,
-                    phone: p.phone
-                }))
-            });
-        });
+        userExists.events = participantsDetails.map(event => ({
+            eventName: event.title,
+            eventType: event.category,
+            participants: event.participants.map(p => ({
+                name: p.name,
+                phone: p.phone
+            }))
+        }));
 
-        userExists.set({ participants: participantsList });
+        userExists.participants = participantsList.map(participant => ({
+            name: participant.name,
+            phone: participant.phone,
+            events: participant.events.map(evnt => ({
+                eventName: evnt.eventName,
+                eventType: evnt.eventType
+            }))
+        }));
+
+        // userExists.set({ participants: participantsList });
 
         console.log("\nParticipants Added", userExists);
         await userExists.save();
