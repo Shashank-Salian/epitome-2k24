@@ -5,7 +5,6 @@ import { useState, useEffect, useRef } from "react";
 import Typewriter from "@/components/CustomUI/TypeWriter";
 import CountDown from "../../components/CustomUI/CountDown";
 import Glitch from "./Glitch";
-import Image from "next/image";
 // @ts-ignore
 import { PowerGlitch } from "powerglitch";
 import PageButtons from "./PageButtons/PageButtons";
@@ -62,11 +61,9 @@ const LandingPage = () => {
               <Glitch text="45" />
             </span>{" "}
             <p className={style.Para}>Level</p>
-            <Image
+            <img
               className={style.Img}
               src="/Icons/star.png"
-              width={25}
-              height={25}
               alt="Picture of the author"
             />
             <span className={style.Span}>1892</span>
@@ -82,13 +79,7 @@ const LandingPage = () => {
               data-augmented-ui="all-hexangle-up border"
               className={style.reticle}
             >
-              <Image
-                src="/Icons/martian.jpg"
-                width={505}
-                height={525}
-                alt="Profile"
-                ref={addGlitchRef}
-              />
+              <img src="/Icons/martian.jpg" alt="Profile" ref={addGlitchRef} />
             </div>
             {/* Player Info */}
             <div
@@ -102,7 +93,7 @@ const LandingPage = () => {
               >
                 Name:
                 <li className={style.listItem}>
-                  <a>Anonymus</a>
+                  <a>Anonymous</a>
                 </li>
                 Galaxy:
                 <li className={style.listItem}>
@@ -145,11 +136,9 @@ const LandingPage = () => {
           </span>
         </div>
         <div className={style.Middle}>
-          <Image
+          <img
             className={style.Img}
             src="/Icons/Epitome.png"
-            width={825}
-            height={825}
             alt="Epitome Logo"
             ref={addGlitchRef}
           />
@@ -162,7 +151,7 @@ const LandingPage = () => {
 
           <div className={style.landing} data-augmented-ui ref={addGlitchRef}>
             <div className={style.Story}>
-              <h1 className={style.title}>Ecstacy</h1>
+              <h1 className={style.title}>Ecstasy</h1>
               <p>
                 Captain Zara piloted the starship Nova <Glitch text="through" />{" "}
                 the glowing rings of the Andromeda Rift. Suddenly, a beacon
@@ -178,10 +167,8 @@ const LandingPage = () => {
             className={style.arrow}
             data-augmented-ui="all-triangle-right border"
           >
-            <Image
+            <img
               src="/Icons/play.png"
-              width={50}
-              height={0}
               alt="Trailer"
               className={style.arrow_item1}
             />
@@ -190,10 +177,8 @@ const LandingPage = () => {
             className={style.arrow}
             data-augmented-ui="all-triangle-left border"
           >
-            <Image
+            <img
               src="/Icons/instagram.png"
-              width={30}
-              height={60}
               alt="instagram"
               className={style.arrow_item2}
             />
