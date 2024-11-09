@@ -2,6 +2,7 @@
 
 import * as THREE from "three";
 import SceneSetup from "./SceneSetup";
+import { SpaceShip } from "./Models/SpaceShip";
 
 // Array of functions which will be run on every frame
 const UPDATE_FUNCS: (() => void)[] = [];
@@ -130,6 +131,12 @@ function removeAnimationFrame(callback: () => void) {
   UPDATE_FUNCS.splice(UPDATE_FUNCS.indexOf(callback), 1);
 }
 
+function onRouteChange(rote?: string) {
+  SceneSetup.update();
+
+  SpaceShip.updateResizeFactor();
+}
+
 export {
   ClientDims,
   randomInRange,
@@ -138,6 +145,7 @@ export {
   randomSelect,
   convertDOMRectToThreeJS,
   pushAnimationFrame,
+  onRouteChange,
   UPDATE_FUNCS,
   removeAnimationFrame,
   MOBILE_WIDTH,

@@ -101,8 +101,6 @@ class ModelAssetManager implements CustomLoader {
         onProgress
       );
 
-      console.log(this.assetGltf, this.url);
-
       this.downloaded = true;
 
       this.scene = this.assetGltf.scene;
