@@ -11,7 +11,7 @@ type EventButtonProp = {
 }
 
 const EventSelector = () => {
-    const { totalParticipants, selectedEvents, setDisplayForm, setParticipantsDetails } = useEventRegister()
+    const { selectedEvents, setDisplayForm, setParticipantsDetails } = useEventRegister()
 
     // console.log("Events", selectedEvents)
     const handleEventConfirm = () => {
@@ -46,7 +46,7 @@ const EventSelector = () => {
 }
 
 const EventButton = ({ event }: EventButtonProp) => {
-    const { selectedEvents, setSelectedEvents, totalParticipants, setTotalParticipants, setDisplayForm } = useEventRegister()
+    const { selectedEvents, setSelectedEvents, setDisplayForm } = useEventRegister()
 
     const isSelected = useMemo(() =>
         selectedEvents?.some(item => event.title === item.title),
@@ -67,7 +67,7 @@ const EventButton = ({ event }: EventButtonProp) => {
             setSelectedEvents([...(selectedEvents || []), event])
             // setTotalParticipants(totalParticipants + event.participantCount)
         }
-    }, [isSelected, selectedEvents, event, totalParticipants, setSelectedEvents, setDisplayForm, setTotalParticipants])
+    }, [isSelected, selectedEvents, event, setSelectedEvents, setDisplayForm])
 
     return (
         <Button
