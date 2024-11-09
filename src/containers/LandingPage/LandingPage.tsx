@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import Typewriter from "./TypeWriter";
 import { STLExporter } from "three/examples/jsm/Addons.js";
 import CountDown from "../../components/CustomUI/CountDown";
+import ToggleUI from "../../components/CustomUI/ToggleUI";
 import Glitch from "./Glitch";
 import Image from "next/image";
 import star from "/Icons/star.png";
@@ -13,20 +14,49 @@ import { Button } from "@/components/ui/button";
 import { SquareArrowOutUpLeft } from "lucide-react";
 // @ts-ignore
 import { PowerGlitch } from 'powerglitch';
-
+const audioFilePath = '/Music/click.wav';
 
 
 const LandingPage = () => {
-  const glitchRef = useRef(null);
+  // const glitchRef = useRef(null);
   const glitchRefs = useRef<HTMLDivElement[]>([]);
-
+  const soundRef = useRef<HTMLAudioElement | null>(null);
+ 
   const addGlitchRef = (el: HTMLDivElement | null) => {
     if (el && !glitchRefs.current.includes(el)) {
       glitchRefs.current.push(el);
     }
   };
-
+  const playSound = () => {
+    if (soundRef.current) {
+      soundRef.current.play().catch((error) => console.error("Error playing sound:", error));
+    }
+  };
+  
   useEffect(() => {
+    soundRef.current = new Audio(audioFilePath);
+    soundRef.current.preload = "auto";
+    const elements = document.querySelectorAll(
+      `.${style.broch}, .${style.arrow}, .${style.button}`
+    );
+
+    const handleEvent = () => {
+      playSound(); 
+    };
+
+    elements.forEach((element) => {
+      element.addEventListener('mouseenter', handleEvent); // For hover
+      element.addEventListener('click', handleEvent); // For click
+    });
+    return () => {
+      elements.forEach((element) => {
+        element.removeEventListener('mouseenter', handleEvent);
+        element.removeEventListener('click', handleEvent);
+      });
+    };
+  }, []);
+  useEffect(() => {
+
     glitchRefs.current.forEach((glitchRef) => {
       if (glitchRef) {
         PowerGlitch.glitch(glitchRef, {
@@ -58,6 +88,7 @@ const LandingPage = () => {
   }, []);
   return (
     <Container parentClassName="landing-page-container" className={style.Parent}>
+      <audio ref={soundRef} src={audioFilePath} />
       <div className={style.Main}>
         <div className={style.Left}>
           <div className={style.Level}>
@@ -147,7 +178,8 @@ const LandingPage = () => {
             <span>Brochure </span>
           </span>
         </div>
-        <div className={style.Middle}>
+        <div className={style.Middle} >
+       
         <Image
               className={style.Img}
               src="/Icons/Epitome.png"
@@ -177,7 +209,9 @@ const LandingPage = () => {
           </Button>
         </div>
         <div className={style.Right}>
+          
           <div className={style.watch}> 
+          <ToggleUI/>
           <CountDown/>
           </div>
          
