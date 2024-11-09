@@ -1,0 +1,11 @@
+.button {
+  display: inline-block;
+  padding: 10px 24px;
+  background: transparent;
+  --aug-border-all: 2px;
+  --aug-border-bg: linear-gradient(to right, #d518ff, #02c2ff);
+  --aug-bl: 12px;
+  --aug-tr: 12px;
+  margin: 20px;
+  transform: translateZ(0px);
+}

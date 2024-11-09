@@ -2,26 +2,20 @@ import React from "react";
 import Container from "@/containers/Container/Container";
 import style from "./LandingPage.module.css";
 import { useState, useEffect, useRef } from "react";
-import Typewriter from "./TypeWriter";
-import { STLExporter } from "three/examples/jsm/Addons.js";
+import Typewriter from "@/components/CustomUI/TypeWriter";
 import CountDown from "../../components/CustomUI/CountDown";
 import ToggleUI from "../../components/CustomUI/ToggleUI";
 import Glitch from "./Glitch";
-import Image from "next/image";
-import star from "/Icons/star.png";
-import ButtonUI from "@/components/CustomUI/ButtonUI";
-import { Button } from "@/components/ui/button";
-import { SquareArrowOutUpLeft } from "lucide-react";
 // @ts-ignore
-import { PowerGlitch } from 'powerglitch';
-const audioFilePath = '/Music/click.wav';
-
+import { PowerGlitch } from "powerglitch";
+const audioFilePath = "/Music/click.wav";
+import PageButtons from "./PageButtons/PageButtons";
 
 const LandingPage = () => {
   // const glitchRef = useRef(null);
   const glitchRefs = useRef<HTMLDivElement[]>([]);
   const soundRef = useRef<HTMLAudioElement | null>(null);
- 
+
   const addGlitchRef = (el: HTMLDivElement | null) => {
     if (el && !glitchRefs.current.includes(el)) {
       glitchRefs.current.push(el);
@@ -29,10 +23,12 @@ const LandingPage = () => {
   };
   const playSound = () => {
     if (soundRef.current) {
-      soundRef.current.play().catch((error) => console.error("Error playing sound:", error));
+      soundRef.current
+        .play()
+        .catch((error) => console.error("Error playing sound:", error));
     }
   };
-  
+
   useEffect(() => {
     soundRef.current = new Audio(audioFilePath);
     soundRef.current.preload = "auto";
@@ -41,22 +37,21 @@ const LandingPage = () => {
     );
 
     const handleEvent = () => {
-      playSound(); 
+      playSound();
     };
 
     elements.forEach((element) => {
-      element.addEventListener('mouseenter', handleEvent); // For hover
-      element.addEventListener('click', handleEvent); // For click
+      element.addEventListener("mouseenter", handleEvent); // For hover
+      element.addEventListener("click", handleEvent); // For click
     });
     return () => {
       elements.forEach((element) => {
-        element.removeEventListener('mouseenter', handleEvent);
-        element.removeEventListener('click', handleEvent);
+        element.removeEventListener("mouseenter", handleEvent);
+        element.removeEventListener("click", handleEvent);
       });
     };
   }, []);
   useEffect(() => {
-
     glitchRefs.current.forEach((glitchRef) => {
       if (glitchRef) {
         PowerGlitch.glitch(glitchRef, {
@@ -87,7 +82,10 @@ const LandingPage = () => {
     });
   }, []);
   return (
-    <Container parentClassName="landing-page-container" className={style.Parent}>
+    <Container
+      parentClassName="landing-page-container"
+      className={style.Parent}
+    >
       <audio ref={soundRef} src={audioFilePath} />
       <div className={style.Main}>
         <div className={style.Left}>
@@ -96,11 +94,9 @@ const LandingPage = () => {
               <Glitch text="45" />
             </span>{" "}
             <p className={style.Para}>Level</p>
-            <Image
+            <img
               className={style.Img}
               src="/Icons/star.png"
-              width={25}
-              height={25}
               alt="Picture of the author"
             />
             <span className={style.Span}>1892</span>
@@ -116,13 +112,7 @@ const LandingPage = () => {
               data-augmented-ui="all-hexangle-up border"
               className={style.reticle}
             >
-               <Image
-              src="/Icons/martian.jpg"
-              width={505}
-              height={525}
-              alt="Profile"
-              ref={addGlitchRef}
-            />
+              <img src="/Icons/martian.jpg" alt="Profile" ref={addGlitchRef} />
             </div>
             {/* Player Info */}
             <div
@@ -136,7 +126,7 @@ const LandingPage = () => {
               >
                 Name:
                 <li className={style.listItem}>
-                  <a>Anonymus</a>
+                  <a>Anonymous</a>
                 </li>
                 Galaxy:
                 <li className={style.listItem}>
@@ -178,46 +168,24 @@ const LandingPage = () => {
             <span>Brochure </span>
           </span>
         </div>
-        <div className={style.Middle} >
-       
-        <Image
-              className={style.Img}
-              src="/Icons/Epitome.png"
-              width={825}
-              height={825}
-              alt="Epitome Logo"
-              ref={addGlitchRef}
-            />
-          <Button
-            className={style.button}
-            data-augmented-ui="bl-clip tr-clip border"
-          >
-            <span>Registration</span>
-          </Button>
-
-          <Button
-            className={style.button}
-            data-augmented-ui="bl-clip tr-clip border"
-          >
-            <span>Events</span>
-          </Button>
-          <Button
-            className={style.button}
-            data-augmented-ui="bl-clip tr-clip border"
-          >
-            <span>About</span>
-          </Button>
+        <div className={style.Middle}>
+          <img
+            className={style.Img}
+            src="/Icons/Epitome.png"
+            alt="Epitome Logo"
+            ref={addGlitchRef}
+          />
+          <PageButtons />
         </div>
         <div className={style.Right}>
-          
-          <div className={style.watch}> 
-          <ToggleUI/>
-          <CountDown/>
+          <div className={style.watch}>
+            <ToggleUI />
+            <CountDown />
           </div>
-         
+
           <div className={style.landing} data-augmented-ui ref={addGlitchRef}>
             <div className={style.Story}>
-              <h1 className={style.title}>Ecstacy</h1>
+              <h1 className={style.title}>Ecstasy</h1>
               <p>
                 Captain Zara piloted the starship Nova <Glitch text="through" />{" "}
                 the glowing rings of the Andromeda Rift. Suddenly, a beacon
@@ -233,16 +201,18 @@ const LandingPage = () => {
             className={style.arrow}
             data-augmented-ui="all-triangle-right border"
           >
-            <Image src="/Icons/play.png" width={50} height={0} alt="Trailer"  className={style.arrow_item1}/>
+            <img
+              src="/Icons/play.png"
+              alt="Trailer"
+              className={style.arrow_item1}
+            />
           </div>
           <div
             className={style.arrow}
             data-augmented-ui="all-triangle-left border"
           >
-            <Image
+            <img
               src="/Icons/instagram.png"
-              width={30}
-              height={60}
               alt="instagram"
               className={style.arrow_item2}
             />

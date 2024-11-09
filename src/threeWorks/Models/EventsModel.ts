@@ -3,6 +3,7 @@ import * as THREE from "three";
 import { ModelAssetManager } from "../AssetsManager/AssetManager";
 import {
   ClientDims,
+  MOBILE_WIDTH,
   pushAnimationFrame,
   removeAnimationFrame,
   throttle,
@@ -30,37 +31,56 @@ type MouseCoords = {
   clientY: number;
 };
 
+const outCircleParams = {
+  ax: 3.9,
+  ay: -3.5,
+  xRadius: 4,
+  yRadius: 4,
+  aStartAngle: Math.PI * 0.69,
+  aEndAngle: Math.PI,
+  anticlockwise: false,
+};
+
+const inCircleParams = {
+  ax: 3.9,
+  ay: -3.5,
+  xRadius: 4,
+  yRadius: 4,
+  aStartAngle: Math.PI * 0.3,
+  aEndAngle: Math.PI * 0.69,
+};
+
 const outCircleCurve = new THREE.EllipseCurve(
-  3.5,
-  -3.5,
-  4,
-  4,
-  Math.PI * 0.69,
-  Math.PI,
+  outCircleParams.ax,
+  outCircleParams.ay,
+  outCircleParams.xRadius,
+  outCircleParams.yRadius,
+  outCircleParams.aStartAngle,
+  outCircleParams.aEndAngle,
   false
 );
 
 const inCircleCurve = new THREE.EllipseCurve(
-  3.5,
-  -3.5,
-  4,
-  4,
-  Math.PI * 0.3,
-  Math.PI * 0.69,
+  inCircleParams.ax,
+  inCircleParams.ay,
+  inCircleParams.xRadius,
+  inCircleParams.yRadius,
+  inCircleParams.aStartAngle,
+  Math.PI * inCircleParams.aEndAngle,
   false
 );
 
-// Generate points on the circle
-let outPoints = outCircleCurve.getPoints(100);
-let inPoints = inCircleCurve.getPoints(100);
-
-// Development purpose
-const geometry = new THREE.BufferGeometry().setFromPoints(outPoints);
-const material = new THREE.LineBasicMaterial({ color: 0xff0000 });
-const circleLine = new THREE.Line(geometry, material);
-const geometry2 = new THREE.BufferGeometry().setFromPoints(inPoints);
-const material2 = new THREE.LineBasicMaterial({ color: 0x00ff00 });
-const circleLine2 = new THREE.Line(geometry2, material2);
+//   Dev purpose:
+let geometry = new THREE.BufferGeometry().setFromPoints(
+  outCircleCurve.getPoints(100)
+);
+let material = new THREE.LineBasicMaterial({ color: 0xff0000 });
+let circleLine = new THREE.Line(geometry, material);
+let geometry2 = new THREE.BufferGeometry().setFromPoints(
+  inCircleCurve.getPoints(100)
+);
+let material2 = new THREE.LineBasicMaterial({ color: 0x00ff00 });
+let circleLine2 = new THREE.Line(geometry2, material2);
 SceneSetup.scene.add(circleLine2);
 SceneSetup.scene.add(circleLine);
 
@@ -78,8 +98,11 @@ class EventsRayCaster {
   static velocity = 0;
   static eventsModels: ModelAssetManager[] = [];
   static transitioning = false;
+  static removing = false;
 
   static init() {
+    updateCurvePath();
+
     pushAnimationFrame(() => {
       const obj = EventsRayCaster.listenObjects.children[0];
       if (obj && !EventsRayCaster.mouse.selectedModel) {
@@ -178,7 +201,7 @@ class EventsRayCaster {
       const rotateDir = EventsRayCaster.mouse.inertia < 0 ? -1 : 1;
       EventsRayCaster.mouse.selectedModel?.rotateY(
         Math.min(Math.abs(EventsRayCaster.mouse.inertia) * 0.009, 0.7) *
-        rotateDir
+          rotateDir
       );
 
       // Reduce inertia gradually
@@ -186,15 +209,19 @@ class EventsRayCaster {
     }, 50);
   }
 
-  static moveEvent(next = true) {
+  static moveEvent(next = true, first = false) {
     if (EventsRayCaster.transitioning) return;
 
     EventsRayCaster.transitioning = true;
-    const outgoingModel =
-      EventsRayCaster.eventsModels[EventsRayCaster.curModelIndex].scene!;
+    const outgoingModel = first
+      ? null
+      : EventsRayCaster.eventsModels[EventsRayCaster.curModelIndex].scene!;
 
     EventsRayCaster.curModelIndex += next ? 1 : -1;
-    if (EventsRayCaster.curModelIndex >= EventsRayCaster.eventsModels.length) {
+    if (
+      EventsRayCaster.curModelIndex >= EventsRayCaster.eventsModels.length ||
+      first
+    ) {
       EventsRayCaster.curModelIndex = 0;
     }
     if (EventsRayCaster.curModelIndex < 0) {
@@ -215,7 +242,7 @@ class EventsRayCaster {
       if (SceneSetup.background.index < 0)
         SceneSetup.background.index = SceneSetup.colorSets.length - 1;
 
-      EventsRayCaster.listenObjects.remove(outgoingModel);
+      if (outgoingModel) EventsRayCaster.listenObjects.remove(outgoingModel);
 
       EventsRayCaster.transitioning = false;
     };
@@ -227,15 +254,16 @@ class EventsRayCaster {
     let iModel = incomingModel;
     if (!next) {
       oModel = incomingModel;
-      iModel = outgoingModel;
+      iModel = outgoingModel || incomingModel;
       progress = 1;
       direction = -1;
     }
 
-    const speed = 0.007; // Adjust this value to control speed
+    const speed = first ? 2 : 1; // Adjust this value to control speed
     const animFunc = () => {
-      progress += speed * direction;
-      fProg += speed;
+      const delta = SceneSetup.clock.getDelta();
+      progress += speed * direction * delta;
+      fProg += speed * delta;
 
       if (fProg >= 1) {
         progress = 0;
@@ -250,10 +278,58 @@ class EventsRayCaster {
       const incomingPoint = inCircleCurve.getPoint(progress);
 
       // Move the model to the point
-      oModel.position.set(outgoingPoint.x, outgoingPoint.y, oModel.position.z);
+      if (oModel) {
+        oModel.position.set(
+          outgoingPoint.x,
+          outgoingPoint.y,
+          oModel.position.z
+        );
+      }
       iModel.position.set(incomingPoint.x, incomingPoint.y, iModel.position.z);
 
       SceneSetup.changeBg(fProg, direction);
+    };
+
+    pushAnimationFrame(animFunc);
+  }
+
+  public static removeEvents() {
+    if (
+      EventsRayCaster.listenObjects.children.length === 0 ||
+      EventsRayCaster.removing
+    )
+      return;
+
+    EventsRayCaster.removing = true;
+
+    const movingObj = EventsRayCaster.listenObjects.children[0];
+
+    let progress = 0;
+    const speed = 4;
+    const animFunc = () => {
+      const delta = SceneSetup.clock.getDelta();
+      progress += speed * delta;
+
+      if (progress >= 1) {
+        EventsRayCaster.listenObjects.remove(
+          ...EventsRayCaster.listenObjects.children
+        );
+        removeAnimationFrame(animFunc);
+        EventsRayCaster.removing = false;
+        return;
+      }
+
+      // Get the point on the curve based on the current progress
+      const outgoingPoint = outCircleCurve.getPoint(progress);
+
+      // Move the model to the point
+      movingObj.position.set(
+        outgoingPoint.x,
+        outgoingPoint.y,
+        movingObj.position.z
+      );
+
+      SceneSetup.changeBg(progress, -1);
     };
 
     pushAnimationFrame(animFunc);
@@ -270,30 +346,71 @@ function initEventsModel(url: string, addToScene = false) {
       eventModel.scene!.position.set(pos.x, pos.y, 0);
     },
     onResize: () => {
-      inCircleCurve.aX = inCircleCurve.aX;
-      inCircleCurve.aY = inCircleCurve.aY;
-      inCircleCurve.xRadius = inCircleCurve.xRadius;
-      inCircleCurve.yRadius = inCircleCurve.yRadius;
-
       const pos = outCircleCurve.getPointAt(0);
-      eventModel.scene!.position.set(pos.x, pos.y, 0);
+      eventModel.scene?.position.set(pos.x, pos.y, 0);
     },
   });
 
   eventModel.setPosition(0.2, 0, 0);
 
   eventModel.scalingFactor = {
-    screen: 1300,
-    max: 1.2,
+    screen: 1800,
+    max: 0.9,
     min: 0.5,
-  };
-  eventModel.positionFactor.x = {
-    ...eventModel.positionFactor.x,
-    screen: 1900,
   };
 
   return eventModel;
 }
 
-export { initEventsModel, EventsRayCaster };
+function updateCurvePath() {
+  if (window.innerWidth >= MOBILE_WIDTH) {
+    const ax = Math.max(
+      3.4,
+      Math.min(3.9, inCircleCurve.aX * (ClientDims.width / 1200))
+    );
+    inCircleCurve.aX = outCircleCurve.aX = ax;
+
+    inCircleCurve.aY = inCircleParams.ay;
+    outCircleCurve.aY = outCircleParams.ay;
+
+    inCircleCurve.xRadius = inCircleParams.xRadius;
+    outCircleCurve.xRadius = outCircleParams.xRadius;
+
+    inCircleCurve.aStartAngle = inCircleParams.aStartAngle;
+    outCircleCurve.aStartAngle = outCircleParams.aStartAngle;
+
+    inCircleCurve.aEndAngle = inCircleParams.aEndAngle;
+    outCircleCurve.aEndAngle = outCircleParams.aEndAngle;
+  } else {
+    inCircleCurve.aX = outCircleCurve.aX = 0;
+    inCircleCurve.aY = outCircleCurve.aY = -5;
+
+    inCircleCurve.xRadius = outCircleCurve.xRadius = 2;
+
+    inCircleCurve.aStartAngle = Math.PI * 0.3;
+    inCircleCurve.aEndAngle = Math.PI * 0.5;
+
+    outCircleCurve.aStartAngle = Math.PI * 0.5;
+    outCircleCurve.aEndAngle = Math.PI * 0.7;
+  }
+
+  SceneSetup.scene.remove(circleLine);
+  SceneSetup.scene.remove(circleLine2);
+
+  geometry = new THREE.BufferGeometry().setFromPoints(
+    outCircleCurve.getPoints(100)
+  );
+  material = new THREE.LineBasicMaterial({ color: 0xff0000 });
+  circleLine = new THREE.Line(geometry, material);
+  geometry2 = new THREE.BufferGeometry().setFromPoints(
+    inCircleCurve.getPoints(100)
+  );
+  material2 = new THREE.LineBasicMaterial({ color: 0x00ff00 });
+  circleLine2 = new THREE.Line(geometry2, material2);
+
+  SceneSetup.scene.add(circleLine);
+  SceneSetup.scene.add(circleLine2);
+}
+
+export { initEventsModel, EventsRayCaster, updateCurvePath };
 export type { EventRayCastFunc, EventRayCastData };

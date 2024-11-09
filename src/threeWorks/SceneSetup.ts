@@ -91,6 +91,9 @@ class SceneSetup {
     SceneSetup.renderer.domElement.addEventListener("contextmenu", (e) =>
       e.preventDefault()
     );
+    SceneSetup.renderer.domElement.addEventListener("contextlost", () => {
+      location.reload();
+    });
 
     SceneSetup.setupBg();
   }
@@ -137,8 +140,6 @@ class SceneSetup {
     SceneSetup.background.gradientTexture.needsUpdate = true;
 
     SceneSetup.scene.background = SceneSetup.background.gradientTexture;
-
-    console.log(ClientDims.width, ClientDims.height);
   }
 
   private static setupBg() {

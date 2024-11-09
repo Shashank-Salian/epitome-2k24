@@ -1,4 +1,11 @@
-import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
+import React, {
+  createContext,
+  useState,
+  useContext,
+  useEffect,
+  ReactNode,
+} from "react";
+
 interface AudioContextType {
   isMusicOn: boolean;
   setIsMusicOn: React.Dispatch<React.SetStateAction<boolean>>;
@@ -8,12 +15,14 @@ const AudioContext = createContext<AudioContextType>({
   setIsMusicOn: () => {},
 });
 
-export const AudioProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const AudioProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [isMusicOn, setIsMusicOn] = useState<boolean>(false);
   const [audioPlayer, setAudioPlayer] = useState<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    const player = new Audio('../../assets/Music/Chronometry.mp3');
+    const player = new Audio("../../assets/Music/Chronometry.mp3");
     player.loop = true;
     setAudioPlayer(player);
 
@@ -38,6 +47,6 @@ export const AudioProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   );
 };
 export const useAudio = () => {
-  console.log("audio")
+  console.log("audio");
   return useContext(AudioContext);
 };
