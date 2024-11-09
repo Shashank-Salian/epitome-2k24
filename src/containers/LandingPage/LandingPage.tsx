@@ -84,10 +84,10 @@ const LandingPage = () => {
   return (
     <Container
       parentClassName="landing-page-container"
-      className={style.Parent}
+      className={`pb-4 h-dvh ${style.Parent}`}
     >
       <audio ref={soundRef} src={audioFilePath} />
-      <div className={style.Main}>
+      <div className={`pt-8 ${style.Main}`}>
         <div className={style.Left}>
           <div className={style.Level}>
             <span className={style.Span}>
@@ -95,9 +95,11 @@ const LandingPage = () => {
             </span>{" "}
             <p className={style.Para}>Level</p>
             <img
-              className={style.Img}
+              className={style.starImg}
               src="/Icons/star.png"
               alt="Picture of the author"
+              width={25}
+              height={25}
             />
             <span className={style.Span}>1892</span>
             <p className={style.Para}>Coins</p>
@@ -112,7 +114,13 @@ const LandingPage = () => {
               data-augmented-ui="all-hexangle-up border"
               className={style.reticle}
             >
-              <img src="/Icons/martian.jpg" alt="Profile" ref={addGlitchRef} />
+              <img
+                src="/Icons/martian.jpg"
+                alt="Profile"
+                width={505}
+                height={525}
+                ref={addGlitchRef}
+              />
             </div>
             {/* Player Info */}
             <div
@@ -169,17 +177,11 @@ const LandingPage = () => {
           </span>
         </div>
         <div className={style.Middle}>
-          <img
-            className={style.Img}
-            src="/Icons/Epitome.png"
-            alt="Epitome Logo"
-            ref={addGlitchRef}
-          />
+          <img src="/Icons/Epitome.png" alt="Epitome Logo" ref={addGlitchRef} />
           <PageButtons />
         </div>
         <div className={style.Right}>
           <div className={style.watch}>
-            <ToggleUI />
             <CountDown />
           </div>
 
@@ -204,6 +206,8 @@ const LandingPage = () => {
             <img
               src="/Icons/play.png"
               alt="Trailer"
+              width={50}
+              height={0}
               className={style.arrow_item1}
             />
           </div>
@@ -214,9 +218,12 @@ const LandingPage = () => {
             <img
               src="/Icons/instagram.png"
               alt="instagram"
+              width={30}
+              height={60}
               className={style.arrow_item2}
             />
           </div>
+          <ToggleUI />
         </div>
       </div>
     </Container>
