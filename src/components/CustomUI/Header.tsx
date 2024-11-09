@@ -2,7 +2,6 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
 import useUserStore from "@/store/useUserStore";
-import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import { ChevronDown, User2Icon } from 'lucide-react'
@@ -42,39 +41,42 @@ const Header = () => {
     }
   }, [session, status, router, pathname]);
 
-  // User Data Fetching
-  const { data: userData } = useQuery({
-    queryKey: ["user", session?.user?.email],
-    queryFn: async () => {
-      if (!session?.user?.email) return null;
-
-      const res = await fetch("/api/post/user", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: session.user.email }),
-      });
-
-      if (res.status !== 200) {
-        throw new Error("Network response was not ok");
-      }
-
-      const data = await res.json();
-      console.log("UserData:", data);
-      return data;
-    },
-    enabled: !!session?.user?.email,
-  });
-  // Update User Store
+  // Fetch & Update User Store
   useEffect(() => {
-    if (userData && 'uid' in userData && user?.uid !== userData.uid) {
-      setUser({
-        ...userData,
-        accessToken: session?.user?.accessToken
-      });
+    const fetchUserData = async () => {
+      if (!session?.user?.email) return;
+
+      try {
+        const res = await fetch("/api/post/user", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: session.user.email }),
+        });
+
+        if (res.status !== 200) {
+          throw new Error("Failed to fetch user data");
+        }
+
+        const userData = await res.json();
+        console.log("UserData:", userData);
+        if (userData && 'uid' in userData && user?.uid !== userData.uid) {
+          setUser({
+            ...userData,
+            accessToken: session?.user?.accessToken
+          });
+        }
+
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    if (session?.user?.email) {
+      fetchUserData();
     }
-  }, [userData, session?.user?.accessToken, user, setUser]);
+  }, [session?.user, user, setUser]);
 
   return (
     // <Container parentClassName="!h-fit">

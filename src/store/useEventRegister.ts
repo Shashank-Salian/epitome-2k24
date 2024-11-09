@@ -1,6 +1,14 @@
 import { create } from "zustand"
 import { EventRegType } from "@/utils/EventList"
 
+export type ParticipantsListType = {
+    name: string,
+    phone: string,
+    events: {
+        eventName: string,
+        eventType: string
+    }[]
+}
 
 export interface EventRegProp {
     selectedEvents: EventRegType[] | [],
@@ -11,6 +19,8 @@ export interface EventRegProp {
     setDisplayForm: (toggle: boolean) => void
     totalParticipants: number,
     setTotalParticipants: (value: number) => void
+    participantsList: ParticipantsListType[] | [],
+    setParticipantsList: (participant: ParticipantsListType[] | []) => void
 }
 
 const useEventRegister = create<EventRegProp>((set) => ({
@@ -22,6 +32,8 @@ const useEventRegister = create<EventRegProp>((set) => ({
     setDisplayForm: (toggle: boolean) => set({ displayForm: toggle }),
     totalParticipants: 0,
     setTotalParticipants: (value: number) => set({ totalParticipants: value }),
+    participantsList: [],
+    setParticipantsList: (participant: ParticipantsListType[]) => set({ participantsList: participant }),
 }));
 
 export default useEventRegister

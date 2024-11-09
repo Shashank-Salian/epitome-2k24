@@ -3,16 +3,26 @@ import UserModel from "@/models/UserModel";
 import { EventRegType } from "@/utils/EventList";
 import { NextRequest, NextResponse } from "next/server";
 
+type ParticipantsListType = {
+    name: string,
+    phone: string,
+    events: {
+        eventName: string,
+        eventType: string
+    }[]
+}
+
 type RequestBody = {
     email: string,
     participantsDetails: EventRegType[]
+    participantsList: ParticipantsListType[]
 }
 
 export async function POST(request: NextRequest) {
     // export async function getUserByEmail(email: string) {
-    const { email, participantsDetails }: RequestBody = await request.json()
+    const { email, participantsDetails, participantsList }: RequestBody = await request.json()
 
-    console.log("UserEmail", participantsDetails)
+    console.log("UserEmail", { participantsDetails, participantsList })
     if (!email || !participantsDetails) {
         throw new Error("Invalid Participants Details!")
     }
@@ -25,10 +35,24 @@ export async function POST(request: NextRequest) {
         }
 
         userExists.events = participantsDetails.map(event => ({
-            EventName: event.title,
-            EventType: event.category,
-            participants: event.participants
+            eventName: event.title,
+            eventType: event.category,
+            participants: event.participants.map(p => ({
+                name: p.name,
+                phone: p.phone
+            }))
         }));
+
+        userExists.participants = participantsList.map(participant => ({
+            name: participant.name,
+            phone: participant.phone,
+            events: participant.events.map(evnt => ({
+                eventName: evnt.eventName,
+                eventType: evnt.eventType
+            }))
+        }));
+
+        // userExists.set({ participants: participantsList });
 
         console.log("\nParticipants Added", userExists);
         await userExists.save();

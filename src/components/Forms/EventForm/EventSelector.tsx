@@ -11,7 +11,7 @@ type EventButtonProp = {
 }
 
 const EventSelector = () => {
-    const { totalParticipants, selectedEvents, setDisplayForm, setParticipantsDetails } = useEventRegister()
+    const { selectedEvents, setDisplayForm, setParticipantsDetails } = useEventRegister()
 
     // console.log("Events", selectedEvents)
     const handleEventConfirm = () => {
@@ -35,8 +35,7 @@ const EventSelector = () => {
                 ))}
             </div>
 
-            <div className="flex justify-between items-center">
-                <div className="px-4 py-2 border border-secondary rounded">Total Participants : {totalParticipants} / 15</div>
+            <div className="flex self-end">
                 <Button type='submit' onClick={handleEventConfirm} className='flex_center gap-4 max-w-[500px] text-[1em] text-white font-bold tracking-wide hover:bg-primary'>
                     <CheckCircleIcon />
                     Confirm Selected Events
@@ -47,7 +46,7 @@ const EventSelector = () => {
 }
 
 const EventButton = ({ event }: EventButtonProp) => {
-    const { selectedEvents, setSelectedEvents, totalParticipants, setTotalParticipants, setDisplayForm } = useEventRegister()
+    const { selectedEvents, setSelectedEvents, setDisplayForm } = useEventRegister()
 
     const isSelected = useMemo(() =>
         selectedEvents?.some(item => event.title === item.title),
@@ -59,16 +58,16 @@ const EventButton = ({ event }: EventButtonProp) => {
 
         if (isSelected) {
             setSelectedEvents(selectedEvents?.filter(item => item.title !== event.title) || null)
-            setTotalParticipants(totalParticipants - event.participantCount)
+            // setTotalParticipants(totalParticipants - event.participantCount)
         } else {
-            if (totalParticipants > 15 || (totalParticipants + event.participantCount) > 15) {
-                toast.error("Max 15 Participants Allowed!")
-                return
-            }
+            // if (totalParticipants > 15 || (totalParticipants + event.participantCount) > 15) {
+            //     toast.error("Max 15 Participants Allowed!")
+            //     return
+            // }
             setSelectedEvents([...(selectedEvents || []), event])
-            setTotalParticipants(totalParticipants + event.participantCount)
+            // setTotalParticipants(totalParticipants + event.participantCount)
         }
-    }, [isSelected, selectedEvents, event, totalParticipants, setSelectedEvents, setDisplayForm, setTotalParticipants])
+    }, [isSelected, selectedEvents, event, setSelectedEvents, setDisplayForm])
 
     return (
         <Button
