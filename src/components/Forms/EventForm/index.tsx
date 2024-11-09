@@ -1,74 +1,139 @@
 "use client"
-import React, { FormEvent } from 'react'
+import React, { FormEvent, useState } from 'react'
 import { Button } from '../../ui/button'
-import { CheckCircleIcon, Loader2Icon } from 'lucide-react'
+import { Loader2Icon, SendIcon } from 'lucide-react'
 import EventGroup from './EventGroup'
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry"
 import EventSelector from './EventSelector'
-import useEventRegister from '@/store/useEventRegister'
+import useEventRegister, { ParticipantsListType } from '@/store/useEventRegister'
 import toast from 'react-hot-toast'
 import useUserStore from '@/store/useUserStore'
+import { useRouter } from 'next/navigation'
+import EventParticipants from './EventParticipants'
 
 const EventForm = () => {
-    const { selectedEvents } = useEventRegister()
-    const { participantsDetails } = useEventRegister()
+    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const { selectedEvents, displayForm } = useEventRegister()
+    const { participantsDetails, participantsList, setParticipantsList, setDisplayForm } = useEventRegister()
     const { user } = useUserStore()
+    const router = useRouter()
 
     const HandleRegister = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // Throw error if Empty inputs
-        console.log(participantsDetails)
+        console.log("HandleRegister", participantsDetails)
+
+        if (participantsList.length > 15) {
+            toast.error("Max 15 Participants Allowed!")
+            return
+        }
+
         let isValid = true
-        participantsDetails.some(event => {
-            event.participants.some(participant => {
-                if (participant.name.length <= 0 || (participant.phone && participant.phone.length <= 0)) {
-                    toast.error("All Fields are Required!")
-                    isValid = false
-                    return
-                }
-            })
-            setTimeout(() => { }, 10000)
+        participantsList.some(participant => {
+            if (participant.name.length <= 0 || (participant.phone && participant.phone.length <= 0)) {
+                toast.error("All Fields are Required!")
+                isValid = false
+                return
+            }
         })
 
         if (!isValid) return
-        console.log("Event Participants : ", participantsDetails)
+        console.log("Event Participants : ", { participantsDetails, participantsList })
 
-        const res = await fetch("/api/post/event-register", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email: user?.email, participantsDetails }),
-        });
+        const SubmitToastID = toast.loading("Submitting Registration...")
+        try {
+            const res = await fetch("/api/post/event-register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email: user?.email, participantsDetails, participantsList }),
+            });
 
-        const data = await res.json()
-        console.log("Event Reg:", data)
+            const data = await res.json()
+            console.log("Event Reg:", data)
+
+            if (res?.status === 201) {
+                toast.success("Event Registations Submitted!", {
+                    id: SubmitToastID
+                })
+
+                router.push("/payment")
+            }
+        } catch (err) {
+            toast.error("Something went wrong!", {
+                id: SubmitToastID
+            })
+            console.log(err)
+        } finally {
+            setIsLoading(false)
+        }
     }
 
-    const isLoading = false
+    const HandleParticipantsList = () => {
+        setDisplayForm(false)
+        const updatedParticipantsList: ParticipantsListType[] = [];
+
+        participantsDetails.forEach(event => {
+            event.participants.forEach(p => {
+                const existingParticipantIndex = updatedParticipantsList.findIndex((participant) => participant.phone === p.phone)
+
+                if (existingParticipantIndex !== -1) {
+                    updatedParticipantsList[existingParticipantIndex].events.push({
+                        eventName: event.title,
+                        eventType: event.category
+                    })
+                } else {
+                    updatedParticipantsList.push({
+                        name: p.name,
+                        phone: p.phone,
+                        events: [{
+                            eventName: event.title,
+                            eventType: event.category
+                        }]
+                    });
+                }
+            });
+        });
+
+        console.log({ updatedParticipantsList })
+
+        setParticipantsList(updatedParticipantsList);
+    }
 
     return (
-        <div className='flex_center flex-col w-full h-full bg-background/30 rounded-md'>
+        <div className='flex_center flex-col w-full h-full bg-background/20 rounded-md backdrop-blur-md'>
             <EventSelector />
-
             <form onSubmit={(e) => HandleRegister(e)} className='w-full h-full p-8 flex_center flex-col gap-6'>
-                <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }} className='w-full'>
-                    <Masonry gutter='2em' >
-                        {selectedEvents?.map((event, index) => (
-                            <EventGroup
-                                key={index}
-                                eventName={event.title}
-                                participants={event.participantCount} />
-                        ))}
-                    </Masonry>
-                </ResponsiveMasonry>
+                {displayForm &&
+                    <>
+                        <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }} className='w-full'>
+                            <Masonry gutter='2em' >
+                                {selectedEvents?.map((event, index) => (
+                                    <EventGroup
+                                        key={index}
+                                        eventName={event.title}
+                                        participants={event.participantCount} />
+                                ))}
+                            </Masonry>
+                        </ResponsiveMasonry>
+
+                        <Button type='button' onClick={HandleParticipantsList} className='flex_center gap-4 max-w-[500px] text-[1em] text-white font-bold tracking-wide hover:bg-primary' disabled={isLoading}>
+                            {isLoading ?
+                                <Loader2Icon className='animate-spin' />
+                                : <SendIcon />
+                            }
+                            Confirm Participants
+                        </Button>
+                    </>}
+
+                <EventParticipants />
 
                 {participantsDetails && <Button type='submit' className='flex_center gap-4 max-w-[500px] text-[1em] text-white font-bold tracking-wide hover:bg-primary' disabled={isLoading}>
                     {isLoading ?
                         <Loader2Icon className='animate-spin' />
-                        : <CheckCircleIcon />
+                        : <SendIcon />
                     }
-                    Complete Registration
+                    Submit Registration
                 </Button>}
             </form>
         </div>

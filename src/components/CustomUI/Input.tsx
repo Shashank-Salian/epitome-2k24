@@ -23,7 +23,7 @@ const Input = ({ label, type = "text", name = "", placeholder, className = "", r
         <div className={cn("relative min-w-[350px]", className)}>
             {label && <label className='text-[0.9em] bg-background/0 px-1'>
                 {label}
-                {required && <span className="text-red-600">*</span>}
+                {required && <span className="text-[1.2em] text-red-600"> ★</span>}
             </label>}
 
             <div className="flex items-center border border-muted-foreground sm:focus-within:border-primary rounded p-1">

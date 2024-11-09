@@ -10,20 +10,72 @@ const ParticipantsSchema = new Schema({
         trim: true,
         unique: true,
         sparse: true,
-    }
+    },
+    events: [{
+        eventName: {
+            type: String,
+            trim: true,
+        },
+        eventType: {
+            type: String,
+            trim: true
+        }
+    }]
 })
 
 const EventsSchema = new Schema({
-    EventName: {
+    eventName: {
         type: String,
         trim: true,
     },
-    EventType: {
+    eventType: {
         type: String,
         trim: true
     },
-    participants: [ParticipantsSchema]
+    participants: [{
+        name: {
+            type: String,
+            trim: true,
+        },
+        phone: {
+            type: String,
+            trim: true,
+            unique: true,
+            sparse: true,
+        },
+    }]
 })
+
+const PaymentSchema = new Schema({
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+    },
+    participantCount: {
+        type: Number,
+        required: true,
+    },
+    amount: {
+        type: Number,
+        required: true,
+    },
+    paymentStatus: {
+        type: String,
+        default: 'pending',
+    },
+    transactionId: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    paymentDate: {
+        type: Date,
+        default: Date.now,
+    }
+}, {
+    timestamps: true,
+});
 
 // Main User Schema
 const UserSchema = new Schema({
@@ -62,7 +114,9 @@ const UserSchema = new Schema({
         type: Date,
         default: null,
     },
+    participants: [ParticipantsSchema],
     events: [EventsSchema],
+    payment: PaymentSchema,
     createdAt: {
         type: Date,
         default: Date.now,

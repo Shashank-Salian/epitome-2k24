@@ -281,7 +281,7 @@ export const eventRegisterList: EventRegType[] = [
   },
   {
     title: "Matrix Minds",
-    category: "Quiz",
+    category: "IT Quiz",
     participants: [
       {
         name: "",
