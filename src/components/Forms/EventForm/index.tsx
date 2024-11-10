@@ -5,79 +5,31 @@ import { Loader2Icon, SendIcon } from "lucide-react";
 import EventGroup from "./EventGroup";
 import Masonry, { ResponsiveMasonry } from "@wowblvck/react-responsive-masonry";
 import EventSelector from "./EventSelector";
-import useEventRegister, {
-  ParticipantsListType,
-} from "@/store/useEventRegister";
+import useEventRegister, { ParticipantsListType } from "@/store/useEventRegister";
 import toast from "react-hot-toast";
 import useUserStore from "@/store/useUserStore";
 import { useRouter } from "next/navigation";
 import EventParticipants from "./EventParticipants";
 
 const EventForm = () => {
-    const [isLoading, setIsLoading] = useState<boolean>(false)
-    const [showSubmit, setShowSubmit] = useState<boolean>(false)
-    const { selectedEvents, displayForm, participantsDetails, participantsList, setParticipantsList, setDisplayForm } = useEventRegister()
-    const { user, setUser } = useUserStore()
-    const router = useRouter()
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showSubmit, setShowSubmit] = useState<boolean>(false);
+  const { selectedEvents, displayForm, participantsDetails, participantsList, setParticipantsList, setDisplayForm } = useEventRegister();
+  const { user, setUser } = useUserStore();
+  const router = useRouter();
 
-    const HandleRegister = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        console.log("HandleRegister", participantsDetails)
+  const HandleRegister = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("HandleRegister", participantsDetails);
 
-        if (participantsList.length > 15) {
-            toast.error("Max 15 Participants Allowed!")
-            return
-        }
-
-        let isValid = true
-        participantsList.some(participant => {
-            if (participant.name.length <= 0 || (participant.phone && participant.phone.length <= 0)) {
-                toast.error("All Fields are Required!")
-                isValid = false
-                return
-            }
-        })
-
-        if (!isValid) return
-        console.log("Event Participants : ", { participantsDetails, participantsList })
-
-        const SubmitToastID = toast.loading("Submitting Registration...")
-        try {
-            const res = await fetch("/api/post/event-register", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ email: user?.email, participantsDetails, participantsList }),
-            });
-
-            const data = await res.json()
-            console.log("Event Reg:", data)
-
-            if (res?.status === 201) {
-                setUser(data.user)
-                toast.success("Event Registations Submitted!", {
-                    id: SubmitToastID
-                })
-
-                router.push("/payment")
-            }
-        } catch (err) {
-            toast.error("Something went wrong!", {
-                id: SubmitToastID
-            })
-            console.log(err)
-        } finally {
-            setIsLoading(false)
-        }
+    if (participantsList.length > 15) {
+      toast.error("Max 15 Participants Allowed!");
+      return;
     }
 
     let isValid = true;
     participantsList.some((participant) => {
-      if (
-        participant.name.length <= 0 ||
-        (participant.phone && participant.phone.length <= 0)
-      ) {
+      if (participant.name.length <= 0 || (participant.phone && participant.phone.length <= 0)) {
         toast.error("All Fields are Required!");
         isValid = false;
         return;
@@ -85,10 +37,7 @@ const EventForm = () => {
     });
 
     if (!isValid) return;
-    console.log("Event Participants : ", {
-      participantsDetails,
-      participantsList,
-    });
+    console.log("Event Participants : ", { participantsDetails, participantsList });
 
     const SubmitToastID = toast.loading("Submitting Registration...");
     try {
@@ -97,19 +46,15 @@ const EventForm = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          email: user?.email,
-          participantsDetails,
-          participantsList,
-        }),
+        body: JSON.stringify({ email: user?.email, participantsDetails, participantsList }),
       });
 
       const data = await res.json();
       console.log("Event Reg:", data);
 
       if (res?.status === 201) {
-        setUser(data);
-        toast.success("Event Registations Submitted!", {
+        setUser(data.user);
+        toast.success("Event Registrations Submitted!", {
           id: SubmitToastID,
         });
 
@@ -183,10 +128,7 @@ const EventForm = () => {
   return (
     <div className="flex_center flex-col w-full p-4 h-full bg-background/20 rounded-md backdrop-blur-md font-oxanium">
       <EventSelector />
-      <form
-        onSubmit={(e) => HandleRegister(e)}
-        className="w-full h-full flex_center flex-col gap-6"
-      >
+      <form onSubmit={(e) => HandleRegister(e)} className="w-full h-full flex_center flex-col gap-6">
         {displayForm && (
           <>
             <ResponsiveMasonry

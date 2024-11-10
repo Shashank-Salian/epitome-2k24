@@ -1,5 +1,5 @@
+/* eslint-disable */
 "use client";
-
 import { EventsRayCaster } from "@/threeWorks/Models/EventsModel";
 import EventList from "@/utils/EventList";
 import { useEffect, useRef, useState } from "react";
@@ -7,7 +7,7 @@ import RulesCard from "../RulesCard/RulesCard";
 import classes from "./Event.module.css";
 import Typewriter from "@/components/CustomUI/TypeWriter";
 import ToggleUI from "@/components/CustomUI/ToggleUI";
-// @ts-ignore
+// @ts-expect-error
 import { PowerGlitch } from "powerglitch";
 
 type Props = {
@@ -22,7 +22,7 @@ type Props = {
 
 const TRANSITION_TIME = 500;
 
-const Event = ({}: Props) => {
+const Event = ({ }: Props) => {
   const [curEventIndex, setCurEventIndex] = useState(0);
   const [showTitle, setShowTitle] = useState(false);
   const [showRules, setShowRules] = useState(false);
@@ -79,7 +79,8 @@ const Event = ({}: Props) => {
           playMode: "always",
           shake: { velocity: 10, amplitudeX: 0.01, amplitudeY: 0.02 }
         }
-      )}
+        )
+      }
     });
     const elements = document.querySelectorAll(
       `.${classes.Button},.${classes.Challenge}`
@@ -126,9 +127,8 @@ const Event = ({}: Props) => {
           className={`${classes.Content}`}
         >
           <h1
-            className={`font-iceland font-bold ${classes.title} ${
-              showTitle ? classes.titleReveal : classes.titleClose
-            } text-4xl sm:text-5xl md:text-6xl text-left sm:text-center`}
+            className={`font-iceland font-bold ${classes.title} ${showTitle ? classes.titleReveal : classes.titleClose
+              } text-4xl sm:text-5xl md:text-6xl text-left sm:text-center`}
           >
             {EventList[curEventIndex].title}
           </h1>
@@ -163,7 +163,7 @@ const Event = ({}: Props) => {
             className={`font-iceland text-lg sm:text-2xl px-6 sm:px-10 py-2 sm:py-3 ${classes.Button}`}
             onClick={onPreviousClick}
             data-augmented-ui="bl-clip tr-clip border"
-            
+
           >
             Previous Challenge
           </button>
