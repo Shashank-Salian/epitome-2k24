@@ -71,18 +71,18 @@ const inCircleCurve = new THREE.EllipseCurve(
 );
 
 //   Dev purpose:
-let geometry = new THREE.BufferGeometry().setFromPoints(
-  outCircleCurve.getPoints(100)
-);
-let material = new THREE.LineBasicMaterial({ color: 0xff0000 });
-let circleLine = new THREE.Line(geometry, material);
-let geometry2 = new THREE.BufferGeometry().setFromPoints(
-  inCircleCurve.getPoints(100)
-);
-let material2 = new THREE.LineBasicMaterial({ color: 0x00ff00 });
-let circleLine2 = new THREE.Line(geometry2, material2);
-SceneSetup.scene.add(circleLine2);
-SceneSetup.scene.add(circleLine);
+// let geometry = new THREE.BufferGeometry().setFromPoints(
+//   outCircleCurve.getPoints(100)
+// );
+// let material = new THREE.LineBasicMaterial({ color: 0xff0000 });
+// let circleLine = new THREE.Line(geometry, material);
+// let geometry2 = new THREE.BufferGeometry().setFromPoints(
+//   inCircleCurve.getPoints(100)
+// );
+// let material2 = new THREE.LineBasicMaterial({ color: 0x00ff00 });
+// let circleLine2 = new THREE.Line(geometry2, material2);
+// SceneSetup.scene.add(circleLine2);
+// SceneSetup.scene.add(circleLine);
 
 class EventsRayCaster {
   static raycaster: THREE.Raycaster = new THREE.Raycaster();
@@ -394,22 +394,22 @@ function updateCurvePath() {
     outCircleCurve.aEndAngle = Math.PI * 0.7;
   }
 
-  SceneSetup.scene.remove(circleLine);
-  SceneSetup.scene.remove(circleLine2);
+  //   SceneSetup.scene.remove(circleLine);
+  //   SceneSetup.scene.remove(circleLine2);
 
-  geometry = new THREE.BufferGeometry().setFromPoints(
-    outCircleCurve.getPoints(100)
-  );
-  material = new THREE.LineBasicMaterial({ color: 0xff0000 });
-  circleLine = new THREE.Line(geometry, material);
-  geometry2 = new THREE.BufferGeometry().setFromPoints(
-    inCircleCurve.getPoints(100)
-  );
-  material2 = new THREE.LineBasicMaterial({ color: 0x00ff00 });
-  circleLine2 = new THREE.Line(geometry2, material2);
+  //   geometry = new THREE.BufferGeometry().setFromPoints(
+  //     outCircleCurve.getPoints(100)
+  //   );
+  //   material = new THREE.LineBasicMaterial({ color: 0xff0000 });
+  //   circleLine = new THREE.Line(geometry, material);
+  //   geometry2 = new THREE.BufferGeometry().setFromPoints(
+  //     inCircleCurve.getPoints(100)
+  //   );
+  //   material2 = new THREE.LineBasicMaterial({ color: 0x00ff00 });
+  //   circleLine2 = new THREE.Line(geometry2, material2);
 
-  SceneSetup.scene.add(circleLine);
-  SceneSetup.scene.add(circleLine2);
+  //   SceneSetup.scene.add(circleLine);
+  //   SceneSetup.scene.add(circleLine2);
 }
 
 export { initEventsModel, EventsRayCaster, updateCurvePath };
