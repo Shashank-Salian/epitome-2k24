@@ -1,17 +1,16 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Container from "@/containers/Container/Container";
 import style from "./LandingPage.module.css";
 import Typewriter from "@/components/CustomUI/TypeWriter";
 import CountDown from "../../components/CustomUI/CountDown";
-import ToggleUI from "../../components/CustomUI/ToggleUI";
 import Glitch from "./Glitch";
-import Image from "next/image";
-import { useGlitch, GlitchHandle } from "react-powerglitch"
+import { useGlitch, GlitchHandle } from "react-powerglitch";
 import PageButtons from "./PageButtons/PageButtons";
 const audioFilePath = "/Music/click.wav";
+import VideoPlayer from "./VideoPlayer/VideoPlayer";
 
 const LandingPage = () => {
-  const soundRef = useRef<HTMLAudioElement>(new Audio(audioFilePath))
+  const soundRef = useRef<HTMLAudioElement>(new Audio(audioFilePath));
 
   const glitch: GlitchHandle = useGlitch({
     playMode: "always",
@@ -19,25 +18,25 @@ const LandingPage = () => {
     hideOverflow: false,
     timing: {
       duration: 2000,
-      easing: "ease-in-out"
+      easing: "ease-in-out",
     },
     glitchTimeSpan: {
       start: 0.4,
-      end: 0.7
+      end: 0.7,
     },
     shake: {
       velocity: 20,
       amplitudeX: 0.02,
-      amplitudeY: 0.02
+      amplitudeY: 0.02,
     },
     slice: {
       count: 6,
       velocity: 15,
       minHeight: 0.02,
       maxHeight: 0.15,
-      hueRotate: true
+      hueRotate: true,
     },
-    pulse: false
+    pulse: false,
   });
 
   const playSound = () => {
@@ -47,9 +46,26 @@ const LandingPage = () => {
         .catch((error) => console.error("Error playing sound:", error));
     }
   };
+  //Video Player
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 
+  const handlePlayClick = () => {
+    setIsVideoPlaying(true); // Show the video player and start video playback
+    if (soundRef.current) {
+      soundRef.current.pause(); // Pause the audio when the video starts
+    }
+  };
+
+  const handleBackClick = () => {
+    setIsVideoPlaying(false); // Hide the video player and show the button again
+    if (soundRef.current) {
+      soundRef.current.play(); // Resume the audio when the video stops
+    }
+  };
+  //Video player end
   useEffect(() => {
     soundRef.current.preload = "auto";
+    soundRef.current.load();
     const elements = document.querySelectorAll(
       `.${style.broch}, .${style.arrow}, .${style.button}`
     );
@@ -77,14 +93,14 @@ const LandingPage = () => {
     >
       <audio ref={soundRef} src={audioFilePath} />
 
-      <div className={`pt-8 ${style.Main}`}>
+      <div className={`pt-8 ${style.Main}`} id="landing-page-container">
         <div className={style.Left}>
           <div className={style.Level}>
             <span className={style.Span}>
               <Glitch text="45" />
             </span>{" "}
             <p className={style.Para}>Level</p>
-            <Image
+            <img
               className={style.starImg}
               src="/Icons/star.png"
               alt="Picture of the author"
@@ -104,7 +120,7 @@ const LandingPage = () => {
               data-augmented-ui="all-hexangle-up border"
               className={style.reticle}
             >
-              <Image
+              <img
                 src="/Icons/martian.jpg"
                 alt="Profile"
                 width={505}
@@ -170,7 +186,7 @@ const LandingPage = () => {
         </div>
 
         <div className={style.Middle}>
-          <Image
+          <img
             className={style.Img}
             src="/Icons/Epitome.png"
             width={825}
@@ -178,7 +194,7 @@ const LandingPage = () => {
             alt="Epitome Logo"
             ref={glitch.ref}
           />
-          <PageButtons />
+          <PageButtons className={style.button} />
         </div>
         <div className={style.Right}>
           <div className={style.watch}>
@@ -188,42 +204,49 @@ const LandingPage = () => {
           <div className={style.landing} data-augmented-ui ref={glitch.ref}>
             <div className={style.Story}>
               <h1 className={style.title}>Ecstasy</h1>
-              <p>
-                Captain Zara piloted the starship Nova <Glitch text="through" />{" "}
-                the glowing rings of the Andromeda Rift. Suddenly, a beacon
-                shimmered, <Glitch text="broadcasting" /> a warning: “Echoes of
-                the Void Awaken.” Shadows stirred among the stars, spectral and
-                ancient. Zara hit the thrusters, escaping as dark tendrils
-                reached out. She knew then—space held <Glitch text="Secrets" />,
-                and they had just scratched the surface.
-              </p>
+              <div>
+                <h1 className={style.Date}>NOV 21 & 22 </h1>
+                <Glitch text="broadcasting" /> a warning: “Echoes of the Void
+                Awaken.” Shadows stirred among the stars, spectral and ancient.
+                Zara hit the thrusters, escaping as dark tendrils reached out.
+                She knew then—space held <Glitch text="Secrets" />, and they had
+                just scratched the surface.
+              </div>
             </div>
           </div>
-          <div
-            className={style.arrow}
-            data-augmented-ui="all-triangle-right border"
-          >
-            <Image
-              src="/Icons/play.png"
-              alt="Trailer"
-              width={50}
-              height={0}
-              className={style.arrow_item1}
-            />
-          </div>
-          <div
+
+          {/* Show Play Button if video is not playing */}
+          {!isVideoPlaying ? (
+            <button
+              className={style.arrow}
+              data-augmented-ui="all-triangle-right border"
+            >
+              <img
+                src="/Icons/play.png"
+                alt="Trailer"
+                width={50}
+                height={0}
+                className={style.arrow_item1}
+                onClick={handlePlayClick}
+              />
+            </button>
+          ) : (
+            // Show Video Player if the video is playing
+            <VideoPlayer onBack={handleBackClick} />
+          )}
+          <a
             className={style.arrow}
             data-augmented-ui="all-triangle-left border"
+            href="https://www.instagram.com/epitome_2k24?igsh=d3l4anhoN213ZHhq"
           >
-            <Image
+            <img
               src="/Icons/instagram.png"
               alt="instagram"
               width={30}
               height={60}
               className={style.arrow_item2}
             />
-          </div>
-          <ToggleUI />
+          </a>
         </div>
       </div>
     </Container>

@@ -5,7 +5,7 @@ import Image from "next/image";
 import useUserStore, { UserTypes } from "@/store/useUserStore";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
-import { ChevronDown, User2Icon } from 'lucide-react'
+import { ChevronDown, User2Icon } from "lucide-react";
 import ButtonUI from "./ButtonUI";
 import EpitomeLogo from "@/assets/Images/Epitome.png"
 import useModalStore from "@/store/useModalStore";
@@ -16,7 +16,13 @@ const AUTH_ROUTES = [
   "/forgot-password",
   "/reset-password",
 ];
-const PUBLIC_ROUTES = [...AUTH_ROUTES, "/", "/about", "/committee", "/challenges"];
+const PUBLIC_ROUTES = [
+  ...AUTH_ROUTES,
+  "/",
+  "/about",
+  "/committee",
+  "/challenges",
+];
 
 const PUBLIC_NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -68,13 +74,12 @@ const Header = () => {
 
         const userData: UserTypes = await res.json();
         console.log("UserData:", userData);
-        if (userData && 'uid' in userData && user?.uid !== userData.uid) {
+        if (userData && "uid" in userData && user?.uid !== userData.uid) {
           setUser({
             ...userData,
-            accessToken: session?.user?.accessToken
+            accessToken: session?.user?.accessToken,
           });
         }
-
         if (!userData?.collegeName || !userData?.phone) {
           setShowModal("USER_INFO_MODAL")
         }
@@ -92,7 +97,8 @@ const Header = () => {
     // <Container parentClassName="!h-fit">
     <header
       data-augmented-ui="br-2-clip-y bl-2-clip-y"
-      className="sticky w-full top-0 flex justify-between items-center px-10 py-3 bg-background/30 z-10 backdrop-blur-md">
+      className="sticky w-full top-0 flex justify-between items-center flex-col sm:flex-row px-10 py-3 bg-background/30 z-10 backdrop-blur-md font-oxanium"
+    >
       <Link href="/">
         <Image
           src={EpitomeLogo}
@@ -104,18 +110,18 @@ const Header = () => {
         <h1 className="font-spaceAge text-2xl sm:hidden">Epitome</h1>
       </Link>
 
-      <nav className="flex_center gap-6">
+      <nav className="flex_center gap-6 mt-6 sm:mt-0">
         {status === "authenticated"
           ? PROTECTED_NAV_LINKS.map(({ href, label }) => (
-            <Link key={label} href={href} className="text-[1.25em]">
-              {label}
-            </Link>
-          ))
+              <Link key={label} href={href} className="md:text-[1.25em]">
+                {label}
+              </Link>
+            ))
           : PUBLIC_NAV_LINKS.map(({ href, label }) => (
-            <Link key={label} href={href} className="text-[1.25em]">
-              {label}
-            </Link>
-          ))}
+              <Link key={label} href={href} className="md:text-[1.25em]">
+                {label}
+              </Link>
+            ))}
 
         {status == "unauthenticated" ? (
           <Link href={pathname == "/login" ? "/register" : "/login"} className="">

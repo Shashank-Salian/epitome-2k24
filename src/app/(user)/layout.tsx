@@ -1,15 +1,18 @@
-import Header from '@/components/CustomUI/Header';
-import React from 'react'
+import Header from "@/components/CustomUI/Header";
+import Container from "@/containers/Container/Container";
+import React from "react";
 
 export default function Layout({
-    children,
+  children,
 }: Readonly<{
-    children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-    return (
-        <main className='w-full h-full px-8'>
-            <Header />
-            {children}
-        </main>
-    )
+  return (
+    <main className="w-full h-full">
+      <Container>
+        <Header />
+        {children}
+      </Container>
+    </main>
+  );
 }

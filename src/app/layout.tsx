@@ -6,42 +6,12 @@ import Provider from "@/providers/Providers";
 import Cursor from "@/components/CustomUI/Cursor";
 import "./globals.css";
 import "augmented-ui";
+// import ToggleUI from "@/components/CustomUI/ToggleUI";
 
-const poppins = localFont({
-  src: [
-    {
-      path: "../assets/fonts/Poppins-Regular.woff2",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../assets/fonts/Poppins-Medium.woff2",
-      weight: "500",
-      style: "normal",
-    },
-    {
-      path: "../assets/fonts/Poppins-Bold.woff2",
-      weight: "700",
-      style: "normal",
-    },
-  ],
-  preload: true,
-  display: "swap",
-  variable: "--Poppins",
-});
+import dynamic from "next/dynamic";
 
-const valorant = localFont({
-  src: "../assets/fonts/valorant.woff2",
-  preload: true,
-  display: "swap",
-  variable: "--Valorant",
-});
-
-const beyonders = localFont({
-  src: "../assets/fonts/beyonders.woff2",
-  preload: true,
-  display: "swap",
-  variable: "--Beyonders",
+const ToggleUI = dynamic(() => import("@/components/CustomUI/ToggleUI"), {
+  ssr: false,
 });
 
 const spaceAge = localFont({
@@ -67,24 +37,6 @@ const oxanium = localFont({
   preload: true,
   display: "swap",
   variable: "--Oxanium",
-});
-
-const bsd = localFont({
-  src: [
-    {
-      path: "../assets/fonts/BigShouldersDisplay-Regular.woff2",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../assets/fonts/BigShouldersDisplay-Bold.woff2",
-      weight: "700",
-      style: "normal",
-    },
-  ],
-  preload: true,
-  display: "swap",
-  variable: "--Bsd",
 });
 
 const iceland = localFont({
@@ -184,11 +136,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.variable} ${valorant.variable} ${oxanium.variable} ${beyonders.variable} ${spaceAge.variable} ${bsd.variable} ${iceland.variable} bg-blueGradientAlt text-foreground`}
+        className={`${oxanium.variable} ${spaceAge.variable} ${iceland.variable} bg-blueGradientAlt text-foreground relative`}
       >
         <Provider>{children}</Provider>
         <ThreeComp />
         {/* <Cursor /> */}
+        <ToggleUI />
       </body>
     </html>
   );

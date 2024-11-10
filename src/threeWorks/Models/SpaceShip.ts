@@ -8,7 +8,7 @@ class SpaceShip {
   static inScene = false;
   static posZ = {
     remove: 10,
-    add: -0.4,
+    add: -0.15,
   };
 
   static init() {
@@ -51,11 +51,12 @@ class SpaceShip {
     if (SpaceShip.inScene || !SpaceShip.asset.scene) return;
 
     SceneSetup.scene.add(SpaceShip.asset.scene!);
-    // SpaceShip.asset.scene!.position.set(0, 0, -1);
+    SpaceShip.asset.scene.position.set(0, 0, SpaceShip.posZ.remove);
 
     const animate = () => {
       const delta = SceneSetup.clock.getDelta();
       SpaceShip.asset.scene!.position.z -= 15 * delta;
+
       if (SpaceShip.asset.scene!.position.z < SpaceShip.posZ.add) {
         SpaceShip.inScene = true;
         // SceneSetup.scene.add(SpaceShip.asset.scene!);
@@ -71,11 +72,12 @@ class SpaceShip {
     if (!SpaceShip.asset.scene) return;
 
     SpaceShip.asset.updateResizeFactor();
-    const cl = (1200 - ClientDims.width) * 0.01;
-    const pos = Math.max(Math.min(1.4, cl), -0.4);
+    const cl = (900 - ClientDims.width) * 0.01;
+    const pos = Math.max(Math.min(1.4, cl), -0.15);
     SpaceShip.posZ.add = pos;
 
-    SpaceShip.asset.scene?.position.set(0, 0, pos);
+    const y = ClientDims.width > 1600 ? 1 : 0.1;
+    SpaceShip.asset.scene?.position.set(0, y, pos);
   }
 }
 
