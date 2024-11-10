@@ -52,8 +52,12 @@ const PaymentSchema = new Schema({
         ref: 'User',
         required: true,
     },
-    participantCount: {
-        type: Number,
+    email: {
+        type: String,
+        required: true,
+    },
+    collegeName: {
+        type: String,
         required: true,
     },
     amount: {
@@ -62,19 +66,19 @@ const PaymentSchema = new Schema({
     },
     paymentStatus: {
         type: String,
-        default: 'pending',
+        default: 'PENDING',
     },
-    transactionId: {
+    recieptUrl: {
         type: String,
         required: true,
-        unique: true,
+    },
+    uploadAt: {
+        type: Date,
     },
     paymentDate: {
         type: Date,
         default: Date.now,
     }
-}, {
-    timestamps: true,
 });
 
 // Main User Schema
@@ -116,7 +120,7 @@ const UserSchema = new Schema({
     },
     participants: [ParticipantsSchema],
     events: [EventsSchema],
-    payment: PaymentSchema,
+    payment: [PaymentSchema],
     createdAt: {
         type: Date,
         default: Date.now,

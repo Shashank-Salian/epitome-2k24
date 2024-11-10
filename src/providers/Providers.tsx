@@ -3,6 +3,7 @@ import { SessionProvider } from "next-auth/react"
 import { useEffect, useState } from "react"
 import { Toaster } from "react-hot-toast"
 import useLoader from "@/store/useLoader"
+import { EdgeStoreProvider } from '../lib/edgestore';
 
 type Props = {
     children: React.ReactNode
@@ -23,7 +24,9 @@ const Provider = ({ children }: Props) => {
         return (
             <>
                 <SessionProvider refetchOnWindowFocus={true}>
-                    {children}
+                    <EdgeStoreProvider>
+                        {children}
+                    </EdgeStoreProvider>
                 </SessionProvider>
 
                 <Toaster position="bottom-right" />
