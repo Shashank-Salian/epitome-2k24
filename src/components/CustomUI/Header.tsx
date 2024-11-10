@@ -4,7 +4,7 @@ import Link from "next/link";
 import useUserStore from "@/store/useUserStore";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
-import { ChevronDown, User2Icon } from 'lucide-react'
+import { ChevronDown, User2Icon } from "lucide-react";
 import ButtonUI from "./ButtonUI";
 
 const AUTH_ROUTES = [
@@ -66,13 +66,12 @@ const Header = () => {
 
         const userData = await res.json();
         console.log("UserData:", userData);
-        if (userData && 'uid' in userData && user?.uid !== userData.uid) {
+        if (userData && "uid" in userData && user?.uid !== userData.uid) {
           setUser({
             ...userData,
-            accessToken: session?.user?.accessToken
+            accessToken: session?.user?.accessToken,
           });
         }
-
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -87,7 +86,8 @@ const Header = () => {
     // <Container parentClassName="!h-fit">
     <header
       data-augmented-ui="br-2-clip-y bl-2-clip-y"
-      className="sticky w-full top-0 flex justify-between items-center px-10 py-3 bg-background/30 z-10 backdrop-blur-md">
+      className="sticky w-full top-0 flex justify-between items-center px-10 py-3 bg-background/30 z-10 backdrop-blur-md"
+    >
       <Link href="/">
         <img
           src="/Icons/Epitome.png"
