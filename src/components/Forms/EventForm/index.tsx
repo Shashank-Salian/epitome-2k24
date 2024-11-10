@@ -13,9 +13,8 @@ import EventParticipants from './EventParticipants'
 
 const EventForm = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
-    const { selectedEvents, displayForm } = useEventRegister()
-    const { participantsDetails, participantsList, setParticipantsList, setDisplayForm } = useEventRegister()
-    const { user } = useUserStore()
+    const { selectedEvents, displayForm, participantsDetails, participantsList, setParticipantsList, setDisplayForm } = useEventRegister()
+    const { user, setUser } = useUserStore()
     const router = useRouter()
 
     const HandleRegister = async (e: FormEvent<HTMLFormElement>) => {
@@ -53,6 +52,7 @@ const EventForm = () => {
             console.log("Event Reg:", data)
 
             if (res?.status === 201) {
+                setUser(data)
                 toast.success("Event Registations Submitted!", {
                     id: SubmitToastID
                 })

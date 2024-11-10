@@ -76,6 +76,7 @@ const LandingPage = () => {
       className={`pb-4 h-dvh ${style.Parent}`}
     >
       <audio ref={soundRef} src={audioFilePath} />
+
       <div className={`pt-8 ${style.Main}`}>
         <div className={style.Left}>
           <div className={style.Level}>
@@ -167,6 +168,7 @@ const LandingPage = () => {
             </span>
           </a>
         </div>
+
         <div className={style.Middle}>
           <Image
             className={style.Img}

@@ -17,21 +17,15 @@ export default {
             authorize: async (credentials) => {
                 let user = null
 
-                console.log("\nUserInut:", credentials)
-
                 try {
                     if (!credentials?.email || !credentials?.password) {
                         return null
                     }
 
                     await connectDB()
-                    // const userExists = await UserModel.findOne({ email: credentials?.email, password: { $exists: true, $ne: null } })
-                    // const matchPassword = await bcrypt.compare(credentials?.password as string, userExists?.password)
-
                     const userExists = await axios.post(`${process.env.NEXTAUTH_URL}/api/post/user`, { email: credentials?.email, getPassword: true })
                     const matchPassword = await bcrypt.compare(credentials?.password as string, userExists?.data?.password)
 
-                    console.log("\nPAssMatch", { userExists, matchPassword })
                     if (!userExists?.data?.email || !matchPassword) throw new Error("Invalid Email or Password")
 
                     const userData = {

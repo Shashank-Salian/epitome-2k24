@@ -1,4 +1,5 @@
 import { create } from "zustand"
+import { ParticipantsListType } from "./useEventRegister"
 
 export interface UserEventTypes {
     eventName: string,
@@ -16,6 +17,7 @@ export interface UserTypes {
     phone: number | null,
     picture: string | null,
     events: UserEventTypes[],
+    participants: ParticipantsListType[],
     accessToken: string,
     isVerified: Date | '',
     createdAt: Date | ''

@@ -15,7 +15,7 @@ const PageButtons = () => {
         <span>Registration</span>
       </Button>
 
-      <Link href={"/challenges"}>
+      <Link href="/challenges">
         <Button
           className={style.button}
           data-augmented-ui="bl-clip tr-clip border"
@@ -24,7 +24,7 @@ const PageButtons = () => {
         </Button>
       </Link>
 
-      <Link href={"/login"}>
+      <Link href="/login">
         <Button
           className={style.button}
           data-augmented-ui="bl-clip tr-clip border"

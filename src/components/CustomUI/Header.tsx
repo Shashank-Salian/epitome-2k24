@@ -15,17 +15,15 @@ const AUTH_ROUTES = [
   "/forgot-password",
   "/reset-password",
 ];
-const PUBLIC_ROUTES = [...AUTH_ROUTES, "/", "/about", "/committee"];
+const PUBLIC_ROUTES = [...AUTH_ROUTES, "/", "/about", "/committee", "/challenges"];
 
 const PUBLIC_NAV_LINKS = [
   { href: "/", label: "Home" },
-  { href: "/", label: "About" },
-  //   { href: "/", label: "Committee" },
+  { href: "/challenges", label: "Challenges" },
 ];
 const PROTECTED_NAV_LINKS = [
   { href: "/", label: "Home" },
-  { href: "/", label: "About" },
-  { href: "/", label: "My Team" },
+  { href: "/challenges", label: "Challenges" },
   { href: "/events", label: "Events" },
 ];
 

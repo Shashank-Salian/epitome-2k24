@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
             }
         }
 
-        console.log("\nuserData", userData)
+        // console.log("\nuserData", userData)
 
         return NextResponse.json(userData, { status: 200 })
     } catch (err: any) {
