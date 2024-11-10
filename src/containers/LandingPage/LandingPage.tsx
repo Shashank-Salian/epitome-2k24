@@ -3,6 +3,7 @@ import Container from "@/containers/Container/Container";
 import style from "./LandingPage.module.css";
 import Typewriter from "@/components/CustomUI/TypeWriter";
 import CountDown from "../../components/CustomUI/CountDown";
+import ToggleUI from "../../components/CustomUI/ToggleUI";
 import Glitch from "./Glitch";
 import Image from "next/image";
 import { useGlitch, GlitchHandle } from "react-powerglitch"
@@ -39,21 +40,22 @@ const LandingPage = () => {
   return (
     <Container
       parentClassName="landing-page-container"
-      className={style.Parent}
+      className={`pb-4 h-dvh ${style.Parent}`}
     >
-      <div className={style.Main}>
+      <audio ref={soundRef} src={audioFilePath} />
+      <div className={`pt-8 ${style.Main}`}>
         <div className={style.Left}>
           <div className={style.Level}>
             <span className={style.Span}>
               <Glitch text="45" />
             </span>{" "}
             <p className={style.Para}>Level</p>
-            <Image
-              className={style.Img}
+            <img
+              className={style.starImg}
               src="/Icons/star.png"
+              alt="Picture of the author"
               width={25}
               height={25}
-              alt="Picture of the author"
             />
             <span className={style.Span}>1892</span>
             <p className={style.Para}>Coins</p>
@@ -68,8 +70,9 @@ const LandingPage = () => {
               data-augmented-ui="all-hexangle-up border"
               className={style.reticle}
             >
-              <Image
+              <img
                 src="/Icons/martian.jpg"
+                alt="Profile"
                 width={505}
                 height={525}
                 alt="Profile"
@@ -88,7 +91,7 @@ const LandingPage = () => {
               >
                 Name:
                 <li className={style.listItem}>
-                  <a>Anonymus</a>
+                  <a>Anonymous</a>
                 </li>
                 Galaxy:
                 <li className={style.listItem}>
@@ -148,7 +151,7 @@ const LandingPage = () => {
 
           <div className={style.landing} data-augmented-ui ref={glitch.ref}>
             <div className={style.Story}>
-              <h1 className={style.title}>Ecstacy</h1>
+              <h1 className={style.title}>Ecstasy</h1>
               <p>
                 Captain Zara piloted the starship Nova <Glitch text="through" />{" "}
                 the glowing rings of the Andromeda Rift. Suddenly, a beacon
@@ -164,11 +167,11 @@ const LandingPage = () => {
             className={style.arrow}
             data-augmented-ui="all-triangle-right border"
           >
-            <Image
+            <img
               src="/Icons/play.png"
+              alt="Trailer"
               width={50}
               height={0}
-              alt="Trailer"
               className={style.arrow_item1}
             />
           </div>
@@ -176,14 +179,15 @@ const LandingPage = () => {
             className={style.arrow}
             data-augmented-ui="all-triangle-left border"
           >
-            <Image
+            <img
               src="/Icons/instagram.png"
+              alt="instagram"
               width={30}
               height={60}
-              alt="instagram"
               className={style.arrow_item2}
             />
           </div>
+          <ToggleUI />
         </div>
       </div>
     </Container>
