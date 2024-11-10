@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { Toaster } from "react-hot-toast"
 import useLoader from "@/store/useLoader"
 import { EdgeStoreProvider } from '../lib/edgestore';
+import ModalProvider from "./ModalProvider"
 
 type Props = {
     children: React.ReactNode
@@ -23,12 +24,13 @@ const Provider = ({ children }: Props) => {
     if (isMounted)
         return (
             <>
-                <SessionProvider refetchOnWindowFocus={true}>
+                <SessionProvider refetchOnWindowFocus={false}>
                     <EdgeStoreProvider>
                         {children}
                     </EdgeStoreProvider>
                 </SessionProvider>
 
+                <ModalProvider />
                 <Toaster position="bottom-right" />
             </>
         )

@@ -10,6 +10,7 @@ interface InputProps {
     placeholder?: string,
     parentClassName?: string,
     className?: string,
+    inputClassName?: string,
     required?: boolean,
     value?: string | number,
     setValue?: Dispatch<SetStateAction<any>>,
@@ -17,7 +18,7 @@ interface InputProps {
     onChange?: React.ChangeEventHandler<HTMLInputElement>
 }
 
-const Input = ({ label, type = "text", name = "", placeholder, parentClassName = "", className = "", required = false, value, setValue, ref, onChange }: InputProps) => {
+const Input = ({ label, type = "text", name = "", placeholder, parentClassName = "", className = "", inputClassName = "", required = false, value, setValue, ref, onChange }: InputProps) => {
     const [showPassword, setShowPassword] = useState<boolean>(false)
 
     return (
@@ -36,7 +37,7 @@ const Input = ({ label, type = "text", name = "", placeholder, parentClassName =
                     onChange={onChange ? onChange : (e) => setValue && setValue(e.target.value)}
                     pattern={type === "tel" ? "[6789][0-9]{9}" : undefined}
                     ref={ref}
-                    className='text-[1em] w-full bg-background/0 px-2 py-1 border-none outline-none placeholder:text-secondary/80' />
+                    className={cn('text-[1em] w-full bg-background/0 px-2 py-1 border-none outline-none placeholder:text-secondary/80', inputClassName)} />
 
                 {type === "password" ?
                     <div className="p-1 w-fit absolute right-2 text-secondary/40 cursor-pointer" onClick={() => setShowPassword(prev => !prev)}>
