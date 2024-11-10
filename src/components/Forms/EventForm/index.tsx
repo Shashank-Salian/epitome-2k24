@@ -70,6 +70,20 @@ const EventForm = () => {
     }
 
     const HandleParticipantsList = () => {
+        let isValid = true
+        participantsDetails.some(event => ({
+            participants: event.participants.some(p => {
+                if (p.name.length <= 0 || p.phone.length <= 0) {
+                    isValid = false
+                }
+            })
+        }))
+
+        if (!isValid) {
+            toast.error("Enter All Fields!")
+            return
+        }
+
         setDisplayForm(false)
         const updatedParticipantsList: ParticipantsListType[] = [];
 
