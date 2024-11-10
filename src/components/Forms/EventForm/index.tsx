@@ -14,26 +14,62 @@ import { useRouter } from "next/navigation";
 import EventParticipants from "./EventParticipants";
 
 const EventForm = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [showSubmit, setShowSubmit] = useState<boolean>(false);
-  const {
-    selectedEvents,
-    displayForm,
-    participantsDetails,
-    participantsList,
-    setParticipantsList,
-    setDisplayForm,
-  } = useEventRegister();
-  const { user, setUser } = useUserStore();
-  const router = useRouter();
+    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [showSubmit, setShowSubmit] = useState<boolean>(false)
+    const { selectedEvents, displayForm, participantsDetails, participantsList, setParticipantsList, setDisplayForm } = useEventRegister()
+    const { user, setUser } = useUserStore()
+    const router = useRouter()
 
-  const HandleRegister = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log("HandleRegister", participantsDetails);
+    const HandleRegister = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        console.log("HandleRegister", participantsDetails)
 
-    if (participantsList.length > 15) {
-      toast.error("Max 15 Participants Allowed!");
-      return;
+        if (participantsList.length > 15) {
+            toast.error("Max 15 Participants Allowed!")
+            return
+        }
+
+        let isValid = true
+        participantsList.some(participant => {
+            if (participant.name.length <= 0 || (participant.phone && participant.phone.length <= 0)) {
+                toast.error("All Fields are Required!")
+                isValid = false
+                return
+            }
+        })
+
+        if (!isValid) return
+        console.log("Event Participants : ", { participantsDetails, participantsList })
+
+        const SubmitToastID = toast.loading("Submitting Registration...")
+        try {
+            const res = await fetch("/api/post/event-register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email: user?.email, participantsDetails, participantsList }),
+            });
+
+            const data = await res.json()
+            console.log("Event Reg:", data)
+
+            if (res?.status === 201) {
+                setUser(data.user)
+                toast.success("Event Registations Submitted!", {
+                    id: SubmitToastID
+                })
+
+                router.push("/payment")
+            }
+        } catch (err) {
+            toast.error("Something went wrong!", {
+                id: SubmitToastID
+            })
+            console.log(err)
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     let isValid = true;

@@ -18,6 +18,7 @@ export interface UserTypes {
     picture: string | null,
     events: UserEventTypes[],
     participants: ParticipantsListType[],
+    paymentStatus: string,
     accessToken: string,
     isVerified: Date | '',
     createdAt: Date | ''

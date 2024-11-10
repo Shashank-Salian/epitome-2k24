@@ -15,7 +15,7 @@ const RecieptUpload = () => {
     const router = useRouter()
     const { edgestore } = useEdgeStore();
     const FileInputRef = useRef<HTMLInputElement>(null)
-    const { user } = useUserStore()
+    const { user, setUser } = useUserStore()
 
     const HandleFileUpload = async () => {
         if (!file) return
@@ -50,7 +50,9 @@ const RecieptUpload = () => {
 
             if (updateDB?.status === 201) {
                 const data = await updateDB.json()
-                toast.success(data)
+                toast.success(data.message)
+                console.log("Reciept_User_Update:", data)
+                setUser(data.user)
                 router.push(`./dashboard`)
             }
         } catch (err) {
@@ -69,7 +71,7 @@ const RecieptUpload = () => {
                 onClick={() => FileInputRef.current?.click()}
             >
                 {file ? (
-                    <Image
+                    <img
                         src={URL.createObjectURL(file)}
                         alt="Preview"
                         className='w-full h-auto max-w-xs'

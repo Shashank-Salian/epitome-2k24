@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
 
         await userExists.save();
 
-        return NextResponse.json("Reciept Uploaded Successfully!", { status: 201 });
+        return NextResponse.json({ user: userExists, message: "Reciept Uploaded Successfully!" }, { status: 201 });
     } catch (err: any) {
         console.error("Upload Reciept :", err);
         return NextResponse.json(err.message, { status: 500 });

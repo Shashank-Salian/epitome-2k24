@@ -47,7 +47,7 @@ const Payment = () => {
                     <h1 className='text-[1.2em] font-bold'>Event Summary</h1>
 
                     <div className="flex_center flex-col w-full my-4">
-                        <div className="w-full flex justify-between items-center text-[1.2em] font-bold bg-background/20 px-4 py-2">
+                        <div className="w-full flex justify-between items-center text-[1.2em] font-bold bg-background/20 px-4 py-2 rounded-md">
                             <span>Participant</span>
                             <span>Events</span>
                         </div>

@@ -2,12 +2,13 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import useUserStore from "@/store/useUserStore";
+import useUserStore, { UserTypes } from "@/store/useUserStore";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import { ChevronDown, User2Icon } from "lucide-react";
 import ButtonUI from "./ButtonUI";
-import EpitomeLogo from "@/assets/Images/Epitome.png";
+import EpitomeLogo from "@/assets/Images/Epitome.png"
+import useModalStore from "@/store/useModalStore";
 
 const AUTH_ROUTES = [
   "/login",
@@ -36,6 +37,7 @@ const PROTECTED_NAV_LINKS = [
 const Header = () => {
   const { data: session, status } = useSession();
   const { user, setUser } = useUserStore();
+  const { setShowModal } = useModalStore()
   const router = useRouter();
   const pathname = usePathname();
 
@@ -70,13 +72,16 @@ const Header = () => {
           throw new Error("Failed to fetch user data");
         }
 
-        const userData = await res.json();
+        const userData: UserTypes = await res.json();
         console.log("UserData:", userData);
         if (userData && "uid" in userData && user?.uid !== userData.uid) {
           setUser({
             ...userData,
             accessToken: session?.user?.accessToken,
           });
+        }
+        if (!userData?.collegeName || !userData?.phone) {
+          setShowModal("USER_INFO_MODAL")
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -86,7 +91,7 @@ const Header = () => {
     if (session?.user?.email) {
       fetchUserData();
     }
-  }, [session?.user, user, setUser]);
+  }, [session?.user, user, setUser, setShowModal]);
 
   return (
     // <Container parentClassName="!h-fit">
@@ -118,18 +123,26 @@ const Header = () => {
               </Link>
             ))}
 
-        {!user?.username ? (
-          <Link href="/login" className="">
-            <ButtonUI value="LOGIN" className="text-2xl px-7" />
+        {status == "unauthenticated" ? (
+          <Link href={pathname == "/login" ? "/register" : "/login"} className="">
+            <ButtonUI value={pathname == "/login" ? "Register" : "Login"} className="text-sm tracking-widest px-7" />
           </Link>
         ) : (
-          <div
-            className="clip_Btn flex_center gap-4 bg-primary px-2 rounded-md"
-            title={user.username}
-          >
-            <div className="flex_center rounded-full bg-background/20 p-3">
-              <User2Icon size={22} />
-            </div>
+          <div className="clip_Btn flex_center gap-4 bg-primary px-4 py-1 rounded-md">
+            {user?.picture ?
+              <div className="flex_center rounded-full bg-background/20 overflow-hidden">
+                <Image
+                  src={user?.picture}
+                  width={40}
+                  height={40}
+                  className="object-cover"
+                  alt="User_Profile"
+                />
+              </div>
+              :
+              <User2Icon size={25} />
+            }
+            <span className="font-oxanium">{user?.username}</span>
           </div>
         )}
       </nav>

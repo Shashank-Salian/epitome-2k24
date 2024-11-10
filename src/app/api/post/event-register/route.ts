@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
         console.log("\nParticipants Added", userExists);
         await userExists.save();
 
-        return NextResponse.json(userExists, { status: 201 });
+        return NextResponse.json({ user: userExists, message: "Participants Registered Successfully!" }, { status: 201 });
     } catch (err: any) {
         console.error("Event Register :", err);
         return NextResponse.json(err.message, { status: 500 });

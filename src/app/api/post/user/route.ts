@@ -28,17 +28,13 @@ export async function POST(request: NextRequest) {
             userData = {
                 uid: userExists?._id.toString(),
                 username: userExists?.username,
-                collegeName: userExists?.collegeName,
                 email: userExists?.email,
-                phone: userExists?.phone,
                 picture: userExists?.picture,
-                participants: userExists?.participants,
-                events: userExists?.events,
-                isVerified: userExists?.isVerified,
-                createdAt: userExists?.createdAt.toISOString(),
                 password: userExists?.password
             }
         } else {
+            const latestPayment = userExists.payment?.sort((a: { paymentDate: number; }, b: { paymentDate: number; }) => b.paymentDate - a.paymentDate)[0] || null;
+
             userData = {
                 uid: userExists?._id.toString(),
                 username: userExists?.username,
@@ -47,6 +43,7 @@ export async function POST(request: NextRequest) {
                 phone: userExists?.phone,
                 picture: userExists?.picture,
                 participants: userExists?.participants,
+                paymentStatus: latestPayment?.paymentStatus || "PENDING",
                 events: userExists?.events,
                 isVerified: userExists?.isVerified,
                 createdAt: userExists?.createdAt.toISOString()
