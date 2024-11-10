@@ -1,72 +1,111 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Container from "@/containers/Container/Container";
 import style from "./LandingPage.module.css";
-import { useState, useEffect, useRef } from "react";
 import Typewriter from "@/components/CustomUI/TypeWriter";
 import CountDown from "../../components/CustomUI/CountDown";
 import Glitch from "./Glitch";
-import Image from "next/image";
-import { PowerGlitch } from "powerglitch";
+import { useGlitch, GlitchHandle } from "react-powerglitch";
 import PageButtons from "./PageButtons/PageButtons";
+const audioFilePath = "/Music/click.wav";
+import VideoPlayer from "./VideoPlayer/VideoPlayer";
 
 const LandingPage = () => {
-  // const glitchRef = useRef(null);
-  const glitchRefs = useRef<HTMLDivElement[]>([]);
+  const soundRef = useRef<HTMLAudioElement>(new Audio(audioFilePath));
 
-  const addGlitchRef = (el: HTMLDivElement | null) => {
-    if (el && !glitchRefs.current.includes(el)) {
-      glitchRefs.current.push(el);
+  const glitch: GlitchHandle = useGlitch({
+    playMode: "always",
+    createContainers: true,
+    hideOverflow: false,
+    timing: {
+      duration: 2000,
+      easing: "ease-in-out",
+    },
+    glitchTimeSpan: {
+      start: 0.4,
+      end: 0.7,
+    },
+    shake: {
+      velocity: 20,
+      amplitudeX: 0.02,
+      amplitudeY: 0.02,
+    },
+    slice: {
+      count: 6,
+      velocity: 15,
+      minHeight: 0.02,
+      maxHeight: 0.15,
+      hueRotate: true,
+    },
+    pulse: false,
+  });
+
+  const playSound = () => {
+    if (soundRef.current) {
+      soundRef.current
+        .play()
+        .catch((error) => console.error("Error playing sound:", error));
+    }
+  };
+  //Video Player
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+
+  const handlePlayClick = () => {
+    setIsVideoPlaying(true); // Show the video player and start video playback
+    if (soundRef.current) {
+      soundRef.current.pause(); // Pause the audio when the video starts
     }
   };
 
+  const handleBackClick = () => {
+    setIsVideoPlaying(false); // Hide the video player and show the button again
+    if (soundRef.current) {
+      soundRef.current.play(); // Resume the audio when the video stops
+    }
+  };
+  //Video player end
   useEffect(() => {
-    glitchRefs.current.forEach((glitchRef) => {
-      if (glitchRef) {
-        PowerGlitch.glitch(glitchRef, {
-          playMode: "always",
-          createContainer: true,
-          timing: {
-            duration: 2000,
-            iterations: "Infinity",
-            easing: "ease-in-out",
-          },
-          glitchTimeSpan: { start: 0.4, end: 0.7 },
-          shake: { velocity: 20, amplitudeX: 0.02, amplitudeY: 0.02 },
-          slice: {
-            count: 6,
-            velocity: 15,
-            minHeight: 0.02,
-            maxHeight: 0.15,
-            hueRotate: true,
-          },
-          color: {
-            r: 0.1,
-            g: 0.3,
-            b: 0.1,
-            glitchTimeSpan: { start: 0.2, end: 0.5 },
-          },
-        });
-      }
+    soundRef.current.preload = "auto";
+    soundRef.current.load();
+    const elements = document.querySelectorAll(
+      `.${style.broch}, .${style.arrow}, .${style.button}`
+    );
+
+    const handleEvent = () => {
+      playSound();
+    };
+
+    elements.forEach((element) => {
+      element.addEventListener("mouseenter", handleEvent); // For hover
+      element.addEventListener("click", handleEvent); // For click
     });
+    return () => {
+      elements.forEach((element) => {
+        element.removeEventListener("mouseenter", handleEvent);
+        element.removeEventListener("click", handleEvent);
+      });
+    };
   }, []);
+
   return (
     <Container
       parentClassName="landing-page-container"
-      className={style.Parent}
+      className={`pb-4 h-dvh ${style.Parent}`}
     >
-      <div className={style.Main}>
+      <audio ref={soundRef} src={audioFilePath} />
+
+      <div className={`pt-8 ${style.Main}`} id="landing-page-container">
         <div className={style.Left}>
           <div className={style.Level}>
             <span className={style.Span}>
               <Glitch text="45" />
             </span>{" "}
             <p className={style.Para}>Level</p>
-            <Image
-              className={style.Img}
+            <img
+              className={style.starImg}
               src="/Icons/star.png"
+              alt="Picture of the author"
               width={25}
               height={25}
-              alt="Picture of the author"
             />
             <span className={style.Span}>1892</span>
             <p className={style.Para}>Coins</p>
@@ -81,19 +120,19 @@ const LandingPage = () => {
               data-augmented-ui="all-hexangle-up border"
               className={style.reticle}
             >
-              <Image
+              <img
                 src="/Icons/martian.jpg"
+                alt="Profile"
                 width={505}
                 height={525}
-                alt="Profile"
-                ref={addGlitchRef}
+                ref={glitch.ref}
               />
             </div>
             {/* Player Info */}
             <div
               className={style.listContainer}
               data-augmented-ui
-              ref={addGlitchRef}
+              ref={glitch.ref}
             >
               <ul
                 data-augmented-ui="bl-clip tr-clip br-clip-x border"
@@ -101,7 +140,7 @@ const LandingPage = () => {
               >
                 Name:
                 <li className={style.listItem}>
-                  <a>Anonymus</a>
+                  <a>Anonymous</a>
                 </li>
                 Galaxy:
                 <li className={style.listItem}>
@@ -136,67 +175,78 @@ const LandingPage = () => {
             </div>
           </div>
           {/* Brochure */}
-          <span
-            className={style.broch}
-            data-augmented-ui="bl-clip tr-clip border"
-          >
-            <span>Brochure </span>
-          </span>
+          <a href="/EpitomeBrochure.pdf" download={true}>
+            <span
+              className={style.broch}
+              data-augmented-ui="bl-clip tr-clip border"
+            >
+              Brochure
+            </span>
+          </a>
         </div>
+
         <div className={style.Middle}>
-          <Image
+          <img
             className={style.Img}
             src="/Icons/Epitome.png"
             width={825}
             height={825}
             alt="Epitome Logo"
-            ref={addGlitchRef}
+            ref={glitch.ref}
           />
-          <PageButtons />
+          <PageButtons className={style.button} />
         </div>
         <div className={style.Right}>
           <div className={style.watch}>
             <CountDown />
           </div>
 
-          <div className={style.landing} data-augmented-ui ref={addGlitchRef}>
+          <div className={style.landing} data-augmented-ui ref={glitch.ref}>
             <div className={style.Story}>
-              <h1 className={style.title}>Ecstacy</h1>
-              <p>
-                Captain Zara piloted the starship Nova <Glitch text="through" />{" "}
-                the glowing rings of the Andromeda Rift. Suddenly, a beacon
-                shimmered, <Glitch text="broadcasting" /> a warning: “Echoes of
-                the Void Awaken.” Shadows stirred among the stars, spectral and
-                ancient. Zara hit the thrusters, escaping as dark tendrils
-                reached out. She knew then—space held <Glitch text="Secrets" />,
-                and they had just scratched the surface.
-              </p>
+              <h1 className={style.title}>Ecstasy</h1>
+              <div>
+                <h1 className={style.Date}>NOV 21 & 22 </h1>
+                <Glitch text="broadcasting" /> a warning: “Echoes of the Void
+                Awaken.” Shadows stirred among the stars, spectral and ancient.
+                Zara hit the thrusters, escaping as dark tendrils reached out.
+                She knew then—space held <Glitch text="Secrets" />, and they had
+                just scratched the surface.
+              </div>
             </div>
           </div>
-          <div
-            className={style.arrow}
-            data-augmented-ui="all-triangle-right border"
-          >
-            <Image
-              src="/Icons/play.png"
-              width={50}
-              height={0}
-              alt="Trailer"
-              className={style.arrow_item1}
-            />
-          </div>
-          <div
+
+          {/* Show Play Button if video is not playing */}
+          {!isVideoPlaying ? (
+            <button
+              className={style.arrow}
+              data-augmented-ui="all-triangle-right border"
+            >
+              <img
+                src="/Icons/play.png"
+                alt="Trailer"
+                width={50}
+                height={0}
+                className={style.arrow_item1}
+                onClick={handlePlayClick}
+              />
+            </button>
+          ) : (
+            // Show Video Player if the video is playing
+            <VideoPlayer onBack={handleBackClick} />
+          )}
+          <a
             className={style.arrow}
             data-augmented-ui="all-triangle-left border"
+            href="https://www.instagram.com/epitome_2k24?igsh=d3l4anhoN213ZHhq"
           >
-            <Image
+            <img
               src="/Icons/instagram.png"
+              alt="instagram"
               width={30}
               height={60}
-              alt="instagram"
               className={style.arrow_item2}
             />
-          </div>
+          </a>
         </div>
       </div>
     </Container>

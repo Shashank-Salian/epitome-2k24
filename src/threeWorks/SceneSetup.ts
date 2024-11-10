@@ -2,7 +2,7 @@
 
 import * as THREE from "three";
 
-import { ClientDims } from "@/threeWorks/utils";
+import { ClientDims, throttle } from "@/threeWorks/utils";
 
 class SceneSetup {
   public static scene: THREE.Scene = new THREE.Scene();
@@ -68,9 +68,6 @@ class SceneSetup {
     SceneSetup.ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     SceneSetup.directionalLight = new THREE.DirectionalLight(0xffffff, 1);
 
-    SceneSetup.scene.add(SceneSetup.ambientLight);
-    SceneSetup.scene.add(SceneSetup.directionalLight);
-
     // Setting initial position
     SceneSetup.directionalLight.position.set(10, 10, 10);
     SceneSetup.camera.position.z = 3;
@@ -96,6 +93,21 @@ class SceneSetup {
     });
 
     SceneSetup.setupBg();
+
+    document.addEventListener(
+      "mousemove",
+      throttle((e) => SceneSetup._onMouseMove(e), 10)
+    );
+  }
+
+  static _onMouseMove({ clientX, clientY }: MouseEvent) {
+    if (window.location.pathname !== "/") return;
+
+    let { x, y } = ClientDims.toNDC(clientX, clientY);
+    x *= 0.08;
+    y *= 0.08;
+    let z = -(x * y) * 6;
+    SceneSetup.camera.rotation.set(y, x, z);
   }
 
   static update() {
@@ -140,8 +152,6 @@ class SceneSetup {
     SceneSetup.background.gradientTexture.needsUpdate = true;
 
     SceneSetup.scene.background = SceneSetup.background.gradientTexture;
-
-    console.log(ClientDims.width, ClientDims.height);
   }
 
   private static setupBg() {
@@ -243,6 +253,16 @@ class SceneSetup {
 
     // Update the texture
     SceneSetup.background.gradientTexture.needsUpdate = true;
+  }
+
+  static addLights() {
+    SceneSetup.scene.add(SceneSetup.ambientLight);
+    SceneSetup.scene.add(SceneSetup.directionalLight);
+  }
+
+  static removeLights() {
+    SceneSetup.scene.remove(SceneSetup.ambientLight);
+    SceneSetup.scene.remove(SceneSetup.directionalLight);
   }
 
   render() {

@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json(userExists, { status: 201 });
     } catch (err: any) {
-        console.error("getUserByEmail :", err);
+        console.error("Event Register :", err);
         return NextResponse.json(err.message, { status: 500 });
     }
 }

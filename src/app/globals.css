@@ -95,19 +95,9 @@ body {
 @layer base {
   * {
     @apply border-border;
-
-    /* Make the cursor invisible only if Cursor component is being used (moved to Cursor file) */
-    /* cursor: none !important; */
   }
-
-  html {
-    scroll-snap-type: y mandatory;
-  }
-
   body {
     @apply bg-background text-foreground;
-
-    scroll-snap-type: y mandatory;
   }
 
   .flex_center {

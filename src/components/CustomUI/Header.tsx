@@ -1,24 +1,35 @@
 "use client";
 import React, { useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import useUserStore from "@/store/useUserStore";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
-import { ChevronDown, User2Icon } from 'lucide-react'
+import { ChevronDown, User2Icon } from "lucide-react";
 import ButtonUI from "./ButtonUI";
+import EpitomeLogo from "@/assets/Images/Epitome.png";
 
-const AUTH_ROUTES = ["/login", "/register", "/forgot-password", "/reset-password"];
-const PUBLIC_ROUTES = [...AUTH_ROUTES, "/", "/about", "/commitee"]
+const AUTH_ROUTES = [
+  "/login",
+  "/register",
+  "/forgot-password",
+  "/reset-password",
+];
+const PUBLIC_ROUTES = [
+  ...AUTH_ROUTES,
+  "/",
+  "/about",
+  "/committee",
+  "/challenges",
+];
 
 const PUBLIC_NAV_LINKS = [
   { href: "/", label: "Home" },
-  { href: "/", label: "About" },
-  { href: "/", label: "Commitee" },
+  { href: "/challenges", label: "Challenges" },
 ];
 const PROTECTED_NAV_LINKS = [
   { href: "/", label: "Home" },
-  { href: "/", label: "About" },
-  { href: "/", label: "My Team" },
+  { href: "/challenges", label: "Challenges" },
   { href: "/events", label: "Events" },
 ];
 
@@ -61,13 +72,12 @@ const Header = () => {
 
         const userData = await res.json();
         console.log("UserData:", userData);
-        if (userData && 'uid' in userData && user?.uid !== userData.uid) {
+        if (userData && "uid" in userData && user?.uid !== userData.uid) {
           setUser({
             ...userData,
-            accessToken: session?.user?.accessToken
+            accessToken: session?.user?.accessToken,
           });
         }
-
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -82,45 +92,44 @@ const Header = () => {
     // <Container parentClassName="!h-fit">
     <header
       data-augmented-ui="br-2-clip-y bl-2-clip-y"
-      className="styleme sticky w-full top-0 flex justify-between items-center px-10 py-3 bg-background/30 z-10 backdrop-blur-md">
+      className="sticky w-full top-0 flex justify-between items-center flex-col sm:flex-row px-10 py-3 bg-background/30 z-10 backdrop-blur-md font-oxanium"
+    >
       <Link href="/">
-        <h1 className="text-[1.5em] font-beyonders">LOGO</h1>
+        <Image
+          src={EpitomeLogo}
+          width={EpitomeLogo.width}
+          height={EpitomeLogo.height}
+          alt="Epitome"
+          className="hidden sm:block sm:w-44"
+        />
+        <h1 className="font-spaceAge text-2xl sm:hidden">Epitome</h1>
       </Link>
 
-      <nav className="flex_center gap-6">
-        {status === "authenticated" ?
-          PROTECTED_NAV_LINKS.map(({ href, label }) => (
-            <Link
-              key={label}
-              href={href}
-              className="text-[1.25em]"
-            >
-              {label}
-            </Link>
-          ))
-          :
-          PUBLIC_NAV_LINKS.map(({ href, label }) => (
-            <Link
-              key={label}
-              href={href}
-              className="text-[1.25em]"
-            >
-              {label}
-            </Link>
-          ))
-        }
+      <nav className="flex_center gap-6 mt-6 sm:mt-0">
+        {status === "authenticated"
+          ? PROTECTED_NAV_LINKS.map(({ href, label }) => (
+              <Link key={label} href={href} className="md:text-[1.25em]">
+                {label}
+              </Link>
+            ))
+          : PUBLIC_NAV_LINKS.map(({ href, label }) => (
+              <Link key={label} href={href} className="md:text-[1.25em]">
+                {label}
+              </Link>
+            ))}
 
         {!user?.username ? (
-          <Link href="/login" className="ml-4">
-            <ButtonUI value="LOGIN" />
+          <Link href="/login" className="">
+            <ButtonUI value="LOGIN" className="text-2xl px-7" />
           </Link>
         ) : (
-          <div className="clip_Btn flex_center gap-4 bg-primary px-2 rounded-md">
+          <div
+            className="clip_Btn flex_center gap-4 bg-primary px-2 rounded-md"
+            title={user.username}
+          >
             <div className="flex_center rounded-full bg-background/20 p-3">
-              <User2Icon size={25} />
+              <User2Icon size={22} />
             </div>
-            <span>Welcome {user.username}!</span>
-            <ChevronDown />
           </div>
         )}
       </nav>
@@ -129,4 +138,4 @@ const Header = () => {
   );
 };
 
-export default Header
+export default Header;

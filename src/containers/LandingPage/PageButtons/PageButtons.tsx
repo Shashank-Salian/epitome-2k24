@@ -1,32 +1,79 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
-
-import style from "./PageButtons.module.css";
+import { useState, useEffect, useRef } from "react";import useUserStore from "@/store/useUserStore";
 import Link from "next/link";
+import style from "./PageButtons.module.css";
+const audioFilePath = "/Music/click.wav";
 
-const PageButtons = () => {
-  return (
-    <>
-      <Button
-        className={style.button}
-        data-augmented-ui="bl-clip tr-clip border"
-      >
-        <span>Registration</span>
-      </Button>
-
-      <Link href={"/challenges"}>
+const PageButtons = ({ className }: { className?: string }) => {
+  const { user } = useUserStore();
+  const soundRef = useRef<HTMLAudioElement | null>(null);
+  const authBtn = (isLogin = true) => {
+    return (
+      <Link href={isLogin ? "/login" : "/events"}>
         <Button
-          className={style.button}
+          className={className}
           data-augmented-ui="bl-clip tr-clip border"
         >
-          Events
+          {isLogin ? "Log In" : "Register"}
         </Button>
       </Link>
-      <Button
-        className={style.button}
-        data-augmented-ui="bl-clip tr-clip border"
-      >
+    );
+  };
+
+  const playSound = () => {
+    if (soundRef.current) {
+      soundRef.current
+        .play()
+        .catch((error) => console.error("Error playing sound:", error));
+    }
+  };
+  useEffect(() => {
+    soundRef.current = new Audio(audioFilePath);
+    soundRef.current.preload = "auto";
+    soundRef.current.load(); 
+    const elements = document.querySelectorAll(
+      `.${style.broch}, .${style.arrow}, .${style.button}`
+    );
+
+    const handleEvent = () => {
+      playSound();
+    };
+
+    elements.forEach((element) => {
+      element.addEventListener("mouseenter", handleEvent); // For hover
+      element.addEventListener("click", handleEvent); // For click
+    });
+    return () => {
+      elements.forEach((element) => {
+        element.removeEventListener("mouseenter", handleEvent);
+        element.removeEventListener("click", handleEvent);
+      });
+    };
+  }, []);
+  return (
+    <>
+      <Link href={"/register"}>
+        <Button
+          className={className}
+          data-augmented-ui="bl-clip tr-clip border"
+        >
+          <span>Sign Up</span>
+        </Button>
+      </Link>
+
+      <Link href="/challenges">
+        <Button
+          className={className}
+          data-augmented-ui="bl-clip tr-clip border"
+        >
+          Challenges
+        </Button>
+      </Link>
+
+      {authBtn(!user)}
+
+      <Button className={className} data-augmented-ui="bl-clip tr-clip border">
         <span>About</span>
       </Button>
     </>
