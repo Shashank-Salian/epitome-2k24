@@ -1,6 +1,6 @@
 import Container from "@/containers/Container/Container";
 import Event from "./Event/Event";
-
+import ToggleUI from "@/components/CustomUI/ToggleUI";
 const Events = () => {
   return (
     <>
@@ -9,7 +9,6 @@ const Events = () => {
           <h1 className="font-spaceAge text-6xl font-bold text-center drop-shadow-2xl">
             Events
           </h1>
-
           <Event />
         </div>
       </Container>

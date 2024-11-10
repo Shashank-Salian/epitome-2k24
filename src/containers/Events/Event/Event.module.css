@@ -19,3 +19,88 @@
     transform: scaleY(1);
   }
 }
+
+.Content {
+  padding: 30px 30px;
+  border: 0.0125in solid #02abff;
+  border-top: none;
+  border-bottom-right-radius: 0.2in;
+  position: absolute;
+  inset: 0;
+  --aug-border: initial;
+  --aug-border-all: 0.05in;
+  --aug-border-bg: linear-gradient(
+    -135deg,
+    #18baf5 30%,
+    transparent 30%
+  ), linear-gradient(
+    45deg,
+    #3084fa 5% 29%,
+    transparent 29%
+  ), radial-gradient(
+    circle at top left,
+    #2b7cf7 0.75in,
+    transparent 0.75in
+  ), linear-gradient(
+    to bottom,
+    transparent 0.0775in,
+    #2086f3 0.0775in 0.2in,
+    transparent 0.2in
+  );
+
+
+  --aug-tr1: 0.2in;
+  --aug-tr2: 0.15in;
+  --aug-tr-extend1: 30%;
+  
+  --aug-b: 0.125in;
+  --aug-b-extend1: 15%;
+  --aug-b-center: 30%;
+  
+  --aug-clip-bl1: initial;
+  --aug-bl1: 0.125in;
+  --aug-round-br1: initial;
+  --aug-br1: 0.2in;
+  
+  --aug-clip-tl1: initial;
+  --aug-tl1: 0.25in;
+  
+  --aug-rect-t1: initial;
+  --aug-t-center: 0.75in;
+  --aug-t1: 0.075in;
+  
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+  animation: borderFadeIn 1.5s ease forwards;
+  
+}
+
+/* Animation to fade in the border */
+@keyframes borderFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1; 
+  }
+}
+.Content::before,
+.Content::after {
+  opacity: 0; /* Start invisible */
+  animation: borderFadeIn 1.5s ease forwards;
+}
+
+.Button {
+  --aug-border-bg: linear-gradient(
+    to bottom right,
+    rgb(0, 208, 255),
+    rgb(15, 98, 233)
+  );
+  transition: transform 0.3s ease;
+}
+
+.Button:hover {
+  transform: scale(1.1); 
+}

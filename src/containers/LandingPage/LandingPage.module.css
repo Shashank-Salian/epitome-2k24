@@ -193,7 +193,7 @@
 }
 .arrow_item1 {
   align-items: center;
-  margin-top: 10px;
+  margin-top: 5px;
   margin-left: -4px;
 }
 
@@ -364,4 +364,7 @@
 .watch {
   display: flex;
   gap: 10px;
+}
+.Date{
+  font-size: 30px;
 }

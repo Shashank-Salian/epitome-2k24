@@ -11,6 +11,10 @@
   transform: translateZ(0px);
 }
 
+
+.button:hover{
+  transform: scale(1.2);
+}
 @media screen and (max-width: 768px) {
   .button {
     padding: 22px;

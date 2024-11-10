@@ -4,9 +4,12 @@ import { EventsRayCaster } from "@/threeWorks/Models/EventsModel";
 import EventList from "@/utils/EventList";
 import { useEffect, useRef, useState } from "react";
 import RulesCard from "../RulesCard/RulesCard";
-
+import { useAudio } from "@/components/Audio/AudioProvider";
 import classes from "./Event.module.css";
 import Typewriter from "@/components/CustomUI/TypeWriter";
+import ToggleUI from "@/components/CustomUI/ToggleUI";
+// @ts-ignore
+import { PowerGlitch } from "powerglitch";
 
 type Props = {
   eventName?: string;
@@ -26,7 +29,9 @@ const Event = ({}: Props) => {
   const [showRules, setShowRules] = useState(false);
   const [stopOnFinish, setStopOnFinish] = useState(true);
   const observerRef = useRef<HTMLButtonElement>(null);
-
+  const soundRef = useRef<HTMLAudioElement | null>(null);
+  const glitchRefs = useRef<HTMLDivElement[]>([]);
+  const audioFilePath = "/Music/click.wav";
   const onNextClick = async () => {
     if (EventsRayCaster.transitioning) return;
     EventsRayCaster.moveEvent();
@@ -39,7 +44,11 @@ const Event = ({}: Props) => {
       setShowTitle(true);
     }, TRANSITION_TIME);
   };
-
+  const addGlitchRef = (el: HTMLDivElement | null) => {
+    if (el && !glitchRefs.current.includes(el)) {
+      glitchRefs.current.push(el);
+    }
+  };
   const onPreviousClick = () => {
     if (EventsRayCaster.transitioning) return;
     EventsRayCaster.moveEvent(false);
@@ -53,6 +62,43 @@ const Event = ({}: Props) => {
       setShowTitle(true);
     }, TRANSITION_TIME);
   };
+
+  const playSound = () => {
+    if (soundRef.current) {
+      soundRef.current
+        .play()
+        .catch((error) => console.error("Error playing sound:", error));
+    }
+  };
+
+  useEffect(() => {
+    soundRef.current = new Audio(audioFilePath);
+    soundRef.current.preload = "auto";
+    glitchRefs.current.forEach((glitchRef) => {
+      if (glitchRef) {
+        PowerGlitch.glitch(glitchRef, {
+          playMode: "always",
+          shake: { velocity: 10, amplitudeX: 0.01, amplitudeY: 0.02 }
+        }
+      )}
+    });
+    const elements = document.querySelectorAll(
+      `.${classes.Button},.${classes.Challenge}`
+    );
+
+    const handleEvent = () => {
+      playSound();
+    };
+
+    elements.forEach((element) => {
+      element.addEventListener("click", handleEvent); // For click
+    });
+    return () => {
+      elements.forEach((element) => {
+        element.removeEventListener("click", handleEvent);
+      });
+    };
+  }, []);
 
   useEffect(() => {
     const iObserver = new IntersectionObserver((entities) => {
@@ -71,47 +117,60 @@ const Event = ({}: Props) => {
 
   return (
     <>
-      <div className={`mt-12 w-full lg:w-6/12 lg:max-w-screen-md `}>
-        <h1
-          className={`font-iceland text-6xl font-bold ${classes.title} ${
-            showTitle ? classes.titleReveal : classes.titleClose
-          }`}
+      <div className={`mt-3 sm:mt-8 w-full lg:w-6/12 sm:max-w-screen-md`}>
+        {/* <div className="font-spaceAge fixed bottom-0 right-0">
+          <ToggleUI />
+        </div> */}
+
+        <div
+          data-augmented-ui="tr-2-clip-x b-clip-x"
+          className={`${classes.Content}`}
         >
-          {EventList[curEventIndex].title}
-        </h1>
-        <h2 className="font-iceland text-3xl font-bold">
-          {EventList[curEventIndex].eventName}
-        </h2>
-        <p className="mt-6 font-oxanium text-2xl h-24">
-          <Typewriter
-            texts={new Array(EventList[curEventIndex].description)}
-            speed={2}
-            deleteSpeed={2}
-            stopOnFinish={stopOnFinish}
-            afterRemove={() => setStopOnFinish(true)}
-          />
-        </p>
-        <div className="flex justify-end mt-8">
-          <button
-            className="font-iceland text-2xl border-2 border-[#0048FF] px-9 py-1"
-            ref={observerRef}
-            onClick={() => setShowRules(true)}
+          <h1
+            className={`font-iceland font-bold ${classes.title} ${
+              showTitle ? classes.titleReveal : classes.titleClose
+            } text-4xl sm:text-5xl md:text-6xl text-left sm:text-center`}
           >
-            Challenge Me
-          </button>
+            {EventList[curEventIndex].title}
+          </h1>
+
+          <h2 className="font-iceland text-2xl sm:text-3xl font-bold text-left sm:text-center" >
+            {EventList[curEventIndex].eventName}
+          </h2>
+
+          <p className="mt-4 sm:mt-6 font-oxanium text-lg sm:text-2xl h-24">
+            <Typewriter
+              texts={new Array(EventList[curEventIndex].description)}
+              speed={2}
+              deleteSpeed={2}
+              stopOnFinish={stopOnFinish}
+              afterRemove={() => setStopOnFinish(true)}
+            />
+          </p>
+
+          <div className="flex justify-end mt-4 sm:mt-8">
+            <button
+              className={`font-iceland text-lg sm:text-2xl border-4 border-[#7093ee] px-6 sm:px-9 py-1 ${classes.Challenge}`}
+              ref={observerRef}
+              onClick={() => setShowRules(true)}
+            >
+              Challenge Me
+            </button>
+          </div>
         </div>
 
-        <div className="flex justify-around mt-8">
+        <div className="flex justify-between sm:justify-around mt-6 sm:mt-8" ref={addGlitchRef}>
           <button
-            className="font-iceland text-2xl px-10 py-3"
+            className={`font-iceland text-lg sm:text-2xl px-6 sm:px-10 py-2 sm:py-3 ${classes.Button}`}
             onClick={onPreviousClick}
             data-augmented-ui="bl-clip tr-clip border"
+            
           >
             Previous Challenge
           </button>
 
           <button
-            className="font-iceland text-2xl px-9 py-1"
+            className={`font-iceland text-lg sm:text-2xl px-6 sm:px-9 py-2 sm:py-3 ${classes.Button}`}
             onClick={onNextClick}
             data-augmented-ui="bl-clip tr-clip border"
           >
@@ -119,12 +178,14 @@ const Event = ({}: Props) => {
           </button>
         </div>
       </div>
+
       {showRules && (
         <RulesCard
           rules={EventList[curEventIndex].rules}
           onCloseClick={() => setShowRules(false)}
           eventName={EventList[curEventIndex].eventName}
           title={EventList[curEventIndex].title}
+          Heads={EventList[curEventIndex].eventHeads}
         />
       )}
     </>
