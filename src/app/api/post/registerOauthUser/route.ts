@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json({ message: "User Created Successfully!", status: 201 }, { status: 201 })
     } catch (err: any) {
-        console.error("getUserByEmail :", err);
+        console.error("\nOAuthRegister :", err);
         return NextResponse.json(err.message, { status: 500 })
 
     }

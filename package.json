@@ -10,6 +10,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@edgestore/react": "^0.2.2",
+    "@edgestore/server": "^0.2.2",
     "@pmndrs/vanilla": "^1.19.3",
     "@radix-ui/react-slot": "^1.1.0",
     "augmented-ui": "^2.0.0",
