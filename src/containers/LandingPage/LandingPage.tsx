@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef,useState } from "react";
 import Container from "@/containers/Container/Container";
 import style from "./LandingPage.module.css";
 import Typewriter from "@/components/CustomUI/TypeWriter";
@@ -9,6 +9,7 @@ import Image from "next/image";
 import { useGlitch, GlitchHandle } from "react-powerglitch";
 import PageButtons from "./PageButtons/PageButtons";
 const audioFilePath = "/Music/click.wav";
+import VideoPlayer from "./VideoPlayer/VideoPlayer";
 
 const LandingPage = () => {
   const soundRef = useRef<HTMLAudioElement>(new Audio(audioFilePath));
@@ -47,9 +48,26 @@ const LandingPage = () => {
         .catch((error) => console.error("Error playing sound:", error));
     }
   };
+  //Video Player
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 
+  const handlePlayClick = () => {
+    setIsVideoPlaying(true); // Show the video player and start video playback
+    if (soundRef.current) {
+      soundRef.current.pause(); // Pause the audio when the video starts
+    }
+  };
+
+  const handleBackClick = () => {
+    setIsVideoPlaying(false); // Hide the video player and show the button again
+    if (soundRef.current) {
+      soundRef.current.play(); // Resume the audio when the video stops
+    }
+  };
+  //Video player end
   useEffect(() => {
     soundRef.current.preload = "auto";
+    soundRef.current.load(); 
     const elements = document.querySelectorAll(
       `.${style.broch}, .${style.arrow}, .${style.button}`
     );
@@ -77,7 +95,7 @@ const LandingPage = () => {
     >
       <audio ref={soundRef} src={audioFilePath} />
 
-      <div className={`pt-8 ${style.Main}`}>
+      <div className={`pt-8 ${style.Main}`} id="landing-page-container">
         <div className={style.Left}>
           <div className={style.Level}>
             <span className={style.Span}>
@@ -189,31 +207,39 @@ const LandingPage = () => {
             <div className={style.Story}>
               <h1 className={style.title}>Ecstasy</h1>
               <p>
-                Captain Zara piloted the starship Nova <Glitch text="through" />{" "}
-                the glowing rings of the Andromeda Rift. Suddenly, a beacon
-                shimmered, <Glitch text="broadcasting" /> a warning: “Echoes of
-                the Void Awaken.” Shadows stirred among the stars, spectral and
-                ancient. Zara hit the thrusters, escaping as dark tendrils
-                reached out. She knew then—space held <Glitch text="Secrets" />,
-                and they had just scratched the surface.
+                <h1 className={style.Date}>NOV 21 & 22 </h1>
+                <Glitch text="broadcasting" /> a warning: “Echoes of the Void
+                Awaken.” Shadows stirred among the stars, spectral and ancient.
+                Zara hit the thrusters, escaping as dark tendrils reached out.
+                She knew then—space held <Glitch text="Secrets" />, and they had
+                just scratched the surface.
               </p>
             </div>
           </div>
-          <div
-            className={style.arrow}
-            data-augmented-ui="all-triangle-right border"
-          >
-            <img
-              src="/Icons/play.png"
-              alt="Trailer"
-              width={50}
-              height={0}
-              className={style.arrow_item1}
-            />
-          </div>
-          <div
+
+          {/* Show Play Button if video is not playing */}
+          {!isVideoPlaying ? (
+            <button
+              className={style.arrow}
+              data-augmented-ui="all-triangle-right border"
+            >
+              <img
+                src="/Icons/play.png"
+                alt="Trailer"
+                width={50}
+                height={0}
+                className={style.arrow_item1}
+                onClick={handlePlayClick}
+              />
+            </button>
+          ) : (
+            // Show Video Player if the video is playing
+            <VideoPlayer onBack={handleBackClick} />
+          )}
+          <a
             className={style.arrow}
             data-augmented-ui="all-triangle-left border"
+            href="https://www.instagram.com/epitome_2k24?igsh=d3l4anhoN213ZHhq"
           >
             <img
               src="/Icons/instagram.png"
@@ -222,7 +248,7 @@ const LandingPage = () => {
               height={60}
               className={style.arrow_item2}
             />
-          </div>
+          </a>
         </div>
       </div>
     </Container>

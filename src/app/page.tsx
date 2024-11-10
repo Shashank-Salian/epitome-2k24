@@ -16,7 +16,6 @@ const LandingPage = dynamic(
     ssr: false,
   }
 );
-
 export default function Home() {
   const { loadingCompleted, loadingProgress, isInitialLoad } = useLoader();
   // console.log("LoadingState", { loadingCompleted, loadingProgress })
@@ -29,9 +28,9 @@ export default function Home() {
       <>
         <main className="w-full" style={{ scrollSnapType: "y mandatory" }}>
           {/* <LandingHeader /> */}
-          <LandingPage />
+          <LandingPage/>
         </main>
-      </>
-    </>
+       </>
+     </>
   );
 }

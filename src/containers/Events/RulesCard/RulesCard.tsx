@@ -1,15 +1,21 @@
 import Container from "@/containers/Container/Container";
 
 import classes from "./RulesCard.module.css";
-
+import Head from "next/head";
+type Head = {
+  name: string;
+  phone: string;
+  picture?: string;
+};
 type Props = {
   rules: string[];
   title: string;
   eventName: string;
+  Heads: Head[];
   onCloseClick: () => void;
 };
 
-const RulesCard = ({ rules, onCloseClick, title, eventName }: Props) => {
+const RulesCard = ({ rules, onCloseClick, title, eventName, Heads }: Props) => {
   return (
     <div className="w-full h-full fixed top-0 left-0 flex justify-center items-center bg-black bg-opacity-90 font-oxanium">
       <div
@@ -25,6 +31,14 @@ const RulesCard = ({ rules, onCloseClick, title, eventName }: Props) => {
             <li key={index} className="mb-2">{rule}</li>
           ))}
         </ul>
+        <span className="list-disc">
+          Event Heads:
+          {Heads.map(({ name, phone}) => (
+            <li className="mb-2">
+              {name} - {phone}
+            </li>
+          ))}
+        </span>
 
         <button
           data-augmented-ui="bl-clip tr-clip border"

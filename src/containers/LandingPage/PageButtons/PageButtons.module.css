@@ -1,0 +1,23 @@
+.button {
+  /* display: inline-block; */
+  padding: 28px;
+  background: transparent;
+  font-size: 1.5rem;
+  --aug-border-all: 3px;
+  --aug-border-bg: linear-gradient(to right, #d518ff, #02c2ff);
+  --aug-bl: 12px;
+  --aug-tr: 12px;
+  margin: 20px;
+  transform: translateZ(0px);
+}
+
+
+.button:hover{
+  transform: scale(1.2);
+}
+@media screen and (max-width: 768px) {
+  .button {
+    padding: 22px;
+    font-size: 1.2rem;
+  }
+}
