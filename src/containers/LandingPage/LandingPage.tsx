@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Container from "@/containers/Container/Container";
 import style from "./LandingPage.module.css";
 import Typewriter from "@/components/CustomUI/TypeWriter";
@@ -8,8 +8,11 @@ import Glitch from "./Glitch";
 import Image from "next/image";
 import { useGlitch, GlitchHandle } from "react-powerglitch"
 import PageButtons from "./PageButtons/PageButtons";
+const audioFilePath = "/Music/click.wav";
 
 const LandingPage = () => {
+  const soundRef = useRef<HTMLAudioElement>(new Audio(audioFilePath))
+
   const glitch: GlitchHandle = useGlitch({
     playMode: "always",
     createContainers: true,
@@ -37,6 +40,36 @@ const LandingPage = () => {
     pulse: false
   });
 
+  const playSound = () => {
+    if (soundRef.current) {
+      soundRef.current
+        .play()
+        .catch((error) => console.error("Error playing sound:", error));
+    }
+  };
+
+  useEffect(() => {
+    soundRef.current.preload = "auto";
+    const elements = document.querySelectorAll(
+      `.${style.broch}, .${style.arrow}, .${style.button}`
+    );
+
+    const handleEvent = () => {
+      playSound();
+    };
+
+    elements.forEach((element) => {
+      element.addEventListener("mouseenter", handleEvent); // For hover
+      element.addEventListener("click", handleEvent); // For click
+    });
+    return () => {
+      elements.forEach((element) => {
+        element.removeEventListener("mouseenter", handleEvent);
+        element.removeEventListener("click", handleEvent);
+      });
+    };
+  }, []);
+
   return (
     <Container
       parentClassName="landing-page-container"
@@ -50,7 +83,7 @@ const LandingPage = () => {
               <Glitch text="45" />
             </span>{" "}
             <p className={style.Para}>Level</p>
-            <img
+            <Image
               className={style.starImg}
               src="/Icons/star.png"
               alt="Picture of the author"
@@ -70,12 +103,11 @@ const LandingPage = () => {
               data-augmented-ui="all-hexangle-up border"
               className={style.reticle}
             >
-              <img
+              <Image
                 src="/Icons/martian.jpg"
                 alt="Profile"
                 width={505}
                 height={525}
-                alt="Profile"
                 ref={glitch.ref}
               />
             </div>
@@ -167,7 +199,7 @@ const LandingPage = () => {
             className={style.arrow}
             data-augmented-ui="all-triangle-right border"
           >
-            <img
+            <Image
               src="/Icons/play.png"
               alt="Trailer"
               width={50}
@@ -179,7 +211,7 @@ const LandingPage = () => {
             className={style.arrow}
             data-augmented-ui="all-triangle-left border"
           >
-            <img
+            <Image
               src="/Icons/instagram.png"
               alt="instagram"
               width={30}

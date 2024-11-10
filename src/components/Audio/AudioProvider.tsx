@@ -12,7 +12,7 @@ interface AudioContextType {
 }
 const AudioContext = createContext<AudioContextType>({
   isMusicOn: false,
-  setIsMusicOn: () => {},
+  setIsMusicOn: () => { },
 });
 
 export const AudioProvider: React.FC<{ children: ReactNode }> = ({
@@ -30,7 +30,7 @@ export const AudioProvider: React.FC<{ children: ReactNode }> = ({
       if (audioPlayer) audioPlayer.pause();
       setAudioPlayer(null);
     };
-  }, []);
+  }, [audioPlayer]);
 
   useEffect(() => {
     if (isMusicOn && audioPlayer) {
