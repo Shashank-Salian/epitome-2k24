@@ -54,12 +54,8 @@ const config: Config = {
         },
       },
       fontFamily: {
-        poppins: ["var(--Poppins)"],
-        valorant: ["var(--Valorant)"],
-        beyonders: ["var(--Beyonders)"],
         spaceAge: ["var(--SpaceAge)"],
         oxanium: ["var(--Oxanium)"],
-        bsd: ["var(--Bsd)"],
         iceland: ["var(--Iceland)"],
       },
       borderRadius: {

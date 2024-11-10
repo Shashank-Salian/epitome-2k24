@@ -4,7 +4,6 @@ import { EventsRayCaster } from "@/threeWorks/Models/EventsModel";
 import EventList from "@/utils/EventList";
 import { useEffect, useRef, useState } from "react";
 import RulesCard from "../RulesCard/RulesCard";
-import { useAudio } from "@/components/Audio/AudioProvider";
 import classes from "./Event.module.css";
 import Typewriter from "@/components/CustomUI/TypeWriter";
 import ToggleUI from "@/components/CustomUI/ToggleUI";

@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
         await connectDB();
         const userExists = await UserModel.findOne({ email: email })
         if (!userExists) {
-            throw new Error("User Not Found!")
+            return NextResponse.json("User Not Found!", { status: 404 })
         }
 
         let userData
@@ -32,6 +32,7 @@ export async function POST(request: NextRequest) {
                 email: userExists?.email,
                 phone: userExists?.phone,
                 picture: userExists?.picture,
+                participants: userExists?.participants,
                 events: userExists?.events,
                 isVerified: userExists?.isVerified,
                 createdAt: userExists?.createdAt.toISOString(),
@@ -45,18 +46,18 @@ export async function POST(request: NextRequest) {
                 email: userExists?.email,
                 phone: userExists?.phone,
                 picture: userExists?.picture,
+                participants: userExists?.participants,
                 events: userExists?.events,
                 isVerified: userExists?.isVerified,
                 createdAt: userExists?.createdAt.toISOString()
             }
         }
 
-        console.log("\nuserData", userData)
+        // console.log("\nuserData", userData)
 
         return NextResponse.json(userData, { status: 200 })
     } catch (err: any) {
         console.error("getUserByEmail :", err);
         return NextResponse.json(err.message, { status: 500 })
-
     }
 }

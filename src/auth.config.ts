@@ -2,7 +2,6 @@ import type { NextAuthConfig } from "next-auth"
 import Google from "next-auth/providers/google"
 import Credentials from "next-auth/providers/credentials"
 import { SignToken } from "./lib/jwt"
-import UserModel from "./models/UserModel"
 import { connectDB } from "./lib/database"
 import bcrypt from "bcryptjs"
 import axios from "axios"
@@ -18,21 +17,15 @@ export default {
             authorize: async (credentials) => {
                 let user = null
 
-                console.log("\nUserInut:", credentials)
-
                 try {
                     if (!credentials?.email || !credentials?.password) {
                         return null
                     }
 
                     await connectDB()
-                    // const userExists = await UserModel.findOne({ email: credentials?.email, password: { $exists: true, $ne: null } })
-                    // const matchPassword = await bcrypt.compare(credentials?.password as string, userExists?.password)
-
                     const userExists = await axios.post(`${process.env.NEXTAUTH_URL}/api/post/user`, { email: credentials?.email, getPassword: true })
                     const matchPassword = await bcrypt.compare(credentials?.password as string, userExists?.data?.password)
 
-                    console.log("\nPAssMatch", { userExists, matchPassword })
                     if (!userExists?.data?.email || !matchPassword) throw new Error("Invalid Email or Password")
 
                     const userData = {
@@ -60,25 +53,31 @@ export default {
                 return true
             } else {
                 try {
-                    // await connectDB()
-                    // const userExists = await UserModel.findOne({ email: profile?.email })
-                    const userExists = await axios.post(`${process.env.NEXTAUTH_URL}/api/post/user`, { email: profile?.email })
-                    if (!userExists?.data?.email) {
-                        // await UserModel.create({
-                        //     username: profile?.name,
-                        //     email: profile?.email,
-                        //     picture: profile?.picture,
-                        // })
+                    const userExists = await fetch(`${process.env.NEXTAUTH_URL}/api/post/user`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({ email: profile?.email }),
+                    });
 
-                        const res = await axios.post(`${process.env.NEXTAUTH_URL}/api/post/registerOauthUser`, {
-                            username: profile?.name,
-                            email: profile?.email,
-                            picture: profile?.picture,
-                        })
-                        console.log("\nOAuht signin : ", res.data)
+                    if (userExists?.status === 404) {
+                        const res = await fetch(`${process.env.NEXTAUTH_URL}/api/post/registerOauthUser`, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                username: profile?.name,
+                                email: profile?.email,
+                                picture: profile?.picture,
+                            }),
+                        });
+                        // const newOAuthUser = await res.json()
+                        // console.log("\nOAuht signin : ", newOAuthUser)
 
                         if (res.status !== 201) {
-                            throw new Error(res.data.message || "Failed to Create OAuth User")
+                            throw new Error("Failed to Create OAuth User")
                         }
 
                         // console.log("\nSignIn_Callback: NewOAuth User Created")

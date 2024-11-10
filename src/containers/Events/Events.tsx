@@ -1,18 +1,19 @@
 import Container from "@/containers/Container/Container";
 import Event from "./Event/Event";
-import ToggleUI from "@/components/CustomUI/ToggleUI";
+import Header from "@/components/CustomUI/Header";
+
 const Events = () => {
   return (
     <>
-      <Container parentClassName="pt-12 relative">
-        <div>
+      <Container parentClassName="w-screen h-screen relative">
+        <Header />
+        <div className="py-8">
           <h1 className="font-spaceAge text-6xl font-bold text-center drop-shadow-2xl">
             Events
           </h1>
           <Event />
         </div>
       </Container>
-      <Container>hello</Container>
     </>
   );
 };

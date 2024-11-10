@@ -9,7 +9,7 @@ const Events = dynamic(() => import("@/containers/Events/Events"), {
   ssr: false,
 });
 
-export default function () {
+const Challenge = () => {
   const { isInitialLoad, loadingCompleted, loadingProgress } = useLoader();
   return (
     <>
@@ -21,3 +21,5 @@ export default function () {
     </>
   );
 }
+
+export default Challenge
