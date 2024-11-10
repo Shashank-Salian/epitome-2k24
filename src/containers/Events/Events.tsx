@@ -13,7 +13,6 @@ const Events = () => {
           <Event />
         </div>
       </Container>
-      <Container>hello</Container>
     </>
   );
 };
