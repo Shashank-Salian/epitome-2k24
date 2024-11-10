@@ -2,14 +2,10 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
 import useUserStore from "@/store/useUserStore";
-import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
-// import Container from "@/containers/Container/Container";
-// import { getUserByEmail } from "@/app/actions/UserActions";
 import { ChevronDown, User2Icon } from 'lucide-react'
 import ButtonUI from "./ButtonUI";
-import axios from "axios";
 
 const AUTH_ROUTES = ["/login", "/register", "/forgot-password", "/reset-password"];
 const PUBLIC_ROUTES = [...AUTH_ROUTES, "/", "/about", "/commitee"]
@@ -45,33 +41,48 @@ const Header = () => {
     }
   }, [session, status, router, pathname]);
 
-  // User Data Fetching
-  const { data: userData } = useQuery({
-    queryKey: ["user", session?.user?.email],
-    // queryFn: () => session?.user?.email ? getUserByEmail(session.user.email) : null,
-    queryFn: async () => {
-      const res = await axios.post("/api/post/user", { email: session?.user?.email })
-      console.log(res)
-      return res.data
-    },
-    enabled: !!session?.user?.email,
-  });
-
-  // Update User Store
+  // Fetch & Update User Store
   useEffect(() => {
-    if (userData && 'uid' in userData && user?.uid !== userData.uid) {
-      setUser({
-        ...userData,
-        accessToken: session?.user?.accessToken
-      });
+    const fetchUserData = async () => {
+      if (!session?.user?.email) return;
+
+      try {
+        const res = await fetch("/api/post/user", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: session.user.email }),
+        });
+
+        if (res.status !== 200) {
+          throw new Error("Failed to fetch user data");
+        }
+
+        const userData = await res.json();
+        console.log("UserData:", userData);
+        if (userData && 'uid' in userData && user?.uid !== userData.uid) {
+          setUser({
+            ...userData,
+            accessToken: session?.user?.accessToken
+          });
+        }
+
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    if (session?.user?.email) {
+      fetchUserData();
     }
-  }, [userData, session?.user?.accessToken, user, setUser]);
+  }, [session?.user, user, setUser]);
 
   return (
     // <Container parentClassName="!h-fit">
     <header
       data-augmented-ui="br-2-clip-y bl-2-clip-y"
-      className="styleme sticky top-0 flex justify-between items-center mx-8 px-10 py-3 bg-background/30 z-10 backdrop-blur-md">
+      className="sticky w-full top-0 flex justify-between items-center px-10 py-3 bg-background/30 z-10 backdrop-blur-md">
       <Link href="/">
         <h1 className="text-[1.5em] font-beyonders">LOGO</h1>
       </Link>

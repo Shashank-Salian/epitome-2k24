@@ -1,38 +1,25 @@
-import React, { Dispatch, SetStateAction } from 'react'
-import Input from '@/components/CustomUI/Input'
+"use client"
+import React from 'react';
+import EventField from './EventField';
+import useEventRegister from '@/store/useEventRegister';
 
 type Props = {
-    eventName: string,
-    participants: number,
-    setValue?: Dispatch<SetStateAction<any>>
-}
+    eventName: string;
+    participants: number;
+};
 
-const EventGroup = ({ eventName, participants = 2, setValue }: Props) => {
-
+const EventGroup = ({ eventName, participants }: Props) => {
     return (
         <div
             data-augmented-ui="tl-clip tr-2-clip-x br-clip bl-2-clip-x"
-            className='styleme relative flex flex-col gap-4 bg-blueGradientAlt p-6'>
-            <span className="">{eventName}</span>
+            className='relative flex flex-col gap-4 bg-blueGradientAlt p-6'>
+            <span>{eventName}</span>
 
             {Array.from({ length: participants }).map((_, index) => (
-                <div key={index} className="flex_center flex-col gap-2">
-                    <Input
-                        type='text'
-                        label={`Participant ${index + 1}`}
-                        name='username'
-                        placeholder='Enter Name'
-                        setValue={setValue} />
-
-                    <Input
-                        type='tel'
-                        name='username'
-                        placeholder='Enter Phone'
-                        setValue={setValue} />
-                </div>
+                <EventField key={index} index={index} eventName={eventName} />
             ))}
         </div>
-    )
-}
+    );
+};
 
-export default EventGroup
+export default EventGroup;
