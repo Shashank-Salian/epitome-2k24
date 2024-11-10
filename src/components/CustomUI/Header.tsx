@@ -18,7 +18,7 @@ const PUBLIC_ROUTES = [...AUTH_ROUTES, "/", "/about", "/committee"];
 const PUBLIC_NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/", label: "About" },
-  //   { href: "/", label: "Committee" },
+  { href: "/challenges", label: "Challenges" },
 ];
 const PROTECTED_NAV_LINKS = [
   { href: "/", label: "Home" },
