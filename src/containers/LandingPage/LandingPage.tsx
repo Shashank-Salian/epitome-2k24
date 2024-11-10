@@ -204,14 +204,14 @@ const LandingPage = () => {
           <div className={style.landing} data-augmented-ui ref={glitch.ref}>
             <div className={style.Story}>
               <h1 className={style.title}>Ecstasy</h1>
-              <p>
+              <div>
                 <h1 className={style.Date}>NOV 21 & 22 </h1>
                 <Glitch text="broadcasting" /> a warning: “Echoes of the Void
                 Awaken.” Shadows stirred among the stars, spectral and ancient.
                 Zara hit the thrusters, escaping as dark tendrils reached out.
                 She knew then—space held <Glitch text="Secrets" />, and they had
                 just scratched the surface.
-              </p>
+              </div>
             </div>
           </div>
 
