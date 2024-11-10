@@ -23,6 +23,16 @@ const PageButtons = () => {
           Events
         </Button>
       </Link>
+
+      <Link href={"/login"}>
+        <Button
+          className={style.button}
+          data-augmented-ui="bl-clip tr-clip border"
+        >
+          Log In
+        </Button>
+      </Link>
+
       <Button
         className={style.button}
         data-augmented-ui="bl-clip tr-clip border"

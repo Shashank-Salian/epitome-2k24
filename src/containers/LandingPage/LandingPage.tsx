@@ -158,12 +158,14 @@ const LandingPage = () => {
             </div>
           </div>
           {/* Brochure */}
-          <span
-            className={style.broch}
-            data-augmented-ui="bl-clip tr-clip border"
-          >
-            <span>Brochure </span>
-          </span>
+          <a href="/EpitomeBrochure.pdf" download={true}>
+            <span
+              className={style.broch}
+              data-augmented-ui="bl-clip tr-clip border"
+            >
+              Brochure
+            </span>
+          </a>
         </div>
         <div className={style.Middle}>
           <Image

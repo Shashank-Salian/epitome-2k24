@@ -7,13 +7,18 @@ import { usePathname, useRouter } from "next/navigation";
 import { ChevronDown, User2Icon } from 'lucide-react'
 import ButtonUI from "./ButtonUI";
 
-const AUTH_ROUTES = ["/login", "/register", "/forgot-password", "/reset-password"];
-const PUBLIC_ROUTES = [...AUTH_ROUTES, "/", "/about", "/commitee"]
+const AUTH_ROUTES = [
+  "/login",
+  "/register",
+  "/forgot-password",
+  "/reset-password",
+];
+const PUBLIC_ROUTES = [...AUTH_ROUTES, "/", "/about", "/committee"];
 
 const PUBLIC_NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/", label: "About" },
-  { href: "/", label: "Commitee" },
+  //   { href: "/", label: "Committee" },
 ];
 const PROTECTED_NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -84,35 +89,30 @@ const Header = () => {
       data-augmented-ui="br-2-clip-y bl-2-clip-y"
       className="sticky w-full top-0 flex justify-between items-center px-10 py-3 bg-background/30 z-10 backdrop-blur-md">
       <Link href="/">
-        <h1 className="text-[1.5em] font-beyonders">LOGO</h1>
+        <img
+          src="/Icons/Epitome.png"
+          alt="Epitome"
+          className="hidden sm:block sm:w-48 md:w-60"
+        />
+        <h1 className="font-spaceAge text-2xl sm:hidden">Epitome</h1>
       </Link>
 
       <nav className="flex_center gap-6">
-        {status === "authenticated" ?
-          PROTECTED_NAV_LINKS.map(({ href, label }) => (
-            <Link
-              key={label}
-              href={href}
-              className="text-[1.25em]"
-            >
-              {label}
-            </Link>
-          ))
-          :
-          PUBLIC_NAV_LINKS.map(({ href, label }) => (
-            <Link
-              key={label}
-              href={href}
-              className="text-[1.25em]"
-            >
-              {label}
-            </Link>
-          ))
-        }
+        {status === "authenticated"
+          ? PROTECTED_NAV_LINKS.map(({ href, label }) => (
+              <Link key={label} href={href} className="text-[1.25em]">
+                {label}
+              </Link>
+            ))
+          : PUBLIC_NAV_LINKS.map(({ href, label }) => (
+              <Link key={label} href={href} className="text-[1.25em]">
+                {label}
+              </Link>
+            ))}
 
         {!user?.username ? (
-          <Link href="/login" className="ml-4">
-            <ButtonUI value="LOGIN" />
+          <Link href="/login" className="">
+            <ButtonUI value="LOGIN" className="text-sm px-7" />
           </Link>
         ) : (
           <div className="clip_Btn flex_center gap-4 bg-primary px-2 rounded-md">
@@ -129,4 +129,4 @@ const Header = () => {
   );
 };
 
-export default Header
+export default Header;
