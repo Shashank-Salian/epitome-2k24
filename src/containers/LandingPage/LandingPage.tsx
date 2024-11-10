@@ -1,11 +1,9 @@
-import React, { useEffect, useRef,useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Container from "@/containers/Container/Container";
 import style from "./LandingPage.module.css";
 import Typewriter from "@/components/CustomUI/TypeWriter";
 import CountDown from "../../components/CustomUI/CountDown";
-import ToggleUI from "../../components/CustomUI/ToggleUI";
 import Glitch from "./Glitch";
-import Image from "next/image";
 import { useGlitch, GlitchHandle } from "react-powerglitch";
 import PageButtons from "./PageButtons/PageButtons";
 const audioFilePath = "/Music/click.wav";
@@ -67,7 +65,7 @@ const LandingPage = () => {
   //Video player end
   useEffect(() => {
     soundRef.current.preload = "auto";
-    soundRef.current.load(); 
+    soundRef.current.load();
     const elements = document.querySelectorAll(
       `.${style.broch}, .${style.arrow}, .${style.button}`
     );

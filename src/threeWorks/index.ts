@@ -1,13 +1,12 @@
 "use client";
 
 import { EffectComposer, RenderPass } from "postprocessing";
-import { Clouds } from "@pmndrs/vanilla";
 
 import SceneSetup from "./SceneSetup";
 import { ClientDims, throttle, UPDATE_FUNCS } from "./utils";
 
 // Just for dev
-import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+// import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { initStars } from "./Models/Stars";
 import { HDRAssetManager } from "./AssetsManager/AssetManager";
 import GlobalLoader from "./AssetsManager/GlobalLoader";
@@ -50,9 +49,6 @@ EventList.forEach((eventInfo, i) => {
 });
 
 SceneSetup.scene.add(EventsRayCaster.listenObjects);
-
-let clouds: Clouds | undefined;
-// initCloud().then((c) => (clouds = c));
 
 const stars = initStars(effectComposer);
 
