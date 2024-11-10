@@ -33,8 +33,8 @@ const RulesCard = ({ rules, onCloseClick, title, eventName, Heads }: Props) => {
         </ul>
         <span className="list-disc">
           Event Heads:
-          {Heads.map(({ name, phone}) => (
-            <li className="mb-2">
+          {Heads.map(({ name, phone }, index) => (
+            <li key={index} className="mb-2">
               {name} - {phone}
             </li>
           ))}
