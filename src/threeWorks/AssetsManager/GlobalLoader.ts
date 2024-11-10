@@ -91,8 +91,6 @@ class GlobalLoader {
         GlobalLoader.secondPriorLoaders.length +
         GlobalLoader.thirdPriorLoaders.length);
 
-    console.log(totalProgress);
-
     GlobalLoader.globalProgress = totalProgress;
 
     if (GlobalLoader.onProgressChange) {

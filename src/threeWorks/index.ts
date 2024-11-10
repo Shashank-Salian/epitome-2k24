@@ -84,6 +84,8 @@ function onResize() {
     asset.updateResizeFactor();
   });
 
+  SpaceShip.updateResizeFactor();
+
   effectComposer.setSize(ClientDims.width, ClientDims.height);
 }
 

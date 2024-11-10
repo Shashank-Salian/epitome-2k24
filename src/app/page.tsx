@@ -23,16 +23,15 @@ export default function Home() {
 
   return (
     <>
-      {isInitialLoad && !loadingCompleted ? (
+      {isInitialLoad && !loadingCompleted && (
         <LoadingScreen progress={loadingProgress} />
-      ) : (
-        <>
-          <main className="w-full" style={{ scrollSnapType: "y mandatory" }}>
-            {/* <LandingHeader /> */}
-            <LandingPage />
-          </main>
-        </>
       )}
+      <>
+        <main className="w-full" style={{ scrollSnapType: "y mandatory" }}>
+          {/* <LandingHeader /> */}
+          <LandingPage />
+        </main>
+      </>
     </>
   );
 }

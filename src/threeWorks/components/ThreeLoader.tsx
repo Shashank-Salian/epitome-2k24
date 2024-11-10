@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import "@/threeWorks/index";
 import GlobalLoader, { LoadingState } from "../AssetsManager/GlobalLoader";
 import { SpaceShip } from "../Models/SpaceShip";
+import { onRouteChange } from "../utils";
 
 type Props = {
   onProgress: (prog: number) => void;
@@ -35,6 +36,8 @@ const ThreeLoader = ({ onProgress }: Props) => {
     }
 
     if (GlobalLoader.loadingState === LoadingState.LOADED) {
+      onRouteChange();
+
       if (pathname === "/") {
         SpaceShip.add();
 
