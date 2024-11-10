@@ -71,7 +71,7 @@ const RecieptUpload = () => {
                 onClick={() => FileInputRef.current?.click()}
             >
                 {file ? (
-                    <Image
+                    <img
                         src={URL.createObjectURL(file)}
                         alt="Preview"
                         className='w-full h-auto max-w-xs'

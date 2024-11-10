@@ -136,7 +136,7 @@ const Header = () => {
               :
               <User2Icon size={25} />
             }
-            <span className="font-oxanium">Welcome, {user?.username}!</span>
+            <span className="font-oxanium">{user?.username}</span>
           </div>
         )}
       </nav>
