@@ -1,11 +1,13 @@
 "use client";
 import React, { useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import useUserStore from "@/store/useUserStore";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import { ChevronDown, User2Icon } from 'lucide-react'
 import ButtonUI from "./ButtonUI";
+import EpitomeLogo from "@/assets/Images/Epitome.png"
 
 const AUTH_ROUTES = [
   "/login",
@@ -89,10 +91,12 @@ const Header = () => {
       data-augmented-ui="br-2-clip-y bl-2-clip-y"
       className="sticky w-full top-0 flex justify-between items-center px-10 py-3 bg-background/30 z-10 backdrop-blur-md">
       <Link href="/">
-        <img
-          src="/Icons/Epitome.png"
+        <Image
+          src={EpitomeLogo}
+          width={EpitomeLogo.width}
+          height={EpitomeLogo.height}
           alt="Epitome"
-          className="hidden sm:block sm:w-48 md:w-60"
+          className="hidden sm:block sm:w-44"
         />
         <h1 className="font-spaceAge text-2xl sm:hidden">Epitome</h1>
       </Link>
@@ -100,15 +104,15 @@ const Header = () => {
       <nav className="flex_center gap-6">
         {status === "authenticated"
           ? PROTECTED_NAV_LINKS.map(({ href, label }) => (
-              <Link key={label} href={href} className="text-[1.25em]">
-                {label}
-              </Link>
-            ))
+            <Link key={label} href={href} className="text-[1.25em]">
+              {label}
+            </Link>
+          ))
           : PUBLIC_NAV_LINKS.map(({ href, label }) => (
-              <Link key={label} href={href} className="text-[1.25em]">
-                {label}
-              </Link>
-            ))}
+            <Link key={label} href={href} className="text-[1.25em]">
+              {label}
+            </Link>
+          ))}
 
         {!user?.username ? (
           <Link href="/login" className="">
