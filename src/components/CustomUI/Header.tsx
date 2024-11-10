@@ -103,8 +103,8 @@ const Header = () => {
             ))}
 
         {!user?.username ? (
-          <Link href="/login" className="ml-4">
-            <ButtonUI value="LOGIN" className="text-xl" />
+          <Link href="/login" className="">
+            <ButtonUI value="LOGIN" className="text-sm px-7" />
           </Link>
         ) : (
           <div className="clip_Btn flex_center gap-4 bg-primary px-2 rounded-md">
