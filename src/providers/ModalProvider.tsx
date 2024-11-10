@@ -1,4 +1,5 @@
 "use client"
+import LogoutModal from '@/components/Modals/LogoutModal'
 import UserInfoModal from '@/components/Modals/UserInfoModal'
 import useModalStore from '@/store/useModalStore'
 
@@ -12,7 +13,7 @@ const ModalProvider = () => {
         case "USER_INFO_MODAL":
             return <UserInfoModal />
         case "LOGOUT_MODAL":
-            return <></>
+            return <LogoutModal />
         default:
             return <></>
     }
