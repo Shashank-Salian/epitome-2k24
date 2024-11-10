@@ -13,7 +13,7 @@ const UserInfoModal = () => {
     const [phone, setPhone] = useState<string>("")
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
-    const { user } = useUserStore()
+    const { user, setUser } = useUserStore()
     const { closeModal } = useModalStore()
 
     const HandleUserUpdate = async (e: FormEvent<HTMLFormElement>) => {
@@ -34,7 +34,10 @@ const UserInfoModal = () => {
             })
 
             if (res.status === 201) {
+                const data = await res.json()
                 toast.success("Profile Updated Successfully!")
+                console.log("Update_User_Info:", data)
+                setUser(data.user)
                 closeModal()
             }
         } catch (err) {

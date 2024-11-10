@@ -53,7 +53,7 @@ const EventForm = () => {
             console.log("Event Reg:", data)
 
             if (res?.status === 201) {
-                setUser(data)
+                setUser(data.user)
                 toast.success("Event Registations Submitted!", {
                     id: SubmitToastID
                 })
