@@ -68,8 +68,8 @@ class SceneSetup {
     SceneSetup.ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     SceneSetup.directionalLight = new THREE.DirectionalLight(0xffffff, 1);
 
-    SceneSetup.scene.add(SceneSetup.ambientLight);
-    SceneSetup.scene.add(SceneSetup.directionalLight);
+    // SceneSetup.scene.add(SceneSetup.ambientLight);
+    // SceneSetup.scene.add(SceneSetup.directionalLight);
 
     // Setting initial position
     SceneSetup.directionalLight.position.set(10, 10, 10);

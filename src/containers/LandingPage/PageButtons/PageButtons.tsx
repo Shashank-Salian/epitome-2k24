@@ -1,42 +1,48 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-
-import style from "./PageButtons.module.css";
+import useUserStore from "@/store/useUserStore";
 import Link from "next/link";
 
-const PageButtons = () => {
+const PageButtons = ({ className }: { className?: string }) => {
+  const { user } = useUserStore();
+
+  const authBtn = (isLogin = true) => {
+    return (
+      <Link href={isLogin ? "/login" : "/events"}>
+        <Button
+          className={className}
+          data-augmented-ui="bl-clip tr-clip border"
+        >
+          {isLogin ? "Log In" : "Register"}
+        </Button>
+      </Link>
+    );
+  };
+
   return (
     <>
-      <Button
-        className={style.button}
-        data-augmented-ui="bl-clip tr-clip border"
-      >
-        <span>Registration</span>
-      </Button>
+      <Link href={"/register"}>
+        <Button
+          className={className}
+          data-augmented-ui="bl-clip tr-clip border"
+        >
+          <span>Sign Up</span>
+        </Button>
+      </Link>
 
       <Link href="/challenges">
         <Button
-          className={style.button}
+          className={className}
           data-augmented-ui="bl-clip tr-clip border"
         >
-          Events
+          Challenges
         </Button>
       </Link>
 
-      <Link href="/login">
-        <Button
-          className={style.button}
-          data-augmented-ui="bl-clip tr-clip border"
-        >
-          Log In
-        </Button>
-      </Link>
+      {authBtn(!user)}
 
-      <Button
-        className={style.button}
-        data-augmented-ui="bl-clip tr-clip border"
-      >
+      <Button className={className} data-augmented-ui="bl-clip tr-clip border">
         <span>About</span>
       </Button>
     </>

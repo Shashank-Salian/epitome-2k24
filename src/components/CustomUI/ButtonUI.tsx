@@ -16,7 +16,7 @@ const ButtonUI = (props: ButtonProps) => {
       type={type}
       disabled={disabled}
       className={cn(
-        `bg-primary font-beyonders text-white px-10 py-[0.8em] clip_Btn rounded-md`,
+        `bg-primary font-iceland text-white font-bold px-10 py-2 clip_Btn rounded-md`,
         className
       )}
     >
