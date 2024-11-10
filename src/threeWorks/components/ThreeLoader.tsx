@@ -7,6 +7,7 @@ import "@/threeWorks/index";
 import GlobalLoader, { LoadingState } from "../AssetsManager/GlobalLoader";
 import { SpaceShip } from "../Models/SpaceShip";
 import { onRouteChange } from "../utils";
+import SceneSetup from "../SceneSetup";
 
 type Props = {
   onProgress: (prog: number) => void;
@@ -23,6 +24,7 @@ const ThreeLoader = ({ onProgress }: Props) => {
       GlobalLoader.loadFirst().then(() => {
         if (pathname === "/") {
           SpaceShip.add();
+          SceneSetup.addLights();
 
           return () => SpaceShip.remove();
         }
@@ -40,11 +42,14 @@ const ThreeLoader = ({ onProgress }: Props) => {
 
       if (pathname === "/") {
         SpaceShip.add();
+        SceneSetup.removeLights();
 
         return () => {
           SpaceShip.remove();
         };
       }
+
+      SceneSetup.addLights();
 
       SpaceShip.remove();
     }
