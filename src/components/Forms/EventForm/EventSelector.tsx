@@ -84,7 +84,13 @@ const EventButton = ({ event }: EventButtonProp) => {
             </div>
 
             <div className='flex_center flex-col'>
-                <span className='text-[1.2em] font-bold'>{event.participantCount}</span>
+                <span className='text-[1.2em] font-bold'>
+                    {event.minParticipant == event.maxParticipant ?
+                        event.maxParticipant
+                        :
+                        `${event.minParticipant} - ${event.maxParticipant}`
+                    }
+                </span>
                 <span>Count</span>
             </div>
         </Button>

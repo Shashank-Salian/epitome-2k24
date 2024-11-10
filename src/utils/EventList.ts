@@ -222,7 +222,8 @@ export type EventRegType = {
     name: string;
     phone: string;
   }[]
-  participantCount: number,
+  minParticipant: number,
+  maxParticipant: number,
 }
 
 export const eventRegisterList: EventRegType[] = [
@@ -239,7 +240,52 @@ export const eventRegisterList: EventRegType[] = [
         phone: ""
       }
     ],
-    participantCount: 2,
+    minParticipant: 2,
+    maxParticipant: 2,
+  },
+  {
+    title: "Quasar Invictus",
+    category: "IT Manager",
+    participants: [
+      {
+        name: "",
+        phone: ""
+      }
+    ],
+    minParticipant: 1,
+    maxParticipant: 1,
+  },
+  {
+    title: "Matrix Minds",
+    category: "IT Quiz",
+    participants: [
+      {
+        name: "",
+        phone: ""
+      },
+      {
+        name: "",
+        phone: ""
+      }
+    ],
+    minParticipant: 2,
+    maxParticipant: 2,
+  },
+  {
+    title: "Cosmic Webcraft",
+    category: "Web Design",
+    participants: [
+      {
+        name: "",
+        phone: ""
+      },
+      {
+        name: "",
+        phone: ""
+      }
+    ],
+    minParticipant: 2,
+    maxParticipant: 2,
   },
   {
     title: "Rhythmic Resonance",
@@ -266,33 +312,8 @@ export const eventRegisterList: EventRegType[] = [
         phone: ""
       }
     ],
-    participantCount: 5,
-  },
-  {
-    title: "Battle of Bytes",
-    category: "Debate",
-    participants: [
-      {
-        name: "",
-        phone: ""
-      }
-    ],
-    participantCount: 1,
-  },
-  {
-    title: "Matrix Minds",
-    category: "IT Quiz",
-    participants: [
-      {
-        name: "",
-        phone: ""
-      },
-      {
-        name: "",
-        phone: ""
-      }
-    ],
-    participantCount: 2,
+    minParticipant: 5,
+    maxParticipant: 10,
   },
   {
     title: "Galactic Frames",
@@ -303,45 +324,24 @@ export const eventRegisterList: EventRegType[] = [
         phone: ""
       }
     ],
-    participantCount: 1,
+    minParticipant: 1,
+    maxParticipant: 1,
   },
   {
-    title: "Quasar Invictus",
-    category: "IT Manager",
+    title: "Battle of Bytes",
+    category: "Debate",
     participants: [
       {
         name: "",
         phone: ""
       }
     ],
-    participantCount: 1,
+    minParticipant: 1,
+    maxParticipant: 1,
   },
   {
-    title: "Cosmic Creatives",
-    category: "Mad Ads",
-    participants: [
-      {
-        name: "",
-        phone: ""
-      },
-      {
-        name: "",
-        phone: ""
-      },
-      {
-        name: "",
-        phone: ""
-      },
-      {
-        name: "",
-        phone: ""
-      }
-    ],
-    participantCount: 4,
-  },
-  {
-    title: "Cosmic Webcraft",
-    category: "Web Design",
+    title: "Surprise Event",
+    category: "Surprise",
     participants: [
       {
         name: "",
@@ -352,7 +352,20 @@ export const eventRegisterList: EventRegType[] = [
         phone: ""
       }
     ],
-    participantCount: 2,
+    minParticipant: 2,
+    maxParticipant: 2,
+  },
+  {
+    title: "Meme Mania",
+    category: "AI Meme Gen",
+    participants: [
+      {
+        name: "",
+        phone: ""
+      }
+    ],
+    minParticipant: 1,
+    maxParticipant: 1,
   },
   {
     title: "Ultimate Showdown",
@@ -375,7 +388,32 @@ export const eventRegisterList: EventRegType[] = [
         phone: ""
       }
     ],
-    participantCount: 4,
+    minParticipant: 4,
+    maxParticipant: 4,
+  },
+  {
+    title: "Cosmic Creatives",
+    category: "Mad Ads",
+    participants: [
+      {
+        name: "",
+        phone: ""
+      },
+      {
+        name: "",
+        phone: ""
+      },
+      {
+        name: "",
+        phone: ""
+      },
+      {
+        name: "",
+        phone: ""
+      }
+    ],
+    minParticipant: 4,
+    maxParticipant: 6,
   },
   {
     title: "Eliptica",
@@ -390,32 +428,7 @@ export const eventRegisterList: EventRegType[] = [
         phone: ""
       }
     ],
-    participantCount: 2,
-  },
-  {
-    title: "Meme Mania",
-    category: "AI Meme Gen",
-    participants: [
-      {
-        name: "",
-        phone: ""
-      }
-    ],
-    participantCount: 1,
-  },
-  {
-    title: "Surprise Event",
-    category: "Surprise",
-    participants: [
-      {
-        name: "",
-        phone: ""
-      },
-      {
-        name: "",
-        phone: ""
-      }
-    ],
-    participantCount: 2,
+    minParticipant: 2,
+    maxParticipant: 2,
   }
 ]

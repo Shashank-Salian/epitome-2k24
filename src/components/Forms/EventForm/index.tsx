@@ -13,6 +13,7 @@ import EventParticipants from './EventParticipants'
 
 const EventForm = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [showSubmit, setShowSubmit] = useState<boolean>(false)
     const { selectedEvents, displayForm, participantsDetails, participantsList, setParticipantsList, setDisplayForm } = useEventRegister()
     const { user, setUser } = useUserStore()
     const router = useRouter()
@@ -111,7 +112,13 @@ const EventForm = () => {
 
         console.log({ updatedParticipantsList })
 
+        if (updatedParticipantsList.length > 15) {
+            toast.error("Max 15 participants allowed!")
+            return
+        }
+
         setParticipantsList(updatedParticipantsList);
+        setShowSubmit(true)
     }
 
     return (
@@ -126,7 +133,8 @@ const EventForm = () => {
                                     <EventGroup
                                         key={index}
                                         eventName={event.title}
-                                        participants={event.participantCount} />
+                                        minParticipant={event.minParticipant}
+                                        maxParticipant={event.maxParticipant} />
                                 ))}
                             </Masonry>
                         </ResponsiveMasonry>
@@ -142,7 +150,7 @@ const EventForm = () => {
 
                 <EventParticipants />
 
-                {participantsDetails && <Button type='submit' className='flex_center gap-4 max-w-[500px] text-[1em] text-white font-bold tracking-wide hover:bg-primary' disabled={isLoading}>
+                {showSubmit && <Button type='submit' className='flex_center gap-4 max-w-[500px] text-[1em] text-white font-bold tracking-wide hover:bg-primary' disabled={isLoading}>
                     {isLoading ?
                         <Loader2Icon className='animate-spin' />
                         : <SendIcon />

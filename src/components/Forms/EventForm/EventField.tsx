@@ -62,6 +62,7 @@ const EventGroup = ({ eventName, index }: Props) => {
                 name='username'
                 placeholder='Enter Name'
                 setValue={setParticipantName}
+                className='border-foreground'
                 required={true}
             />
 
@@ -70,6 +71,7 @@ const EventGroup = ({ eventName, index }: Props) => {
                 name='phone'
                 placeholder='Enter Phone'
                 setValue={setParticipantPhone}
+                className='border-foreground'
                 required={true}
             />
         </div>
