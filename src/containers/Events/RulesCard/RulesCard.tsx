@@ -21,8 +21,8 @@ const RulesCard = ({ rules, onCloseClick, title, eventName }: Props) => {
           <h2>{eventName}</h2>
         </div>
         <ul className="list-disc">
-          {rules.map((rule) => (
-            <li className="mb-2">{rule}</li>
+          {rules.map((rule, index) => (
+            <li key={index} className="mb-2">{rule}</li>
           ))}
         </ul>
 

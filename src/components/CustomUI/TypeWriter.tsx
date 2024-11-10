@@ -54,6 +54,7 @@ function Typewriter({
     deleteSpeed,
     texts,
     stopOnFinish,
+    afterRemove
   ]);
 
   // useEffect(() => {

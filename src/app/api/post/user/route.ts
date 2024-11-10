@@ -32,6 +32,7 @@ export async function POST(request: NextRequest) {
                 email: userExists?.email,
                 phone: userExists?.phone,
                 picture: userExists?.picture,
+                participants: userExists?.participants,
                 events: userExists?.events,
                 isVerified: userExists?.isVerified,
                 createdAt: userExists?.createdAt.toISOString(),
@@ -45,6 +46,7 @@ export async function POST(request: NextRequest) {
                 email: userExists?.email,
                 phone: userExists?.phone,
                 picture: userExists?.picture,
+                participants: userExists?.participants,
                 events: userExists?.events,
                 isVerified: userExists?.isVerified,
                 createdAt: userExists?.createdAt.toISOString()
