@@ -1,17 +1,12 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-
-import style from "./PageButtons.module.css";
 import Link from "next/link";
 
 const PageButtons = ({ className }: { className?: string }) => {
   return (
     <>
-      <Button
-        className={style.button}
-        data-augmented-ui="bl-clip tr-clip border"
-      >
+      <Button className={className} data-augmented-ui="bl-clip tr-clip border">
         <span>Registration</span>
       </Button>
 
