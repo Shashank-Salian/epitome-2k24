@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
         await connectDB();
         const userExists = await UserModel.findOne({ email: email })
         if (!userExists) {
-            throw new Error("User Not Found!")
+            return NextResponse.json("User Not Found!", { status: 404 })
         }
 
         let userData
@@ -59,6 +59,5 @@ export async function POST(request: NextRequest) {
     } catch (err: any) {
         console.error("getUserByEmail :", err);
         return NextResponse.json(err.message, { status: 500 })
-
     }
 }
