@@ -84,36 +84,38 @@ const ToggleUI = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center space-y-4 md:mt-6 absolute bottom-1 right-2 font-spaceAge">
-      <div className="text-white font-semibold text-sm md:text-lg">Music</div>
-      <div
-        className={`relative inline-block w-16 h-10 md:w-20 md:h-12 rounded-full cursor-pointer transition-all ${
-          isOn
-            ? "bg-gradient-to-r from-green-400 to-blue-500 shadow-glow"
-            : "bg-gray-600"
-        }`}
-        onClick={handleToggle}
-      >
+    <div className="fixed right-2" style={{ top: "calc(100vh - 8rem)" }}>
+      <div className="inline-flex flex-col items-center justify-center space-y-4 font-spaceAge">
+        <div className="text-white font-semibold text-sm md:text-lg">Music</div>
         <div
-          style={{ right: `${isOn ? "0.25rem" : "calc(50% - 0.25rem)"}` }}
-          className={`absolute top-1 w-8 h-8 md:w-10 md:h-10 bg-white rounded-full shadow-xl transition-all duration-300`}
-        ></div>
-      </div>
-      <div className="flex justify-center space-x-6 w-full">
-        <span
-          className={`text-white text-sm transition-opacity duration-300 ${
-            isOn ? "opacity-0" : "opacity-100"
+          className={`relative inline-block w-16 h-10 md:w-20 md:h-12 rounded-full cursor-pointer transition-all ${
+            isOn
+              ? "bg-gradient-to-r from-green-400 to-blue-500 shadow-glow"
+              : "bg-gray-600"
           }`}
+          onClick={handleToggle}
         >
-          OFF
-        </span>
-        <span
-          className={`text-white text-sm transition-opacity duration-300 ${
-            isOn ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          ON
-        </span>
+          <div
+            style={{ right: `${isOn ? "0.25rem" : "calc(50% - 0.25rem)"}` }}
+            className={`absolute top-1 w-8 h-8 md:w-10 md:h-10 bg-white rounded-full shadow-xl transition-all duration-300`}
+          ></div>
+        </div>
+        <div className="flex justify-center space-x-6 w-full">
+          <span
+            className={`text-white text-sm transition-opacity duration-300 ${
+              isOn ? "opacity-0" : "opacity-100"
+            }`}
+          >
+            OFF
+          </span>
+          <span
+            className={`text-white text-sm transition-opacity duration-300 ${
+              isOn ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            ON
+          </span>
+        </div>
       </div>
     </div>
   );

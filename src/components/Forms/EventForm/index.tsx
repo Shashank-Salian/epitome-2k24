@@ -1,165 +1,209 @@
-"use client"
-import React, { FormEvent, useState } from 'react'
-import { Button } from '../../ui/button'
-import { Loader2Icon, SendIcon } from 'lucide-react'
-import EventGroup from './EventGroup'
-import Masonry, { ResponsiveMasonry } from "react-responsive-masonry"
-import EventSelector from './EventSelector'
-import useEventRegister, { ParticipantsListType } from '@/store/useEventRegister'
-import toast from 'react-hot-toast'
-import useUserStore from '@/store/useUserStore'
-import { useRouter } from 'next/navigation'
-import EventParticipants from './EventParticipants'
+"use client";
+import React, { FormEvent, useState } from "react";
+import { Button } from "../../ui/button";
+import { Loader2Icon, SendIcon } from "lucide-react";
+import EventGroup from "./EventGroup";
+import Masonry, { ResponsiveMasonry } from "@wowblvck/react-responsive-masonry";
+import EventSelector from "./EventSelector";
+import useEventRegister, {
+  ParticipantsListType,
+} from "@/store/useEventRegister";
+import toast from "react-hot-toast";
+import useUserStore from "@/store/useUserStore";
+import { useRouter } from "next/navigation";
+import EventParticipants from "./EventParticipants";
 
 const EventForm = () => {
-    const [isLoading, setIsLoading] = useState<boolean>(false)
-    const [showSubmit, setShowSubmit] = useState<boolean>(false)
-    const { selectedEvents, displayForm, participantsDetails, participantsList, setParticipantsList, setDisplayForm } = useEventRegister()
-    const { user, setUser } = useUserStore()
-    const router = useRouter()
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showSubmit, setShowSubmit] = useState<boolean>(false);
+  const {
+    selectedEvents,
+    displayForm,
+    participantsDetails,
+    participantsList,
+    setParticipantsList,
+    setDisplayForm,
+  } = useEventRegister();
+  const { user, setUser } = useUserStore();
+  const router = useRouter();
 
-    const HandleRegister = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        console.log("HandleRegister", participantsDetails)
+  const HandleRegister = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("HandleRegister", participantsDetails);
 
-        if (participantsList.length > 15) {
-            toast.error("Max 15 Participants Allowed!")
-            return
-        }
-
-        let isValid = true
-        participantsList.some(participant => {
-            if (participant.name.length <= 0 || (participant.phone && participant.phone.length <= 0)) {
-                toast.error("All Fields are Required!")
-                isValid = false
-                return
-            }
-        })
-
-        if (!isValid) return
-        console.log("Event Participants : ", { participantsDetails, participantsList })
-
-        const SubmitToastID = toast.loading("Submitting Registration...")
-        try {
-            const res = await fetch("/api/post/event-register", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ email: user?.email, participantsDetails, participantsList }),
-            });
-
-            const data = await res.json()
-            console.log("Event Reg:", data)
-
-            if (res?.status === 201) {
-                setUser(data)
-                toast.success("Event Registations Submitted!", {
-                    id: SubmitToastID
-                })
-
-                router.push("/payment")
-            }
-        } catch (err) {
-            toast.error("Something went wrong!", {
-                id: SubmitToastID
-            })
-            console.log(err)
-        } finally {
-            setIsLoading(false)
-        }
+    if (participantsList.length > 15) {
+      toast.error("Max 15 Participants Allowed!");
+      return;
     }
 
-    const HandleParticipantsList = () => {
-        let isValid = true
-        participantsDetails.some(event => ({
-            participants: event.participants.some(p => {
-                if (p.name.length <= 0 || p.phone.length <= 0) {
-                    isValid = false
-                }
-            })
-        }))
+    let isValid = true;
+    participantsList.some((participant) => {
+      if (
+        participant.name.length <= 0 ||
+        (participant.phone && participant.phone.length <= 0)
+      ) {
+        toast.error("All Fields are Required!");
+        isValid = false;
+        return;
+      }
+    });
 
-        if (!isValid) {
-            toast.error("Enter All Fields!")
-            return
-        }
+    if (!isValid) return;
+    console.log("Event Participants : ", {
+      participantsDetails,
+      participantsList,
+    });
 
-        setDisplayForm(false)
-        const updatedParticipantsList: ParticipantsListType[] = [];
+    const SubmitToastID = toast.loading("Submitting Registration...");
+    try {
+      const res = await fetch("/api/post/event-register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: user?.email,
+          participantsDetails,
+          participantsList,
+        }),
+      });
 
-        participantsDetails.forEach(event => {
-            event.participants.forEach(p => {
-                const existingParticipantIndex = updatedParticipantsList.findIndex((participant) => participant.phone === p.phone)
+      const data = await res.json();
+      console.log("Event Reg:", data);
 
-                if (existingParticipantIndex !== -1) {
-                    updatedParticipantsList[existingParticipantIndex].events.push({
-                        eventName: event.title,
-                        eventType: event.category
-                    })
-                } else {
-                    updatedParticipantsList.push({
-                        name: p.name,
-                        phone: p.phone,
-                        events: [{
-                            eventName: event.title,
-                            eventType: event.category
-                        }]
-                    });
-                }
-            });
+      if (res?.status === 201) {
+        setUser(data);
+        toast.success("Event Registations Submitted!", {
+          id: SubmitToastID,
         });
 
-        console.log({ updatedParticipantsList })
+        router.push("/payment");
+      }
+    } catch (err) {
+      toast.error("Something went wrong!", {
+        id: SubmitToastID,
+      });
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-        if (updatedParticipantsList.length > 15) {
-            toast.error("Max 15 participants allowed!")
-            return
+  const HandleParticipantsList = () => {
+    let isValid = true;
+    participantsDetails.some((event) => ({
+      participants: event.participants.some((p) => {
+        if (p.name.length <= 0 || p.phone.length <= 0) {
+          isValid = false;
         }
+      }),
+    }));
 
-        setParticipantsList(updatedParticipantsList);
-        setShowSubmit(true)
+    if (!isValid) {
+      toast.error("Enter All Fields!");
+      return;
     }
 
-    return (
-        <div className='flex_center flex-col w-full h-full bg-background/20 rounded-md backdrop-blur-md'>
-            <EventSelector />
-            <form onSubmit={(e) => HandleRegister(e)} className='w-full h-full p-8 flex_center flex-col gap-6'>
-                {displayForm &&
-                    <>
-                        <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }} className='w-full'>
-                            <Masonry gutter='2em' >
-                                {selectedEvents?.map((event, index) => (
-                                    <EventGroup
-                                        key={index}
-                                        eventName={event.title}
-                                        minParticipant={event.minParticipant}
-                                        maxParticipant={event.maxParticipant} />
-                                ))}
-                            </Masonry>
-                        </ResponsiveMasonry>
+    setDisplayForm(false);
+    const updatedParticipantsList: ParticipantsListType[] = [];
 
-                        <Button type='button' onClick={HandleParticipantsList} className='flex_center gap-4 max-w-[500px] text-[1em] text-white font-bold tracking-wide hover:bg-primary' disabled={isLoading}>
-                            {isLoading ?
-                                <Loader2Icon className='animate-spin' />
-                                : <SendIcon />
-                            }
-                            Confirm Participants
-                        </Button>
-                    </>}
+    participantsDetails.forEach((event) => {
+      event.participants.forEach((p) => {
+        const existingParticipantIndex = updatedParticipantsList.findIndex(
+          (participant) => participant.phone === p.phone
+        );
 
-                <EventParticipants />
+        if (existingParticipantIndex !== -1) {
+          updatedParticipantsList[existingParticipantIndex].events.push({
+            eventName: event.title,
+            eventType: event.category,
+          });
+        } else {
+          updatedParticipantsList.push({
+            name: p.name,
+            phone: p.phone,
+            events: [
+              {
+                eventName: event.title,
+                eventType: event.category,
+              },
+            ],
+          });
+        }
+      });
+    });
 
-                {showSubmit && <Button type='submit' className='flex_center gap-4 max-w-[500px] text-[1em] text-white font-bold tracking-wide hover:bg-primary' disabled={isLoading}>
-                    {isLoading ?
-                        <Loader2Icon className='animate-spin' />
-                        : <SendIcon />
-                    }
-                    Submit Registration
-                </Button>}
-            </form>
-        </div>
-    )
-}
+    console.log({ updatedParticipantsList });
 
-export default EventForm
+    if (updatedParticipantsList.length > 15) {
+      toast.error("Max 15 participants allowed!");
+      return;
+    }
+
+    setParticipantsList(updatedParticipantsList);
+    setShowSubmit(true);
+  };
+
+  return (
+    <div className="flex_center flex-col w-full p-4 h-full bg-background/20 rounded-md backdrop-blur-md font-oxanium">
+      <EventSelector />
+      <form
+        onSubmit={(e) => HandleRegister(e)}
+        className="w-full h-full flex_center flex-col gap-6"
+      >
+        {displayForm && (
+          <>
+            <ResponsiveMasonry
+              columnsCountBreakPoints={{ 350: 1, 820: 2, 1300: 3 }}
+              className="w-full"
+            >
+              <Masonry gutter="1rem" columnsCount={3}>
+                {selectedEvents?.map((event, index) => (
+                  <EventGroup
+                    key={index}
+                    eventName={event.title}
+                    minParticipant={event.minParticipant}
+                    maxParticipant={event.maxParticipant}
+                  />
+                ))}
+              </Masonry>
+            </ResponsiveMasonry>
+
+            <Button
+              type="button"
+              onClick={HandleParticipantsList}
+              className="flex_center gap-4 max-w-[500px] text-[1em] text-white font-bold tracking-wide hover:bg-primary"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <Loader2Icon className="animate-spin" />
+              ) : (
+                <SendIcon />
+              )}
+              Confirm Participants
+            </Button>
+          </>
+        )}
+
+        <EventParticipants />
+
+        {showSubmit && (
+          <Button
+            type="submit"
+            className="flex_center gap-4 max-w-[500px] text-[1em] text-white font-bold tracking-wide hover:bg-primary"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <Loader2Icon className="animate-spin" />
+            ) : (
+              <SendIcon />
+            )}
+            Submit Registration
+          </Button>
+        )}
+      </form>
+    </div>
+  );
+};
+
+export default EventForm;

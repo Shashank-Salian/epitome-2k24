@@ -123,12 +123,13 @@ const Header = () => {
             <ButtonUI value="LOGIN" className="text-2xl px-7" />
           </Link>
         ) : (
-          <div className="clip_Btn flex_center gap-4 bg-primary px-2 rounded-md">
+          <div
+            className="clip_Btn flex_center gap-4 bg-primary px-2 rounded-md"
+            title={user.username}
+          >
             <div className="flex_center rounded-full bg-background/20 p-3">
-              <User2Icon size={25} />
+              <User2Icon size={22} />
             </div>
-            <span>Welcome {user.username}!</span>
-            <ChevronDown />
           </div>
         )}
       </nav>

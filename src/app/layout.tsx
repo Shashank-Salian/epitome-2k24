@@ -136,7 +136,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${oxanium.variable} ${spaceAge.variable} ${iceland.variable} bg-blueGradientAlt text-foreground`}
+        className={`${oxanium.variable} ${spaceAge.variable} ${iceland.variable} bg-blueGradientAlt text-foreground relative`}
       >
         <Provider>{children}</Provider>
         <ThreeComp />
