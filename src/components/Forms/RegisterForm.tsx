@@ -93,7 +93,9 @@ const RegisterForm = () => {
     }
 
     return (
-        <div className='relative flex_center flex-col gap-2 2xl:gap-4 w-fit px-8 py-4 rounded-lg bg-background/40 backdrop-blur-lg lg:ml-[4em]'>
+        <div
+            data-augmented-ui="tl-2-clip-y tr-clip br-2-clip-y bl-clip"
+            className='relative flex_center flex-col gap-2 2xl:gap-4 w-fit px-8 py-4 rounded-lg bg-background/40 backdrop-blur-lg lg:ml-[4em]'>
             <h1 className='hidden lg:block text-[1.5em] 2xl:text-[2em] font-medium'>
                 Create new account
             </h1>
@@ -138,7 +140,7 @@ const RegisterForm = () => {
                     className='2xl:w-[500px]'
                     setValue={setConfirmPassword} />
 
-                <Button type='submit' className='flex_center gap-4 text-white hover:bg-primary' disabled={isLoading}>
+                <Button type='submit' className='clip_Btn flex_center gap-4 text-white hover:bg-primary' disabled={isLoading}>
                     {isLoading ?
                         <Loader2Icon className='animate-spin' />
                         : <UserPlusIcon />
@@ -161,7 +163,7 @@ const RegisterForm = () => {
             <div className="flex_center gap-4 w-full sm:px-4">
                 {/* Google Login Button */}
                 <button
-                    className='bg-foreground/10 sm:bg-background text-textClr w-full flex_center gap-4 p-2 rounded disabled:cursor-not-allowed'
+                    className='clip_Btn bg-foreground/10 sm:bg-background text-textClr w-full flex_center gap-4 p-2 rounded disabled:cursor-not-allowed'
                     onClick={() => HandleOAuthLogin()}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
