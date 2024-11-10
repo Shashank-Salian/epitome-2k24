@@ -1,5 +1,7 @@
 "use client";
 
+// It's been a pleasure, i hope i never see this code again. Thank you
+
 import { EffectComposer, RenderPass } from "postprocessing";
 
 import SceneSetup from "./SceneSetup";
