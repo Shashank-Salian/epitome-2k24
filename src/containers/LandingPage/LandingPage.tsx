@@ -21,6 +21,7 @@ const LandingPage = () => {
       glitchRefs.current.push(el);
     }
   };
+
   const playSound = () => {
     if (soundRef.current) {
       soundRef.current
@@ -51,6 +52,7 @@ const LandingPage = () => {
       });
     };
   }, []);
+
   useEffect(() => {
     glitchRefs.current.forEach((glitchRef) => {
       if (glitchRef) {
@@ -81,6 +83,7 @@ const LandingPage = () => {
       }
     });
   }, []);
+
   return (
     <Container
       parentClassName="landing-page-container"
@@ -169,12 +172,14 @@ const LandingPage = () => {
             </div>
           </div>
           {/* Brochure */}
-          <span
-            className={style.broch}
-            data-augmented-ui="bl-clip tr-clip border"
-          >
-            <span>Brochure </span>
-          </span>
+          <a href="/EpitomeBrochure.pdf" download={true}>
+            <span
+              className={style.broch}
+              data-augmented-ui="bl-clip tr-clip border"
+            >
+              Brochure
+            </span>
+          </a>
         </div>
         <div className={style.Middle}>
           <img src="/Icons/Epitome.png" alt="Epitome Logo" ref={addGlitchRef} />
