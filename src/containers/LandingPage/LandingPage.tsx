@@ -6,12 +6,12 @@ import CountDown from "../../components/CustomUI/CountDown";
 import ToggleUI from "../../components/CustomUI/ToggleUI";
 import Glitch from "./Glitch";
 import Image from "next/image";
-import { useGlitch, GlitchHandle } from "react-powerglitch"
+import { useGlitch, GlitchHandle } from "react-powerglitch";
 import PageButtons from "./PageButtons/PageButtons";
 const audioFilePath = "/Music/click.wav";
 
 const LandingPage = () => {
-  const soundRef = useRef<HTMLAudioElement>(new Audio(audioFilePath))
+  const soundRef = useRef<HTMLAudioElement>(new Audio(audioFilePath));
 
   const glitch: GlitchHandle = useGlitch({
     playMode: "always",
@@ -19,25 +19,25 @@ const LandingPage = () => {
     hideOverflow: false,
     timing: {
       duration: 2000,
-      easing: "ease-in-out"
+      easing: "ease-in-out",
     },
     glitchTimeSpan: {
       start: 0.4,
-      end: 0.7
+      end: 0.7,
     },
     shake: {
       velocity: 20,
       amplitudeX: 0.02,
-      amplitudeY: 0.02
+      amplitudeY: 0.02,
     },
     slice: {
       count: 6,
       velocity: 15,
       minHeight: 0.02,
       maxHeight: 0.15,
-      hueRotate: true
+      hueRotate: true,
     },
-    pulse: false
+    pulse: false,
   });
 
   const playSound = () => {
@@ -83,7 +83,7 @@ const LandingPage = () => {
               <Glitch text="45" />
             </span>{" "}
             <p className={style.Para}>Level</p>
-            <Image
+            <img
               className={style.starImg}
               src="/Icons/star.png"
               alt="Picture of the author"
@@ -103,7 +103,7 @@ const LandingPage = () => {
               data-augmented-ui="all-hexangle-up border"
               className={style.reticle}
             >
-              <Image
+              <img
                 src="/Icons/martian.jpg"
                 alt="Profile"
                 width={505}
@@ -168,7 +168,7 @@ const LandingPage = () => {
           </a>
         </div>
         <div className={style.Middle}>
-          <Image
+          <img
             className={style.Img}
             src="/Icons/Epitome.png"
             width={825}
@@ -176,7 +176,7 @@ const LandingPage = () => {
             alt="Epitome Logo"
             ref={glitch.ref}
           />
-          <PageButtons />
+          <PageButtons className={style.button} />
         </div>
         <div className={style.Right}>
           <div className={style.watch}>
@@ -201,7 +201,7 @@ const LandingPage = () => {
             className={style.arrow}
             data-augmented-ui="all-triangle-right border"
           >
-            <Image
+            <img
               src="/Icons/play.png"
               alt="Trailer"
               width={50}
@@ -213,7 +213,7 @@ const LandingPage = () => {
             className={style.arrow}
             data-augmented-ui="all-triangle-left border"
           >
-            <Image
+            <img
               src="/Icons/instagram.png"
               alt="instagram"
               width={30}
@@ -221,7 +221,6 @@ const LandingPage = () => {
               className={style.arrow_item2}
             />
           </div>
-          <ToggleUI />
         </div>
       </div>
     </Container>

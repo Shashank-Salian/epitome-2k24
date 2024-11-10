@@ -6,6 +6,13 @@ import Provider from "@/providers/Providers";
 import Cursor from "@/components/CustomUI/Cursor";
 import "./globals.css";
 import "augmented-ui";
+// import ToggleUI from "@/components/CustomUI/ToggleUI";
+
+import dynamic from "next/dynamic";
+
+const ToggleUI = dynamic(() => import("@/components/CustomUI/ToggleUI"), {
+  ssr: false,
+});
 
 const poppins = localFont({
   src: [
@@ -189,6 +196,7 @@ export default function RootLayout({
         <Provider>{children}</Provider>
         <ThreeComp />
         {/* <Cursor /> */}
+        <ToggleUI />
       </body>
     </html>
   );

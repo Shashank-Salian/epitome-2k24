@@ -1,29 +1,36 @@
+"use client";
+
 import React, { useState, useEffect, useRef } from "react";
 
 const ToggleUI = () => {
   const [isOn, setIsOn] = useState(true); // Default to 'on'
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const audioRef = useRef<HTMLAudioElement>(
+    new Audio("/Music/Chronometry.mp3")
+  );
 
   useEffect(() => {
-    const audio = new Audio("/Music/Chronometry.mp3");
-    audio.volume = 0;
-    audioRef.current = audio;
+    audioRef.current.volume = 0;
+    audioRef.current.autoplay = true;
 
     const playAudio = async () => {
       try {
-        await audio.play(); // Play the audio
-        fadeIn(audio); // Apply fade-in effect
+        await audioRef.current.play(); // Play the audio
+        fadeIn(audioRef.current); // Apply fade-in effect
+        audioRef.current.loop = true;
       } catch (error) {
         console.error("Audio playback error:", error);
       }
     };
 
-    playAudio();
+    const playEvent = () => {
+      playAudio();
+      document.removeEventListener("click", playEvent);
+    };
+
+    document.addEventListener("click", playEvent);
+
     return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
+      document.addEventListener("click", playEvent);
     };
   }, []);
 
@@ -32,8 +39,8 @@ const ToggleUI = () => {
     let volume = 0;
 
     const fadeInInterval = setInterval(() => {
-      if (audio && volume < 1) {
-        volume = Math.min(1, volume + 0.1);
+      if (audio && volume < 0.4) {
+        volume = Math.min(0.4, volume + 0.1);
         audio.volume = volume;
       } else {
         clearInterval(fadeInInterval);
@@ -54,6 +61,7 @@ const ToggleUI = () => {
         audio.pause();
       }
     }, fadeOutDuration / 10);
+    console.log(fadeOutInterval);
   };
 
   const handleToggle = () => {
@@ -76,7 +84,7 @@ const ToggleUI = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center space-y-4 md:mt-6 absolute bottom-1 right-2 md:static">
+    <div className="flex flex-col items-center justify-center space-y-4 md:mt-6 absolute bottom-1 right-2 font-spaceAge">
       <div className="text-white font-semibold text-sm md:text-lg">Music</div>
       <div
         className={`relative inline-block w-16 h-10 md:w-20 md:h-12 rounded-full cursor-pointer transition-all ${

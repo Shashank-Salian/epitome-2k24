@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import style from "./PageButtons.module.css";
 import Link from "next/link";
 
-const PageButtons = () => {
+const PageButtons = ({ className }: { className?: string }) => {
   return (
     <>
       <Button
@@ -17,7 +17,7 @@ const PageButtons = () => {
 
       <Link href={"/challenges"}>
         <Button
-          className={style.button}
+          className={className}
           data-augmented-ui="bl-clip tr-clip border"
         >
           Events
@@ -26,17 +26,14 @@ const PageButtons = () => {
 
       <Link href={"/login"}>
         <Button
-          className={style.button}
+          className={className}
           data-augmented-ui="bl-clip tr-clip border"
         >
           Log In
         </Button>
       </Link>
 
-      <Button
-        className={style.button}
-        data-augmented-ui="bl-clip tr-clip border"
-      >
+      <Button className={className} data-augmented-ui="bl-clip tr-clip border">
         <span>About</span>
       </Button>
     </>

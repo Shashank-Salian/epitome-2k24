@@ -86,7 +86,7 @@ const Header = () => {
     // <Container parentClassName="!h-fit">
     <header
       data-augmented-ui="br-2-clip-y bl-2-clip-y"
-      className="sticky w-full top-0 flex justify-between items-center px-10 py-3 bg-background/30 z-10 backdrop-blur-md"
+      className="sticky w-full top-0 flex justify-between items-center flex-col sm:flex-row px-10 py-3 bg-background/30 z-10 backdrop-blur-md font-oxanium"
     >
       <Link href="/">
         <img
@@ -97,15 +97,15 @@ const Header = () => {
         <h1 className="font-spaceAge text-2xl sm:hidden">Epitome</h1>
       </Link>
 
-      <nav className="flex_center gap-6">
+      <nav className="flex_center gap-6 mt-6 sm:mt-0">
         {status === "authenticated"
           ? PROTECTED_NAV_LINKS.map(({ href, label }) => (
-              <Link key={label} href={href} className="text-[1.25em]">
+              <Link key={label} href={href} className="md:text-[1.25em]">
                 {label}
               </Link>
             ))
           : PUBLIC_NAV_LINKS.map(({ href, label }) => (
-              <Link key={label} href={href} className="text-[1.25em]">
+              <Link key={label} href={href} className="md:text-[1.25em]">
                 {label}
               </Link>
             ))}
