@@ -95,8 +95,7 @@ const EventList: EventType = [
       "The quiz will be based on the current events in the IT Sector.",
     ],
     modelName: "quiz.glb",
-    description:
-      "A simulation of real-world business challenges, where participants showcase their management, leadership, and decision-making skills through a series of tech-oriented tasks.",
+    description: `A surprising event where participants answer a mix of general knowledge and IT-based questions, testing their broad understanding and technical expertise.`,
   },
   {
     title: "Cosmic Webcraft",
@@ -124,7 +123,7 @@ const EventList: EventType = [
     ],
     modelName: "webdev_new.glb",
     description:
-      "A simulation of real-world business challenges, where participants showcase their management, leadership, and decision-making skills through a series of tech-oriented tasks.",
+      "A Competition where participants demonstrate their creativity and technical skills by designing innovative and user-friendly websites within a set time frame.",
   },
   {
     title: "Rhythmic Resonance",
@@ -158,7 +157,7 @@ const EventList: EventType = [
     ],
     modelName: "dance.glb",
     description:
-      "A simulation of real-world business challenges, where participants showcase their management, leadership, and decision-making skills through a series of tech-oriented tasks.",
+      "A vibrant showcase of rhythm and expression, where participants captivate the audience with their unique choreography and energetic performances.",
   },
   {
     title: "Battle of the Bytes",
@@ -188,7 +187,7 @@ const EventList: EventType = [
     ],
     modelName: "debate.glb",
     description:
-      "A simulation of real-world business challenges, where participants showcase their management, leadership, and decision-making skills through a series of tech-oriented tasks.",
+      "A dynamic platform where participants engage in thoughtful discussions, presenting compelling arguments and showcasing their eloquence on various contemporary topics.",
   },
   {
     title: "Cosmic Creatives",
@@ -222,10 +221,10 @@ const EventList: EventType = [
     ],
     modelName: "mad_ads.glb",
     description:
-      "A simulation of real-world business challenges, where participants showcase their management, leadership, and decision-making skills through a series of tech-oriented tasks.",
+      "A creative challenge where participants craft innovative and entertaining advertisements, combining humor and impact to capture attention and leave a lasting impression.",
   },
   {
-    title: " Meme Mania",
+    title: "Meme Mania",
     eventName: "AI Meme Generator",
     coordinator: [
       {
@@ -254,7 +253,8 @@ const EventList: EventType = [
       "It will be performed using AI tools and elimination will done in round 1.",
       "No usage of offensive words, Should not hurt any religious beliefs. ",
     ],
-    description: "",
+    description:
+      "A fun and creative challenge where participants use AI tools to generate humorous and unique memes, combining technology with entertainment.",
     modelName: "meme_gen.glb",
   },
   {
@@ -282,7 +282,8 @@ const EventList: EventType = [
       "Missing any one round or causing damage to property will result in team disqualification.",
       "Elimination will be based on participation and time duration.",
     ],
-    description: "",
+    description:
+      "An exciting adventure where participants solve clues and navigate challenges, racing against time to find hidden treasures and reach the final destination.",
     modelName: "treasure_hunt.glb",
   },
   {
@@ -313,7 +314,8 @@ const EventList: EventType = [
       "Bring your own laptops. cameras, smartphones.",
       "It is forbidden to edit using AI websites and software.",
     ],
-    description: "",
+    description:
+      " A platform for participants to showcase their storytelling and technical skills, capturing moments through cinematic visuals and creative editing.",
     modelName: "photography.glb",
   },
   {
@@ -348,7 +350,8 @@ const EventList: EventType = [
       "Screenshot the results after each match.",
       "No using emergency pickup and self-revive kit",
     ],
-    description: "",
+    description:
+      "A thrilling contest where participants compete in fast-paced video games, showcasing their strategic thinking, quick reflexes, and teamwork under pressure.",
     modelName: "gaming.glb",
   },
   {
@@ -383,7 +386,8 @@ const EventList: EventType = [
       "No mobile phones or laptops allowed.",
       "Additional rules will be announced at the event.",
     ],
-    description: "",
+    description:
+      "A surprising event where the details remain unknown, keeping participants on their toes with unexpected challenges.",
     modelName: "surprise.glb",
   },
 ];
