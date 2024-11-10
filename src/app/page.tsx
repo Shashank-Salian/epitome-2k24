@@ -6,7 +6,6 @@ import Header from "@/components/CustomUI/Header";
 // import Events from "@/containers/Events/Events";
 import ThreeComp from "@/threeWorks/components/ThreeComp";
 import { useState } from "react";
-import NoSSR from "@/components/NoSSR/NoSSR";
 import useLoader from "@/store/useLoader";
 import LoadingScreen from "@/threeWorks/components/LoadingScreen/LoadingScreen";
 
@@ -28,9 +27,9 @@ export default function Home() {
       <>
         <main className="w-full" style={{ scrollSnapType: "y mandatory" }}>
           {/* <LandingHeader /> */}
-          <LandingPage/>
+          <LandingPage />
         </main>
-       </>
-     </>
+      </>
+    </>
   );
 }
