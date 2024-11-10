@@ -216,70 +216,206 @@ export default EventList;
 
 // Event Register List
 export type EventRegType = {
-  title: string;
-  category: string;
-  participants: number;
-};
+  title: string,
+  category: string,
+  participants: {
+    name: string;
+    phone: string;
+  }[]
+  participantCount: number,
+}
 
 export const eventRegisterList: EventRegType[] = [
   {
     title: "Binary Universe",
     category: "Coding",
-    participants: 2,
+    participants: [
+      {
+        name: "",
+        phone: ""
+      },
+      {
+        name: "",
+        phone: ""
+      }
+    ],
+    participantCount: 2,
   },
   {
-    title: "Rhythmic Resonance (5-10)",
+    title: "Rhythmic Resonance",
     category: "Dance",
-    participants: 5,
+    participants: [
+      {
+        name: "",
+        phone: ""
+      },
+      {
+        name: "",
+        phone: ""
+      },
+      {
+        name: "",
+        phone: ""
+      },
+      {
+        name: "",
+        phone: ""
+      },
+      {
+        name: "",
+        phone: ""
+      }
+    ],
+    participantCount: 5,
   },
   {
     title: "Battle of Bytes",
     category: "Debate",
-    participants: 1,
+    participants: [
+      {
+        name: "",
+        phone: ""
+      }
+    ],
+    participantCount: 1,
   },
   {
     title: "Matrix Minds",
-    category: "Quiz",
-    participants: 2,
+    category: "IT Quiz",
+    participants: [
+      {
+        name: "",
+        phone: ""
+      },
+      {
+        name: "",
+        phone: ""
+      }
+    ],
+    participantCount: 2,
   },
   {
     title: "Galactic Frames",
     category: "Videography",
-    participants: 1,
+    participants: [
+      {
+        name: "",
+        phone: ""
+      }
+    ],
+    participantCount: 1,
   },
   {
     title: "Quasar Invictus",
     category: "IT Manager",
-    participants: 1,
+    participants: [
+      {
+        name: "",
+        phone: ""
+      }
+    ],
+    participantCount: 1,
   },
   {
-    title: "Cosmic Creatives (4-6)",
+    title: "Cosmic Creatives",
     category: "Mad Ads",
-    participants: 4,
+    participants: [
+      {
+        name: "",
+        phone: ""
+      },
+      {
+        name: "",
+        phone: ""
+      },
+      {
+        name: "",
+        phone: ""
+      },
+      {
+        name: "",
+        phone: ""
+      }
+    ],
+    participantCount: 4,
   },
   {
     title: "Cosmic Webcraft",
     category: "Web Design",
-    participants: 2,
+    participants: [
+      {
+        name: "",
+        phone: ""
+      },
+      {
+        name: "",
+        phone: ""
+      }
+    ],
+    participantCount: 2,
   },
   {
     title: "Ultimate Showdown",
     category: "Gaming",
-    participants: 4,
+    participants: [
+      {
+        name: "",
+        phone: ""
+      },
+      {
+        name: "",
+        phone: ""
+      },
+      {
+        name: "",
+        phone: ""
+      },
+      {
+        name: "",
+        phone: ""
+      }
+    ],
+    participantCount: 4,
   },
   {
     title: "Eliptica",
     category: "Treasure Hunt",
-    participants: 2,
+    participants: [
+      {
+        name: "",
+        phone: ""
+      },
+      {
+        name: "",
+        phone: ""
+      }
+    ],
+    participantCount: 2,
   },
   {
     title: "Meme Mania",
     category: "AI Meme Gen",
-    participants: 1,
+    participants: [
+      {
+        name: "",
+        phone: ""
+      }
+    ],
+    participantCount: 1,
   },
   {
     title: "Surprise Event",
     category: "Surprise",
-    participants: 2,
-  },
-];
+    participants: [
+      {
+        name: "",
+        phone: ""
+      },
+      {
+        name: "",
+        phone: ""
+      }
+    ],
+    participantCount: 2,
+  }
+]

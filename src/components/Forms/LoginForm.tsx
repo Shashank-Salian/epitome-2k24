@@ -78,7 +78,9 @@ const LoginForm = () => {
     }
 
     return (
-        <div className='relative flex_center flex-col gap-4 2xl:gap-8 w-fit p-8 rounded-lg bg-background/30 z-10 backdrop-blur-md'>
+        <div
+            data-augmented-ui="tl-2-clip-x tr-clip br-2-clip-x bl-clip"
+            className='relative flex_center flex-col gap-4 2xl:gap-8 w-fit p-8 rounded-lg bg-background/30 z-10 backdrop-blur-md'>
             <h1 className='hidden lg:block text-[2em] 2xl:text-[2.5em] font-medium'>
                 Welcome to <span className="text-primary">EPITOME</span>
             </h1>
@@ -101,7 +103,7 @@ const LoginForm = () => {
                     <Link href="./forgot-password" className='text-[0.9em] sm:text-[0.8em] 2xl:text-[1em] text-primary self-end'>Forgot Password?</Link>
                 </div>
 
-                <Button type='submit' className='flex_center gap-4 text-white hover:bg-primary' disabled={isLoading}>
+                <Button type='submit' className='clip_Btn flex_center gap-4 text-white hover:bg-primary' disabled={isLoading}>
                     {isLoading ?
                         <Loader2Icon className='animate-spin' />
                         : <LogInIcon />
@@ -124,7 +126,7 @@ const LoginForm = () => {
             <div className="flex_center gap-4 w-full sm:px-4">
                 {/* Google Login Button */}
                 <button
-                    className='bg-foreground/10 sm:bg-background text-textClr w-full flex_center gap-4 p-2 rounded disabled:cursor-not-allowed'
+                    className='clip_Btn bg-foreground/10 sm:bg-background text-textClr w-full flex_center gap-4 p-2 rounded disabled:cursor-not-allowed'
                     onClick={() => HandleOAuthLogin()}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"

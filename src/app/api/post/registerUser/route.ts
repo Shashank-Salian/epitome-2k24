@@ -12,7 +12,6 @@ type RequestBody = {
 }
 
 export async function POST(request: NextRequest) {
-    // export async function getUserByEmail(email: string) {
     const { username, collegeName, phone, email, password }: RequestBody = await request.json()
 
     console.log("UserEmail", email)
@@ -38,7 +37,7 @@ export async function POST(request: NextRequest) {
             password: hashedPassword
         })
 
-        return NextResponse.json({ message: "User Created Successfully!" }, { status: 201 })
+        return NextResponse.json({ message: "User Created Successfully!", status: 201 }, { status: 201 })
     } catch (err: any) {
         console.error("getUserByEmail :", err);
         return NextResponse.json(err.message, { status: 500 })

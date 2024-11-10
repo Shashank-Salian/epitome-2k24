@@ -1,26 +1,44 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Container from "@/containers/Container/Container";
 import style from "./LandingPage.module.css";
-import { useState, useEffect, useRef } from "react";
 import Typewriter from "@/components/CustomUI/TypeWriter";
 import CountDown from "../../components/CustomUI/CountDown";
 import ToggleUI from "../../components/CustomUI/ToggleUI";
 import Glitch from "./Glitch";
-// @ts-ignore
-import { PowerGlitch } from "powerglitch";
-const audioFilePath = "/Music/click.wav";
+import Image from "next/image";
+import { useGlitch, GlitchHandle } from "react-powerglitch"
 import PageButtons from "./PageButtons/PageButtons";
+const audioFilePath = "/Music/click.wav";
 
 const LandingPage = () => {
-  // const glitchRef = useRef(null);
-  const glitchRefs = useRef<HTMLDivElement[]>([]);
-  const soundRef = useRef<HTMLAudioElement | null>(null);
+  const soundRef = useRef<HTMLAudioElement>(new Audio(audioFilePath))
 
-  const addGlitchRef = (el: HTMLDivElement | null) => {
-    if (el && !glitchRefs.current.includes(el)) {
-      glitchRefs.current.push(el);
-    }
-  };
+  const glitch: GlitchHandle = useGlitch({
+    playMode: "always",
+    createContainers: true,
+    hideOverflow: false,
+    timing: {
+      duration: 2000,
+      easing: "ease-in-out"
+    },
+    glitchTimeSpan: {
+      start: 0.4,
+      end: 0.7
+    },
+    shake: {
+      velocity: 20,
+      amplitudeX: 0.02,
+      amplitudeY: 0.02
+    },
+    slice: {
+      count: 6,
+      velocity: 15,
+      minHeight: 0.02,
+      maxHeight: 0.15,
+      hueRotate: true
+    },
+    pulse: false
+  });
 
   const playSound = () => {
     if (soundRef.current) {
@@ -31,7 +49,6 @@ const LandingPage = () => {
   };
 
   useEffect(() => {
-    soundRef.current = new Audio(audioFilePath);
     soundRef.current.preload = "auto";
     const elements = document.querySelectorAll(
       `.${style.broch}, .${style.arrow}, .${style.button}`
@@ -53,37 +70,6 @@ const LandingPage = () => {
     };
   }, []);
 
-  useEffect(() => {
-    glitchRefs.current.forEach((glitchRef) => {
-      if (glitchRef) {
-        PowerGlitch.glitch(glitchRef, {
-          playMode: "always",
-          createContainer: true,
-          timing: {
-            duration: 2000,
-            iterations: "Infinity",
-            easing: "ease-in-out",
-          },
-          glitchTimeSpan: { start: 0.4, end: 0.7 },
-          shake: { velocity: 20, amplitudeX: 0.02, amplitudeY: 0.02 },
-          slice: {
-            count: 6,
-            velocity: 15,
-            minHeight: 0.02,
-            maxHeight: 0.15,
-            hueRotate: true,
-          },
-          color: {
-            r: 0.1,
-            g: 0.3,
-            b: 0.1,
-            glitchTimeSpan: { start: 0.2, end: 0.5 },
-          },
-        });
-      }
-    });
-  }, []);
-
   return (
     <Container
       parentClassName="landing-page-container"
@@ -97,7 +83,7 @@ const LandingPage = () => {
               <Glitch text="45" />
             </span>{" "}
             <p className={style.Para}>Level</p>
-            <img
+            <Image
               className={style.starImg}
               src="/Icons/star.png"
               alt="Picture of the author"
@@ -117,19 +103,19 @@ const LandingPage = () => {
               data-augmented-ui="all-hexangle-up border"
               className={style.reticle}
             >
-              <img
+              <Image
                 src="/Icons/martian.jpg"
                 alt="Profile"
                 width={505}
                 height={525}
-                ref={addGlitchRef}
+                ref={glitch.ref}
               />
             </div>
             {/* Player Info */}
             <div
               className={style.listContainer}
               data-augmented-ui
-              ref={addGlitchRef}
+              ref={glitch.ref}
             >
               <ul
                 data-augmented-ui="bl-clip tr-clip br-clip-x border"
@@ -182,7 +168,14 @@ const LandingPage = () => {
           </a>
         </div>
         <div className={style.Middle}>
-          <img src="/Icons/Epitome.png" alt="Epitome Logo" ref={addGlitchRef} />
+          <Image
+            className={style.Img}
+            src="/Icons/Epitome.png"
+            width={825}
+            height={825}
+            alt="Epitome Logo"
+            ref={glitch.ref}
+          />
           <PageButtons />
         </div>
         <div className={style.Right}>
@@ -190,7 +183,7 @@ const LandingPage = () => {
             <CountDown />
           </div>
 
-          <div className={style.landing} data-augmented-ui ref={addGlitchRef}>
+          <div className={style.landing} data-augmented-ui ref={glitch.ref}>
             <div className={style.Story}>
               <h1 className={style.title}>Ecstasy</h1>
               <p>
@@ -208,7 +201,7 @@ const LandingPage = () => {
             className={style.arrow}
             data-augmented-ui="all-triangle-right border"
           >
-            <img
+            <Image
               src="/Icons/play.png"
               alt="Trailer"
               width={50}
@@ -220,7 +213,7 @@ const LandingPage = () => {
             className={style.arrow}
             data-augmented-ui="all-triangle-left border"
           >
-            <img
+            <Image
               src="/Icons/instagram.png"
               alt="instagram"
               width={30}

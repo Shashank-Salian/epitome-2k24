@@ -9,7 +9,6 @@ type RequestBody = {
 }
 
 export async function POST(request: NextRequest) {
-    // export async function getUserByEmail(email: string) {
     const { username, email, picture }: RequestBody = await request.json()
 
     console.log("UserEmail", email)
@@ -30,7 +29,7 @@ export async function POST(request: NextRequest) {
             picture: picture
         })
 
-        return NextResponse.json({ message: "User Created Successfully!" }, { status: 201 })
+        return NextResponse.json({ message: "User Created Successfully!", status: 201 }, { status: 201 })
     } catch (err: any) {
         console.error("getUserByEmail :", err);
         return NextResponse.json(err.message, { status: 500 })
