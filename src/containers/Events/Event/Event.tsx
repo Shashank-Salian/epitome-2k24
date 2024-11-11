@@ -77,9 +77,9 @@ const Event = ({}: Props) => {
       if (glitchRef) {
         PowerGlitch.glitch(glitchRef, {
           playMode: "always",
-          shake: { velocity: 10, amplitudeX: 0.01, amplitudeY: 0.02 }
-        }
-      )}
+          shake: { velocity: 10, amplitudeX: 0.01, amplitudeY: 0.02 },
+        });
+      }
     });
     const elements = document.querySelectorAll(
       `.${classes.Button},.${classes.Challenge}`
@@ -116,7 +116,7 @@ const Event = ({}: Props) => {
 
   return (
     <>
-      <div className={`mt-3 sm:mt-8 w-full lg:w-6/12 sm:max-w-screen-md`}>
+      <div className={`mt-3 sm:mt-8 w-full lg:w-2/3 sm:max-w-screen-md`}>
         {/* <div className="font-spaceAge fixed bottom-0 right-0">
           <ToggleUI />
         </div> */}
@@ -128,16 +128,16 @@ const Event = ({}: Props) => {
           <h1
             className={`font-iceland font-bold ${classes.title} ${
               showTitle ? classes.titleReveal : classes.titleClose
-            } text-4xl sm:text-5xl md:text-6xl text-left sm:text-center`}
+            } text-3xl sm:text-4xl md:text-5xl text-left sm:text-center`}
           >
             {EventList[curEventIndex].title}
           </h1>
 
-          <h2 className="font-iceland text-2xl sm:text-3xl font-bold text-left sm:text-center" >
+          <h2 className="font-iceland text-2xl sm:text-3xl font-bold text-left sm:text-center">
             {EventList[curEventIndex].eventName}
           </h2>
 
-          <p className="mt-4 sm:mt-6 font-oxanium text-lg sm:text-2xl h-24">
+          <p className="mt-4 sm:mt-6 font-oxanium text-lg sm:text-2xl min-h-24">
             <Typewriter
               texts={new Array(EventList[curEventIndex].description)}
               speed={2}
@@ -158,12 +158,14 @@ const Event = ({}: Props) => {
           </div>
         </div>
 
-        <div className="flex justify-between sm:justify-around mt-6 sm:mt-8" ref={addGlitchRef}>
+        <div
+          className="flex justify-between sm:justify-around mt-6 sm:mt-8"
+          ref={addGlitchRef}
+        >
           <button
             className={`font-iceland text-lg sm:text-2xl px-6 sm:px-10 py-2 sm:py-3 ${classes.Button}`}
             onClick={onPreviousClick}
             data-augmented-ui="bl-clip tr-clip border"
-            
           >
             Previous Challenge
           </button>

@@ -1,7 +1,7 @@
 /* @import url('../../../node_modules/augmented-ui/augmented-ui.min.css'); */
 
 .Parent {
-  overflow: hidden;
+  overflow-x: hidden;
   /* background-image: url('/Icons/Cockpit.png');
   background-size: cover;
   background-position: center;
@@ -374,6 +374,6 @@
   display: flex;
   gap: 10px;
 }
-.Date{
+.Date {
   font-size: 30px;
 }

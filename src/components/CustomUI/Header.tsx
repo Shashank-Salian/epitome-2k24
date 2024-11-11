@@ -120,7 +120,7 @@ const Header = () => {
 
         {!user?.username ? (
           <Link href="/login" className="">
-            <ButtonUI value="LOGIN" className="text-2xl px-7" />
+            <ButtonUI value="LOGIN" className="text-2xl py-1 md:py-2 px-7" />
           </Link>
         ) : (
           <div
