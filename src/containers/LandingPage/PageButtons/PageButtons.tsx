@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect, useRef } from "react";import useUserStore from "@/store/useUserStore";
+import { useState, useEffect, useRef } from "react";
+import useUserStore from "@/store/useUserStore";
 import Link from "next/link";
 import style from "./PageButtons.module.css";
 const audioFilePath = "/Music/click.wav";
@@ -31,7 +32,7 @@ const PageButtons = ({ className }: { className?: string }) => {
   useEffect(() => {
     soundRef.current = new Audio(audioFilePath);
     soundRef.current.preload = "auto";
-    soundRef.current.load(); 
+    soundRef.current.load();
     const elements = document.querySelectorAll(
       `.${style.broch}, .${style.arrow}, .${style.button}`
     );
@@ -52,7 +53,7 @@ const PageButtons = ({ className }: { className?: string }) => {
     };
   }, []);
   return (
-    <>
+    <div className="flex flex-col gap-x-3 items-center">
       <Link href={"/register"}>
         <Button
           className={className}
@@ -73,10 +74,10 @@ const PageButtons = ({ className }: { className?: string }) => {
 
       {authBtn(!user)}
 
-      <Button className={className} data-augmented-ui="bl-clip tr-clip border">
+      {/* <Button className={className} data-augmented-ui="bl-clip tr-clip border">
         <span>About</span>
-      </Button>
-    </>
+      </Button> */}
+    </div>
   );
 };
 

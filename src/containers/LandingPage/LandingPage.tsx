@@ -8,6 +8,8 @@ import { useGlitch, GlitchHandle } from "react-powerglitch";
 import PageButtons from "./PageButtons/PageButtons";
 const audioFilePath = "/Music/click.wav";
 import VideoPlayer from "./VideoPlayer/VideoPlayer";
+import AimitHeader from "@/assets/SVGs/AimitHeader.svg";
+import Image from "next/image";
 
 const LandingPage = () => {
   const soundRef = useRef<HTMLAudioElement>(new Audio(audioFilePath));
@@ -186,6 +188,19 @@ const LandingPage = () => {
         </div>
 
         <div className={style.Middle}>
+          <div>
+            <Image
+              src={AimitHeader}
+              width={420}
+              height={420}
+              alt="AIMIT Mangalore"
+              className="mb-4"
+            />
+            <p className="font-iceland  text-xl md:mb-8 text-center">
+              School of Information Science and Technology <br />
+              Presents
+            </p>
+          </div>
           <img
             className={style.Img}
             src="/Icons/Epitome.png"
@@ -194,6 +209,7 @@ const LandingPage = () => {
             alt="Epitome Logo"
             ref={glitch.ref}
           />
+
           <PageButtons className={style.button} />
         </div>
         <div className={style.Right}>

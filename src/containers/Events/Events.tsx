@@ -5,7 +5,7 @@ import Header from "@/components/CustomUI/Header";
 const Events = () => {
   return (
     <>
-      <Container parentClassName="w-screen h-screen relative">
+      <Container parentClassName="w-screen h-screen relative overflow-x-hidden">
         <Header />
         <div className="py-8">
           <h1 className="font-spaceAge text-3xl md:text-6xl font-bold text-center drop-shadow-2xl">
