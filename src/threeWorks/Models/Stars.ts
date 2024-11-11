@@ -9,7 +9,13 @@ import {
 } from "postprocessing";
 
 import SceneSetup from "../SceneSetup";
-import { pushAnimationFrame, randomInRange, randomSelect } from "../utils";
+import {
+  ClientDims,
+  MOBILE_WIDTH,
+  pushAnimationFrame,
+  randomInRange,
+  randomSelect,
+} from "../utils";
 
 const BLOOM_LAYER = 2;
 const starColors = [0xffffff, 0xe9d14c, 0x3ab9eb, 0xe73c92];
@@ -39,7 +45,8 @@ function initStars(composer: EffectComposer) {
   const effectPass = new EffectPass(SceneSetup.camera, bloomEffect);
   composer.addPass(effectPass);
 
-  for (let i = 0; i < 300; ++i) {
+  const starCount = ClientDims.width >= MOBILE_WIDTH ? 300 : 200;
+  for (let i = 0; i < starCount; ++i) {
     const geometry = new THREE.SphereGeometry(randomInRange(0.2, 0.6), 32, 32);
 
     let color = new THREE.Color(starColors[0]);

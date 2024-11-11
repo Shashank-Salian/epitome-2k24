@@ -7,7 +7,7 @@ import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import { ChevronDown, User2Icon } from "lucide-react";
 import ButtonUI from "./ButtonUI";
-import EpitomeLogo from "@/assets/Images/Epitome.png"
+import EpitomeLogo from "@/assets/Images/Epitome.png";
 import useModalStore from "@/store/useModalStore";
 
 const AUTH_ROUTES = [
@@ -37,7 +37,7 @@ const PROTECTED_NAV_LINKS = [
 const Header = () => {
   const { data: session, status } = useSession();
   const { user, setUser } = useUserStore();
-  const { setShowModal } = useModalStore()
+  const { setShowModal } = useModalStore();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -81,7 +81,7 @@ const Header = () => {
           });
         }
         if (!userData?.collegeName || !userData?.phone) {
-          setShowModal("USER_INFO_MODAL")
+          setShowModal("USER_INFO_MODAL");
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -124,12 +124,18 @@ const Header = () => {
             ))}
 
         {status == "unauthenticated" ? (
-          <Link href={pathname == "/login" ? "/register" : "/login"} className="">
-            <ButtonUI value={pathname == "/login" ? "Register" : "Login"} className="text-sm tracking-widest px-7" />
+          <Link
+            href={pathname == "/login" ? "/register" : "/login"}
+            className=""
+          >
+            <ButtonUI
+              value={pathname == "/login" ? "Register" : "Login"}
+              className="text-sm tracking-widest px-7"
+            />
           </Link>
         ) : (
           <div className="clip_Btn flex_center gap-4 bg-primary px-4 py-1 rounded-md">
-            {user?.picture ?
+            {user?.picture ? (
               <div className="flex_center rounded-full bg-background/20 overflow-hidden">
                 <Image
                   src={user?.picture}
@@ -139,9 +145,9 @@ const Header = () => {
                   alt="User_Profile"
                 />
               </div>
-              :
+            ) : (
               <User2Icon size={25} />
-            }
+            )}
             <span className="font-oxanium">{user?.username}</span>
           </div>
         )}
