@@ -5,12 +5,13 @@ import { NextRequest, NextResponse } from "next/server";
 type RequestBody = {
     email: string,
     collegeName: string,
+    department: string,
     phone: string,
 }
 
 export async function POST(request: NextRequest) {
-    const { email, collegeName, phone }: RequestBody = await request.json()
-    console.log("User_Update", { email, collegeName, phone })
+    const { email, collegeName, department, phone }: RequestBody = await request.json()
+    console.log("User_Update", { email, collegeName, department, phone })
 
     if (!email || !collegeName || !phone) {
         throw new Error("Invalid Update Details!")
@@ -24,6 +25,7 @@ export async function POST(request: NextRequest) {
         }
 
         userExists.collegeName = collegeName
+        userExists.department = department
         userExists.phone = phone
 
         await userExists.save();

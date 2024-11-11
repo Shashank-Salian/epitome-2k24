@@ -40,7 +40,7 @@ const Input = ({ label, type = "text", name = "", placeholder, parentClassName =
                     className={cn('text-[1em] w-full bg-background/0 px-2 py-1 border-none outline-none placeholder:text-secondary/80', inputClassName)} />
 
                 {type === "password" ?
-                    <div className="p-1 w-fit absolute right-2 text-secondary/40 cursor-pointer" onClick={() => setShowPassword(prev => !prev)}>
+                    <div className="p-1 w-fit absolute right-2 text-secondary cursor-pointer" onClick={() => setShowPassword(prev => !prev)}>
                         {showPassword ?
                             <EyeIcon />
                             :

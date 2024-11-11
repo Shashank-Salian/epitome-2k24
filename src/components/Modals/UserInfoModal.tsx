@@ -2,19 +2,22 @@
 import React, { FormEvent, useState } from 'react'
 import Input from '../CustomUI/Input'
 import useUserStore from '@/store/useUserStore'
-import ButtonUI from '../CustomUI/ButtonUI'
 import toast from 'react-hot-toast'
 import { Button } from '../ui/button'
-import { DatabaseBackupIcon, LoaderCircleIcon } from 'lucide-react'
+import { BookOpen, DatabaseBackupIcon, LoaderCircleIcon } from 'lucide-react'
 import useModalStore from '@/store/useModalStore'
 
 const UserInfoModal = () => {
     const [collegeName, setCollegeName] = useState<string>("")
+    const [department, setDepartment] = useState<string>("");
     const [phone, setPhone] = useState<string>("")
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const { user, setUser } = useUserStore()
     const { closeModal } = useModalStore()
+
+    const departmentList = ["MCA", "MSc", "BDA", "ST"]
+
 
     const HandleUserUpdate = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -30,7 +33,7 @@ const UserInfoModal = () => {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ email: user?.email, collegeName, phone })
+                body: JSON.stringify({ email: user?.email, collegeName, department, phone })
             })
 
             if (res.status === 201) {
@@ -62,6 +65,28 @@ const UserInfoModal = () => {
                         setValue={setCollegeName}
                         required={true}
                     />
+
+                    <div className="relative min-w-[350px]">
+                        <label className='text-[0.9em] bg-background/0 px-1'>
+                            <span>Department</span>
+                            <span className="text-[1.2em] text-red-600"> ★</span>
+                        </label>
+
+                        <div className="flex items-center border border-muted-foreground sm:focus-within:border-primary rounded p-1">
+                            <select
+                                name="department"
+                                onChange={(e) => setDepartment(e.target.value)} required={true}
+                                className="'text-[1em] w-full bg-background/0 px-2 py-1 border-none outline-none placeholder:text-secondary/80'">
+                                <option value="" className="text-background">Select Department</option>
+                                {departmentList.map((dept, index) => (
+                                    <option key={index} value={dept} className="text-background">{dept}</option>
+                                ))}
+                            </select>
+
+                            <BookOpen size={24} className="absolute right-2 text-secondary" />
+                        </div>
+                    </div>
+
                     <Input
                         label='Phone'
                         type='tel'
