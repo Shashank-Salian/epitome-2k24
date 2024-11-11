@@ -365,8 +365,8 @@ function initEventsModel(url: string, addToScene = false) {
 function updateCurvePath() {
   if (window.innerWidth >= MOBILE_WIDTH) {
     const ax = Math.max(
-      3.4,
-      Math.min(3.9, inCircleCurve.aX * (ClientDims.width / 1200))
+      4,
+      Math.min(4, inCircleCurve.aX * (ClientDims.width / 1200))
     );
     inCircleCurve.aX = outCircleCurve.aX = ax;
 
@@ -383,7 +383,7 @@ function updateCurvePath() {
     outCircleCurve.aEndAngle = outCircleParams.aEndAngle;
   } else {
     inCircleCurve.aX = outCircleCurve.aX = 0;
-    inCircleCurve.aY = outCircleCurve.aY = -5;
+    inCircleCurve.aY = outCircleCurve.aY = -5.5;
 
     inCircleCurve.xRadius = outCircleCurve.xRadius = 2;
 
