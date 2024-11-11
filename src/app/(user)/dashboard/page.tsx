@@ -1,5 +1,6 @@
 "use client"
 import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 import useModalStore from '@/store/useModalStore'
 import useUserStore from '@/store/useUserStore'
 import { LogOutIcon } from 'lucide-react'
@@ -9,12 +10,14 @@ const Dashboard = () => {
     const { user } = useUserStore()
     const { setShowModal } = useModalStore()
 
+    const PaymentColor = (user?.paymentStatus == "PENDING") ? "bg-red-700" : (user?.paymentStatus == "PROCESSING") ? "bg-yellow-400" : "bg-green-600"
+
     return (
         <div
             data-augmented-ui="tr-clip tl-clip bl-clip br-clip"
             className='bg-background/50 my-8 p-6 rounded'>
             <div className="flex justify-between items-center">
-                <h1 className='font-beyonders text-center'>Team - {user?.collegeName}</h1>
+                <h1 className='font-beyonders text-center'>Team - {user?.collegeName} ({user?.department})</h1>
 
                 <Button onClick={() => setShowModal("LOGOUT_MODAL")} variant={'destructive'} className="clip_Btn gap-4 px-8 bg-red-800 hover:bg-red-900 font-oxanium">
                     <LogOutIcon size={20} />
@@ -25,7 +28,8 @@ const Dashboard = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center my-8">
                 <div className="clip_Btn w-fit py-2 px-8 bg-secondary/20">Events Registered : {user?.events.length}</div>
                 <div className="clip_Btn w-fit py-2 px-8 bg-secondary/20">Total Participants : {user?.participants.length}</div>
-                <div className="clip_Btn w-fit py-2 px-8 bg-secondary/20">Payment Status : {user?.paymentStatus}</div>
+                <div className="clip_Btn w-fit py-2 px-8 bg-secondary/20">Team Accomodation : {user?.accomodationRequired}</div>
+                <div className={cn("clip_Btn w-fit py-2 px-8", PaymentColor)}>Payment Status : {user?.paymentStatus}</div>
             </div>
 
             {user?.participants.length !== 0 &&
