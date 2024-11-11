@@ -1,8 +1,9 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect, useRef } from "react";import useUserStore from "@/store/useUserStore";
+import { useState, useEffect, useRef } from "react"; import useUserStore from "@/store/useUserStore";
 import Link from "next/link";
 import style from "./PageButtons.module.css";
+import { cn } from "@/lib/utils";
 const audioFilePath = "/Music/click.wav";
 
 const PageButtons = ({ className }: { className?: string }) => {
@@ -12,7 +13,7 @@ const PageButtons = ({ className }: { className?: string }) => {
     return (
       <Link href={isLogin ? "/login" : "/events"}>
         <Button
-          className={className}
+          className={cn("w-[300px] !bg-background/80", className)}
           data-augmented-ui="bl-clip tr-clip border"
         >
           {isLogin ? "Log In" : "Register"}
@@ -31,7 +32,7 @@ const PageButtons = ({ className }: { className?: string }) => {
   useEffect(() => {
     soundRef.current = new Audio(audioFilePath);
     soundRef.current.preload = "auto";
-    soundRef.current.load(); 
+    soundRef.current.load();
     const elements = document.querySelectorAll(
       `.${style.broch}, .${style.arrow}, .${style.button}`
     );
@@ -55,7 +56,7 @@ const PageButtons = ({ className }: { className?: string }) => {
     <>
       <Link href={"/register"}>
         <Button
-          className={className}
+          className={cn("w-[300px] !bg-background/80", className)}
           data-augmented-ui="bl-clip tr-clip border"
         >
           <span>Sign Up</span>
@@ -64,7 +65,7 @@ const PageButtons = ({ className }: { className?: string }) => {
 
       <Link href="/challenges">
         <Button
-          className={className}
+          className={cn("w-[300px] !bg-background/80", className)}
           data-augmented-ui="bl-clip tr-clip border"
         >
           Challenges
@@ -73,7 +74,7 @@ const PageButtons = ({ className }: { className?: string }) => {
 
       {authBtn(!user)}
 
-      <Button className={className} data-augmented-ui="bl-clip tr-clip border">
+      <Button className={cn("w-[300px] !bg-background/80", className)} data-augmented-ui="bl-clip tr-clip border">
         <span>About</span>
       </Button>
     </>
