@@ -8,26 +8,35 @@
   background-repeat: no-repeat; */
   width: 100%;
 }
+
 .Main {
   margin: 0px;
   width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-family: var(--SpaceAge);
 }
+
 .Left {
-  width: 23%;
+  /* width: 23%; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   transform: perspective(500px) rotateY(15deg) translateX(20px);
 }
 
 .Right {
-  padding-right: 20px;
-  align-items: center;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 10px;
-  transform: perspective(500px) rotateY(-15deg) translateX(20px);
+  padding-right: 35px;
+  transform: perspective(500px) rotateY(-15deg) translateX(-10px);
 }
+
 .Middle {
   max-width: 700px;
   display: flex;
@@ -35,11 +44,13 @@
   align-items: center;
   justify-content: center;
 }
+
 .Level {
   display: flex;
   align-items: center;
   margin: 10%;
 }
+
 .Span {
   color: white;
   color: rgb(61, 126, 247);
@@ -51,11 +62,17 @@
 .Para {
   margin-right: 5px;
 }
+
+.Img {
+  padding-left: 10px;
+}
+
 .starImg {
   margin: 0 4px;
   height: 25px;
   width: 25px;
 }
+
 .reticle {
   margin-top: 25%;
   align-items: center;
@@ -64,21 +81,15 @@
   color: #00bfff;
   --reticle-color: currentColor;
   --reticle-size: calc(var(--aug-all-width) * 0.25);
-  --aug-border-bg: radial-gradient(
-      circle at top center,
+  --aug-border-bg: radial-gradient(circle at top center,
       var(--reticle-color) var(--reticle-size),
-      transparent var(--reticle-size)
-    ),
-    radial-gradient(
-      circle at bottom 13.92% right 6.89%,
+      transparent var(--reticle-size)),
+    radial-gradient(circle at bottom 13.92% right 6.89%,
       var(--reticle-color) var(--reticle-size),
-      transparent var(--reticle-size)
-    ),
-    radial-gradient(
-      circle at bottom 13.92% left 6.89%,
+      transparent var(--reticle-size)),
+    radial-gradient(circle at bottom 13.92% left 6.89%,
       var(--reticle-color) var(--reticle-size),
-      transparent var(--reticle-size)
-    );
+      transparent var(--reticle-size));
   transform-origin: 50% 56%;
   transform: rotateZ(0deg);
   transition: transform 0.75s ease-out, color 0.75s ease-out;
@@ -93,6 +104,7 @@
   color: #00bfff;
   padding: 10px 10px;
 }
+
 .listItem {
   padding: 2px;
   color: white;
@@ -150,11 +162,9 @@
   width: 300px;
   aspect-ratio: 1 / 1;
   --aug-border: initial;
-  --aug-border-bg: linear-gradient(
-    to bottom right,
-    rgb(0, 72, 255),
-    rgb(0, 85, 128)
-  );
+  --aug-border-bg: linear-gradient(to bottom right,
+      rgb(0, 72, 255),
+      rgb(0, 85, 128));
   --aug-border-all: 5px;
   --aug-clip-tl1: initial;
   --aug-round-tr1: initial;
@@ -165,12 +175,14 @@
   --aug-br1: 20px;
   --aug-bl1: 20px;
 }
+
 .arrow {
   width: 80px;
   height: 70px;
   padding-left: 5px;
   color: linear-gradient(to right, #d518ff, #02c2ff);
 }
+
 .arrow {
   width: 80px;
   height: 70px;
@@ -192,7 +204,8 @@
 }
 
 .button:hover {
-  transform: scale(1.1); /* Enlarge the button on hover */
+  transform: scale(1.1);
+  /* Enlarge the button on hover */
 }
 
 .arrow_item1 {
@@ -227,12 +240,10 @@
   height: 100%;
   top: 0;
   left: 0;
-  background: linear-gradient(
-    45deg,
-    rgba(23, 96, 213, 0.7),
-    rgba(0, 255, 255, 0.2),
-    rgba(0, 255, 255, 0.7)
-  );
+  background: linear-gradient(45deg,
+      rgba(23, 96, 213, 0.7),
+      rgba(0, 255, 255, 0.2),
+      rgba(0, 255, 255, 0.7));
   border-radius: 10px;
   z-index: -1;
   opacity: 0;
@@ -250,16 +261,20 @@
     transform: scale(0.9);
     opacity: 0.6;
   }
+
   50% {
     transform: scale(1.1);
     opacity: 1;
   }
+
   100% {
     transform: scale(0.9);
     opacity: 0.6;
   }
 }
+
 @media (max-width: 768px) {
+
   .Broch,
   .reticle,
   .listContainer,
@@ -317,6 +332,7 @@
   .Right {
     transform: none;
   }
+
   .watch {
     transform: scale(0.7);
     margin-right: 10%;
@@ -365,6 +381,7 @@
   from {
     box-shadow: 0 0 20px #08f, 0 0 40px #08f;
   }
+
   to {
     box-shadow: 0 0 30px #f0f, 0 0 60px #f0f;
   }
@@ -374,6 +391,7 @@
   display: flex;
   gap: 10px;
 }
-.Date{
+
+.Date {
   font-size: 30px;
 }
