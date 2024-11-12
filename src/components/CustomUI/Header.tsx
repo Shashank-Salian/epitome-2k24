@@ -5,7 +5,7 @@ import Image from "next/image";
 import useUserStore, { UserTypes } from "@/store/useUserStore";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
-import { ChevronDown, User2Icon } from "lucide-react";
+import { User2Icon } from "lucide-react";
 import ButtonUI from "./ButtonUI";
 import EpitomeLogo from "@/assets/Images/Epitome.png";
 import useModalStore from "@/store/useModalStore";
