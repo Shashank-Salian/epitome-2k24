@@ -30,6 +30,7 @@ const PUBLIC_NAV_LINKS = [
 ];
 const PROTECTED_NAV_LINKS = [
   { href: "/", label: "Home" },
+  { href: "/dashboard", label: "Dashboard" },
   { href: "/challenges", label: "Challenges" },
   { href: "/events", label: "Events" },
 ];
@@ -113,15 +114,15 @@ const Header = () => {
       <nav className="flex_center gap-6 mt-6 sm:mt-0">
         {status === "authenticated"
           ? PROTECTED_NAV_LINKS.map(({ href, label }) => (
-              <Link key={label} href={href} className="md:text-[1.25em]">
-                {label}
-              </Link>
-            ))
+            <Link key={label} href={href} className="md:text-[1.25em]">
+              {label}
+            </Link>
+          ))
           : PUBLIC_NAV_LINKS.map(({ href, label }) => (
-              <Link key={label} href={href} className="md:text-[1.25em]">
-                {label}
-              </Link>
-            ))}
+            <Link key={label} href={href} className="md:text-[1.25em]">
+              {label}
+            </Link>
+          ))}
 
         {status == "unauthenticated" ? (
           <Link

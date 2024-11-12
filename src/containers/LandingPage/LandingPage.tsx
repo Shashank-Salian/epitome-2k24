@@ -112,6 +112,7 @@ const LandingPage = () => {
             <span className={style.Span}>1892</span>
             <p className={style.Para}>Coins</p>
           </div>
+
           <div
             data-tilt
             data-tilt-glare="true"
@@ -212,6 +213,7 @@ const LandingPage = () => {
 
           <PageButtons className={style.button} />
         </div>
+
         <div className={style.Right}>
           <div className={style.watch}>
             <CountDown />

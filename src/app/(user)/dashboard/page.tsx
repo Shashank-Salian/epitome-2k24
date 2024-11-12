@@ -25,11 +25,11 @@ const Dashboard = () => {
                 </Button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center my-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 place-items-center my-8">
                 <div className="clip_Btn w-fit py-2 px-8 bg-secondary/20">Events Registered : {user?.events.length}</div>
                 <div className="clip_Btn w-fit py-2 px-8 bg-secondary/20">Total Participants : {user?.participants.length}</div>
-                <div className="clip_Btn w-fit py-2 px-8 bg-secondary/20">Team Accomodation : {user?.accomodationRequired}</div>
-                <div className={cn("clip_Btn w-fit py-2 px-8", PaymentColor)}>Payment Status : {user?.paymentStatus}</div>
+                <div className="clip_Btn w-fit py-2 px-8 bg-secondary/20">Team Accomodation : {user?.accomodationRequired ? "YES" : "NO"}</div>
+                <div className={cn("clip_Btn w-fit py-2 px-8 bg-red-700", PaymentColor)}>Payment Status : {user?.paymentStatus}</div>
             </div>
 
             {user?.participants.length !== 0 &&
