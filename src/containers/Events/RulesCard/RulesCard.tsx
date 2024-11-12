@@ -41,8 +41,8 @@ const RulesCard = ({ rules, onCloseClick, title, eventName, Heads }: Props) => {
             </ul>
             <div className="list-disc mt-4">
               Event Heads:
-              {Heads.map(({ name, phone }) => (
-                <li className="mb-2">
+              {Heads.map(({ name, phone }, index) => (
+                <li key={index} className="mb-2">
                   {name} : {phone}
                 </li>
               ))}
