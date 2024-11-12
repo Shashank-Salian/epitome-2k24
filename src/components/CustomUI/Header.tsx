@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import useUserStore, { UserTypes } from "@/store/useUserStore";
@@ -9,6 +9,7 @@ import { ChevronDown, User2Icon } from "lucide-react";
 import ButtonUI from "./ButtonUI";
 import EpitomeLogo from "@/assets/Images/Epitome.png";
 import useModalStore from "@/store/useModalStore";
+import Burger from "./Burger";
 
 const AUTH_ROUTES = [
   "/login",
@@ -35,6 +36,8 @@ const PROTECTED_NAV_LINKS = [
 ];
 
 const Header = () => {
+  const [navOpen, setNavOpen] = useState(false);
+
   const { data: session, status } = useSession();
   const { user, setUser } = useUserStore();
   const { setShowModal } = useModalStore();
@@ -95,64 +98,84 @@ const Header = () => {
 
   return (
     // <Container parentClassName="!h-fit">
-    <header
-      data-augmented-ui="br-2-clip-y bl-2-clip-y"
-      className="sticky w-full top-0 flex justify-between items-center flex-col sm:flex-row px-10 py-3 bg-background/30 z-10 backdrop-blur-md font-oxanium"
-    >
-      <Link href="/">
-        <Image
-          src={EpitomeLogo}
-          width={EpitomeLogo.width}
-          height={EpitomeLogo.height}
-          alt="Epitome"
-          className="hidden sm:block sm:w-44"
-        />
-        <h1 className="font-spaceAge text-2xl sm:hidden">Epitome</h1>
-      </Link>
-
-      <nav className="flex_center gap-6 mt-6 sm:mt-0">
-        {status === "authenticated"
-          ? PROTECTED_NAV_LINKS.map(({ href, label }) => (
-              <Link key={label} href={href} className="md:text-[1.25em]">
-                {label}
-              </Link>
-            ))
-          : PUBLIC_NAV_LINKS.map(({ href, label }) => (
-              <Link key={label} href={href} className="md:text-[1.25em]">
-                {label}
-              </Link>
-            ))}
-
-        {status == "unauthenticated" ? (
-          <Link
-            href={pathname == "/login" ? "/register" : "/login"}
-            className=""
+    <div className="relative">
+      <header
+        data-augmented-ui="br-2-clip-y bl-2-clip-y"
+        className={`sticky w-full top-0 flex justify-between items-center flex-row px-10 py-3 bg-background/30 z-10 backdrop-blur-md font-oxanium ${
+          navOpen && "remove_aug"
+        }`}
+      >
+        <Link href="/">
+          <Image
+            src={EpitomeLogo}
+            width={EpitomeLogo.width}
+            height={EpitomeLogo.height}
+            alt="Epitome"
+            className="hidden sm:block sm:w-44"
+          />
+          <h1 className="font-spaceAge text-2xl sm:hidden">Epitome</h1>
+        </Link>
+        <div>
+          <Burger
+            onClick={() => setNavOpen((prev) => !prev)}
+            isOpen={navOpen}
+          />
+          <nav
+            className={`flex_center gap-6 md:bg-transparent bg-background/30 transition-all duration-500 ease-in-out overflow-y-hidden absolute z-50 left-0 right-0 top-full flex-col md:flex-row md:py-0 md:flex md:h-full md:static sm:mt-0 ${
+              navOpen ? "h-max py-4" : "h-0"
+            }`}
           >
-            <ButtonUI
-              value={pathname == "/login" ? "Register" : "Login"}
-              className="text-sm tracking-widest px-7"
-            />
-          </Link>
-        ) : (
-          <div className="clip_Btn flex_center gap-4 bg-primary px-4 py-1 rounded-md">
-            {user?.picture ? (
-              <div className="flex_center rounded-full bg-background/20 overflow-hidden">
-                <Image
-                  src={user?.picture}
-                  width={40}
-                  height={40}
-                  className="object-cover"
-                  alt="User_Profile"
+            {status === "authenticated"
+              ? PROTECTED_NAV_LINKS.map(({ href, label }) => (
+                  <Link
+                    key={label}
+                    href={href}
+                    className="md:text-[1.25em] block md:inline w-full py-2 text-center my-2"
+                  >
+                    {label}
+                  </Link>
+                ))
+              : PUBLIC_NAV_LINKS.map(({ href, label }) => (
+                  <Link
+                    key={label}
+                    href={href}
+                    className="md:text-[1.25em] block md:inline w-full py-2 text-center my-2"
+                  >
+                    {label}
+                  </Link>
+                ))}
+            {status == "unauthenticated" ? (
+              <Link
+                href={pathname == "/login" ? "/register" : "/login"}
+                className="block md:inline w-full py-2 text-center my-2"
+              >
+                <ButtonUI
+                  value={pathname == "/login" ? "Register" : "Login"}
+                  className="text-sm tracking-widest px-7"
                 />
-              </div>
+              </Link>
             ) : (
-              <User2Icon size={25} />
+              <div className="clip_Btn flex_center gap-4 bg-primary px-4 py-1 rounded-md">
+                {user?.picture ? (
+                  <div className="flex_center rounded-full bg-background/20 overflow-hidden">
+                    <Image
+                      src={user?.picture}
+                      width={40}
+                      height={40}
+                      className="object-cover"
+                      alt="User_Profile"
+                    />
+                  </div>
+                ) : (
+                  <User2Icon size={25} />
+                )}
+                <span className="font-oxanium">{user?.username}</span>
+              </div>
             )}
-            <span className="font-oxanium">{user?.username}</span>
-          </div>
-        )}
-      </nav>
-    </header>
+          </nav>
+        </div>
+      </header>
+    </div>
     // </Container>
   );
 };

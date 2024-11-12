@@ -12,6 +12,10 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.remove_aug {
+  clip-path: none;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

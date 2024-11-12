@@ -194,9 +194,9 @@ const LandingPage = () => {
               width={420}
               height={420}
               alt="AIMIT Mangalore"
-              className="mb-4"
+              className={`mb-4 ${style.aimitHeader}`}
             />
-            <p className="font-iceland  text-xl md:mb-8 text-center">
+            <p className="font-iceland text-sm sm:text-xl md:mb-8 text-center">
               School of Information Science and Technology <br />
               Presents
             </p>

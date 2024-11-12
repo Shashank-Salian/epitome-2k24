@@ -7,6 +7,8 @@ import SceneSetup from "../SceneSetup";
 import { CustomLoader, OnProgressFunc } from "./GlobalLoader";
 import { ClientDims } from "../utils";
 
+import toast from "react-hot-toast";
+
 interface Coord3D {
   x: number;
   y: number;
@@ -32,6 +34,7 @@ class ModelAssetManager implements CustomLoader {
   modelName?: string;
   addToScene: boolean;
   onResize?: () => void;
+  static err: boolean = false;
 
   /**
    *
@@ -138,9 +141,19 @@ class ModelAssetManager implements CustomLoader {
       if (this.onLoaded) this.onLoaded();
     } catch (err) {
       // TODO: Add error handling
-      alert(
-        "Error loading assets, check your internet connection and try again"
+      if (ModelAssetManager.err) return;
+
+      toast.error("Something went wrong while loading the model!", {
+        duration: 5000,
+      });
+      toast(
+        "Refresh the page. If the error persist please contact : +91 761 925 6634",
+        {
+          icon: "ℹ️",
+          duration: 8000,
+        }
       );
+      ModelAssetManager.err = true;
       console.error(err);
       throw err;
     }
