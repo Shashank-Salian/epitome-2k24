@@ -1,6 +1,6 @@
 'use client'
 import { useState, SetStateAction, Dispatch, Ref } from "react"
-import { AtSignIcon, Building2Icon, EyeIcon, EyeOffIcon, PhoneIcon, User2Icon } from "lucide-react"
+import { AtSignIcon, BookOpen, Building2Icon, EyeIcon, EyeOffIcon, PhoneIcon, User2Icon } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 interface InputProps {
@@ -57,8 +57,10 @@ const Input = ({ label, type = "text", name = "", placeholder, parentClassName =
                             name === "username" ?
                                 <User2Icon size={24} className="absolute right-2 text-secondary" />
                                 :
-                                name === "collegeName" &&
-                                <Building2Icon size={24} className="absolute right-2 text-secondary" />
+                                name === "collegeName" ?
+                                    <Building2Icon size={24} className="absolute right-2 text-secondary" />
+                                    : name === "department" &&
+                                    <BookOpen size={24} className="absolute right-2 text-secondary" />
                 }
             </div>
         </div>

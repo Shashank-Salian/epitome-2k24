@@ -7,7 +7,7 @@ import { signIn } from "next-auth/react";
 import Input from "../CustomUI/Input";
 import toast from "react-hot-toast";
 import { Button } from "../ui/button";
-import { BookOpen, Loader2Icon, UserPlusIcon } from "lucide-react";
+import { Loader2Icon, UserPlusIcon } from "lucide-react";
 
 const RegisterForm = () => {
   const [username, setUsername] = useState<string>("");
@@ -17,13 +17,13 @@ const RegisterForm = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmpassword, setConfirmPassword] = useState<string>("");
+  const [accomodationRequired, setAccomodationRequired] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
   const params = useSearchParams().get("callbackUrl");
   const callback = params ? (params as string) : "";
 
-  const departmentList = ["MCA", "MSc", "BDA", "ST"]
 
   const HandleRegister = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -50,6 +50,7 @@ const RegisterForm = () => {
           phone,
           email,
           password,
+          accomodationRequired
         }),
       });
 
@@ -125,26 +126,15 @@ const RegisterForm = () => {
           required={true}
         />
 
-        <div className="relative min-w-[350px]">
-          <label className='text-[0.9em] bg-background/0 px-1'>
-            <span>Department</span>
-            <span className="text-[1.2em] text-red-600"> ★</span>
-          </label>
-
-          <div className="flex items-center border border-muted-foreground sm:focus-within:border-primary rounded p-1">
-            <select
-              name="department"
-              onChange={(e) => setDepartment(e.target.value)} required={true}
-              className="'text-[1em] w-full bg-background/0 px-2 py-1 border-none outline-none placeholder:text-secondary/80'">
-              <option value="" className="text-background">Select Department</option>
-              {departmentList.map((dept, index) => (
-                <option key={index} value={dept} className="text-background">{dept}</option>
-              ))}
-            </select>
-
-            <BookOpen size={24} className="absolute right-2 text-secondary" />
-          </div>
-        </div>
+        <Input
+          type="text"
+          label="Department"
+          name="department"
+          placeholder="Enter Department"
+          className="2xl:w-[500px]"
+          setValue={setDepartment}
+          required={true}
+        />
 
         <Input
           type="tel"
@@ -178,6 +168,17 @@ const RegisterForm = () => {
           setValue={setConfirmPassword}
           required={true}
         />
+
+        <div className="relative w-[350px] py-2">
+          <label className='text-[0.9em] bg-background/0 px-1'>Accomodation</label>
+
+          <div className="flex gap-2">
+            <input type="checkbox" name="accommodation" className="mr-2" onChange={(e) => setAccomodationRequired(e.target.checked)} />
+            <p className="text-sm text-wrap">
+              Please check this box if your team requires accommodation. We will reach out to you with further details regarding the arrangements.
+            </p>
+          </div>
+        </div>
 
         <Button
           type="submit"

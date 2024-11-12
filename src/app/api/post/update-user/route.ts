@@ -7,10 +7,11 @@ type RequestBody = {
     collegeName: string,
     department: string,
     phone: string,
+    accomodationRequired: boolean,
 }
 
 export async function POST(request: NextRequest) {
-    const { email, collegeName, department, phone }: RequestBody = await request.json()
+    const { email, collegeName, department, phone, accomodationRequired }: RequestBody = await request.json()
     console.log("User_Update", { email, collegeName, department, phone })
 
     if (!email || !collegeName || !phone) {
@@ -27,6 +28,7 @@ export async function POST(request: NextRequest) {
         userExists.collegeName = collegeName
         userExists.department = department
         userExists.phone = phone
+        userExists.accomodationRequired = accomodationRequired
 
         await userExists.save();
 
