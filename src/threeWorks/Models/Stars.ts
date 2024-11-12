@@ -45,7 +45,7 @@ function initStars(composer: EffectComposer) {
   const effectPass = new EffectPass(SceneSetup.camera, bloomEffect);
   composer.addPass(effectPass);
 
-  const starCount = ClientDims.width >= MOBILE_WIDTH ? 300 : 200;
+  const starCount = ClientDims.width >= MOBILE_WIDTH ? 300 : 150;
   for (let i = 0; i < starCount; ++i) {
     const geometry = new THREE.SphereGeometry(randomInRange(0.2, 0.6), 32, 32);
 
