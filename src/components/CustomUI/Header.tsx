@@ -154,7 +154,7 @@ const Header = () => {
                 />
               </Link>
             ) : (
-              <div className="clip_Btn flex_center gap-4 bg-primary px-4 py-1 rounded-md">
+              <div className="clip_Btn flex_center gap-4 bg-primary px-4 py-2 rounded-md">
                 {user?.picture ? (
                   <div className="flex_center rounded-full bg-background/20 overflow-hidden">
                     <Image
@@ -168,7 +168,7 @@ const Header = () => {
                 ) : (
                   <User2Icon size={25} />
                 )}
-                <span className="font-oxanium">{user?.username}</span>
+                <span className="font-oxanium text-nowrap">{user?.username}</span>
               </div>
             )}
           </nav>

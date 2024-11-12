@@ -32,7 +32,7 @@ const EventForm = () => {
       if (participant.name.length <= 0 || (participant.phone && participant.phone.length <= 0)) {
         toast.error("All Fields are Required!");
         isValid = false;
-        return;
+        return false
       }
     });
 
@@ -70,18 +70,55 @@ const EventForm = () => {
     }
   };
 
+  // Confirm Participants List
   const HandleParticipantsList = () => {
     let isValid = true;
-    participantsDetails.some((event) => ({
+    participantsDetails.map((event) => ({
       participants: event.participants.some((p) => {
         if (p.name.length <= 0 || p.phone.length <= 0) {
           isValid = false;
+          return
         }
       }),
     }));
 
     if (!isValid) {
       toast.error("Enter All Fields!");
+      return;
+    }
+
+    let hasInvalidParticipants = false;
+    // Check is IT Manager & Treasure Hunt participants are participating in any other events
+    let itManagerParticipant: string = ""
+    let treasureHuntParticipant: string[] = []
+    participantsDetails.some((event) => {
+      if (event.category == "IT Manager") {
+        itManagerParticipant = event.participants[0].phone
+      }
+      if (event.category == "Treasure Hunt") {
+        treasureHuntParticipant = event.participants.map(participant => participant.phone)
+      }
+    });
+
+    participantsDetails.map(event => {
+      if (event.category !== "IT Manager" && event.category !== "Treasure Hunt") {
+        event.participants.some(participant => {
+          if (participant.phone == itManagerParticipant) {
+            toast.error("IT Manager participant cannot participate in other events!")
+            hasInvalidParticipants = true
+            return false
+          }
+
+          if (treasureHuntParticipant.includes(participant.phone)) {
+            toast.error("Treasure Hunt participant cannot participate in other events!")
+            hasInvalidParticipants = true
+            return false
+          }
+        })
+      }
+    })
+
+    if (hasInvalidParticipants) {
       return;
     }
 
@@ -140,6 +177,7 @@ const EventForm = () => {
                   <EventGroup
                     key={index}
                     eventName={event.title}
+                    eventCategory={event.category}
                     minParticipant={event.minParticipant}
                     maxParticipant={event.maxParticipant}
                   />
