@@ -2,7 +2,6 @@
 import React, { FormEvent, useState } from 'react'
 import Input from '../CustomUI/Input'
 import useUserStore from '@/store/useUserStore'
-import ButtonUI from '../CustomUI/ButtonUI'
 import toast from 'react-hot-toast'
 import { Button } from '../ui/button'
 import { DatabaseBackupIcon, LoaderCircleIcon } from 'lucide-react'
@@ -10,7 +9,9 @@ import useModalStore from '@/store/useModalStore'
 
 const UserInfoModal = () => {
     const [collegeName, setCollegeName] = useState<string>("")
+    const [department, setDepartment] = useState<string>("");
     const [phone, setPhone] = useState<string>("")
+    const [accomodationRequired, setAccomodationRequired] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const { user, setUser } = useUserStore()
@@ -30,7 +31,7 @@ const UserInfoModal = () => {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ email: user?.email, collegeName, phone })
+                body: JSON.stringify({ email: user?.email, collegeName, department, phone, accomodationRequired })
             })
 
             if (res.status === 201) {
@@ -62,6 +63,17 @@ const UserInfoModal = () => {
                         setValue={setCollegeName}
                         required={true}
                     />
+
+                    <Input
+                        type="text"
+                        label="Department"
+                        name="department"
+                        placeholder="Enter Department"
+                        className="2xl:w-[500px]"
+                        setValue={setDepartment}
+                        required={true}
+                    />
+
                     <Input
                         label='Phone'
                         type='tel'
@@ -70,6 +82,17 @@ const UserInfoModal = () => {
                         setValue={setPhone}
                         required={true}
                     />
+
+                    <div className="relative w-[350px] py-2">
+                        <label className='text-[0.9em] bg-background/0 px-1'>Accomodation</label>
+
+                        <div className="flex gap-2">
+                            <input type="checkbox" name="accommodation" className="mr-2" onChange={(e) => setAccomodationRequired(e.target.checked)} />
+                            <p className="text-sm text-wrap">
+                                Please check this box if your team requires accommodation. We will reach out to you with further details regarding the arrangements.
+                            </p>
+                        </div>
+                    </div>
                 </div>
 
                 <Button variant={'secondary'} type='submit' className='clip_Btn flex_center gap-4 px-8 py-2'>

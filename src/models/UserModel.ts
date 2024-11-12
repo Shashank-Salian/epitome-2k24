@@ -93,6 +93,11 @@ const UserSchema = new Schema({
         trim: true,
         default: '',
     },
+    department: {
+        type: String,
+        trim: true,
+        default: '',
+    },
     email: {
         type: String,
         required: true,
@@ -113,6 +118,10 @@ const UserSchema = new Schema({
     picture: {
         type: String,
         default: '',
+    },
+    accomodationRequired: {
+        type: Boolean,
+        default: false
     },
     isVerified: {
         type: Date,

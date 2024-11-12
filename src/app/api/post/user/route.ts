@@ -39,6 +39,7 @@ export async function POST(request: NextRequest) {
                 uid: userExists?._id.toString(),
                 username: userExists?.username,
                 collegeName: userExists?.collegeName,
+                department: userExists?.department,
                 email: userExists?.email,
                 phone: userExists?.phone,
                 picture: userExists?.picture,
@@ -46,6 +47,7 @@ export async function POST(request: NextRequest) {
                 paymentStatus: latestPayment?.paymentStatus || "PENDING",
                 events: userExists?.events,
                 isVerified: userExists?.isVerified,
+                accomodationRequired: userExists?.accomodationRequired,
                 createdAt: userExists?.createdAt.toISOString()
             }
         }

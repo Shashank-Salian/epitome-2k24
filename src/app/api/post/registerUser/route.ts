@@ -6,13 +6,15 @@ import * as bcrypt from "bcryptjs"
 type RequestBody = {
     username: string,
     collegeName: string,
+    department: string,
     phone: string,
     email: string,
-    password: string
+    password: string,
+    accomodationRequired: boolean,
 }
 
 export async function POST(request: NextRequest) {
-    const { username, collegeName, phone, email, password }: RequestBody = await request.json()
+    const { username, collegeName, department, phone, email, password, accomodationRequired }: RequestBody = await request.json()
 
     console.log("UserEmail", email)
     if (!email) {
@@ -32,9 +34,11 @@ export async function POST(request: NextRequest) {
         await UserModel.create({
             username: username,
             collegeName: collegeName,
+            department: department,
             phone: phone,
             email: email,
-            password: hashedPassword
+            password: hashedPassword,
+            accomodationRequired: accomodationRequired
         })
 
         return NextResponse.json({ message: "User Created Successfully!", status: 201 }, { status: 201 })

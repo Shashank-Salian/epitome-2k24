@@ -102,7 +102,7 @@ const LandingPage = () => {
               <Glitch text="45" />
             </span>{" "}
             <p className={style.Para}>Level</p>
-            <img
+            <Image
               className={style.starImg}
               src="/Icons/star.png"
               alt="Picture of the author"
@@ -112,6 +112,7 @@ const LandingPage = () => {
             <span className={style.Span}>1892</span>
             <p className={style.Para}>Coins</p>
           </div>
+
           <div
             data-tilt
             data-tilt-glare="true"
@@ -122,7 +123,7 @@ const LandingPage = () => {
               data-augmented-ui="all-hexangle-up border"
               className={style.reticle}
             >
-              <img
+              <Image
                 src="/Icons/martian.jpg"
                 alt="Profile"
                 width={505}
@@ -201,7 +202,7 @@ const LandingPage = () => {
               Presents
             </p>
           </div>
-          <img
+          <Image
             className={style.Img}
             src="/Icons/Epitome.png"
             width={825}
@@ -212,6 +213,7 @@ const LandingPage = () => {
 
           <PageButtons className={style.button} />
         </div>
+
         <div className={style.Right}>
           <div className={style.watch}>
             <CountDown />
@@ -237,7 +239,7 @@ const LandingPage = () => {
               className={style.arrow}
               data-augmented-ui="all-triangle-right border"
             >
-              <img
+              <Image
                 src="/Icons/play.png"
                 alt="Trailer"
                 width={50}
@@ -255,7 +257,7 @@ const LandingPage = () => {
             data-augmented-ui="all-triangle-left border"
             href="https://www.instagram.com/epitome_2k24?igsh=d3l4anhoN213ZHhq"
           >
-            <img
+            <Image
               src="/Icons/instagram.png"
               alt="instagram"
               width={30}
