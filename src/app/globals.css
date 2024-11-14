@@ -13,7 +13,7 @@ body {
 }
 
 .remove_aug {
-  clip-path: none;
+  clip-path: none !important;
 }
 
 @layer utilities {
@@ -53,17 +53,13 @@ body {
     --dodgerBlue: 210, 100%, 56%;
     --purple: 273, 100%, 56%;
 
-    --blueGradient: linear-gradient(
-      to right,
-      hsl(var(--dodgerBlue)),
-      hsl(var(--purple))
-    );
+    --blueGradient: linear-gradient(to right,
+        hsl(var(--dodgerBlue)),
+        hsl(var(--purple)));
 
-    --blueGradientAlt: linear-gradient(
-      45deg,
-      hsl(var(--dodgerBlue), 0.8),
-      hsl(var(--purple), 0.6)
-    );
+    --blueGradientAlt: linear-gradient(45deg,
+        hsl(var(--dodgerBlue), 0.8),
+        hsl(var(--purple), 0.6));
 
     --primary: var(--dodgerBlue);
   }
@@ -100,6 +96,7 @@ body {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -123,14 +120,12 @@ body {
   }
 
   .clip_Btn {
-    clip-path: polygon(
-      0 0,
-      calc(100% - 16px) 0,
-      100% 16px,
-      100% 100%,
-      16px 100%,
-      0 calc(100% - 16px)
-    );
+    clip-path: polygon(0 0,
+        calc(100% - 16px) 0,
+        100% 16px,
+        100% 100%,
+        16px 100%,
+        0 calc(100% - 16px));
   }
 
   .gradientText {
