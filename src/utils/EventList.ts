@@ -59,7 +59,8 @@ const EventList: EventType = [
       },
     ],
     rules: [
-      "The IT Manager event will consist of multiple rounds, with one participant per round.",
+      "Number of participants is 1.",
+      "The IT Manager event will consist of multiple rounds.",
       "Specific details regarding each round will be disclosed during the event.",
       "Participants are required to adhere to a formal dress code.",
       "Participants must bring three copies of their resume.",
