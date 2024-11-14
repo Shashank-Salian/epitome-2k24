@@ -28,7 +28,7 @@ const EventSelector = () => {
         </span>
         <p className="text-[1.2em]">
           <span className="font-bold">NOTE : </span>
-          IT Manager and Treasure Hunt event participants should not participate in any other events
+          IT Manager, Surprise Event, and Treasure Hunt event participants should not participate in any other events
         </p>
       </div>
 
