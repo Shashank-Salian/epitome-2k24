@@ -100,10 +100,10 @@ const Header = () => {
 
   return (
     // <Container parentClassName="!h-fit">
-    <div className="relative w-full">
+    <div className="relative w-full flex_center">
       <header
         data-augmented-ui="br-2-clip-y bl-2-clip-y"
-        className={cn("fixed w-full top-0 flex justify-between items-center z-[100] flex-row px-10 py-3 bg-background/30 backdrop-blur-md font-oxanium transition-all", navOpen && "remove_aug bg-background/80")}
+        className={cn("fixed w-full top-0 flex justify-between items-center z-[100] flex-row px-10 py-3 bg-background/30 backdrop-blur-md font-oxanium", navOpen && "remove_aug bg-background/80 md:bg-transparent")}
       >
         <Link href="/">
           <Image
@@ -121,7 +121,7 @@ const Header = () => {
             isOpen={navOpen}
           />
           <nav
-            className={cn("flex_center gap-6 md:bg-transparent bg-background/80 transition-all duration-500 ease-in-out overflow-y-hidden absolute z-[100] left-0 right-0 top-full flex-col md:flex-row md:py-0 md:flex md:h-full md:static sm:mt-0 backdrop-blur-md rounded-b-2xl", navOpen ? "h-max py-4" : "h-0")}
+            className={cn("flex_center gap-6 bg-background/80 md:bg-background/0 transition-all duration-500 ease-in-out overflow-y-hidden absolute z-[100] left-0 right-0 top-full flex-col md:flex-row md:py-0 md:flex md:h-full md:static sm:mt-0 rounded-b-2xl", navOpen ? "h-max py-4" : "h-0")}
           >
             {status === "authenticated"
               ? PROTECTED_NAV_LINKS.map(({ href, label }) => (
