@@ -100,7 +100,7 @@ const RegisterForm = () => {
   return (
     <div
       data-augmented-ui="tl-2-clip-y tr-clip br-2-clip-y bl-clip"
-      className="relative flex_center flex-col gap-2 2xl:gap-4 font-oxanium w-fit p-4 py-10 sm:p-8 rounded-lg top-24 md:top-44 mb-6 bg-background/40 backdrop-blur-lg lg:ml-[4em]"
+      className="relative flex_center flex-col gap-2 2xl:gap-4 font-oxanium w-fit p-4 py-10 sm:p-8 rounded-lg top-44 md:top-44 mb-6 bg-background/40 backdrop-blur-lg lg:ml-[4em]"
     >
       <h1 className="hidden lg:block text-[1.5em] 2xl:text-[2em] font-medium">
         Create new account
@@ -169,7 +169,7 @@ const RegisterForm = () => {
           required={true}
         />
 
-        <div className="relative w-[350px] py-2">
+        <div className="relative w-[325px] md:w-[350px] py-2">
           <label className='text-[0.9em] bg-background/0 px-1'>Accomodation</label>
 
           <div className="flex gap-2">

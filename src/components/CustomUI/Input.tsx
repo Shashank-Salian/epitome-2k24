@@ -22,7 +22,7 @@ const Input = ({ label, type = "text", name = "", placeholder, parentClassName =
     const [showPassword, setShowPassword] = useState<boolean>(false)
 
     return (
-        <div className={cn("relative min-w-[350px]", parentClassName)}>
+        <div className={cn("relative min-w-[325px] md:min-w-[350px]", parentClassName)}>
             {label && <label className='text-[0.9em] bg-background/0 px-1'>
                 {label}
                 {required && <span className="text-[1.2em] text-red-600"> ★</span>}
