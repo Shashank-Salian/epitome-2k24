@@ -169,10 +169,10 @@ const RegisterForm = () => {
           required={true}
         />
 
-        <div className="relative w-[325px] md:w-[350px] py-2">
+        <div className="relative w-[325px] md:min-w-[350px] 2xl:w-[500px] py-2">
           <label className='text-[0.9em] bg-background/0 px-1'>Accomodation</label>
 
-          <div className="flex gap-2">
+          <div className="flex_center gap-2 w-full">
             <input type="checkbox" name="accommodation" className="mr-2" onChange={(e) => setAccomodationRequired(e.target.checked)} />
             <p className="text-sm text-wrap">
               Please check this box if your team requires accommodation. We will reach out to you with further details regarding the arrangements.
