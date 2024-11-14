@@ -5,7 +5,7 @@ import Image from "next/image";
 import useUserStore, { UserTypes } from "@/store/useUserStore";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
-import { User2Icon } from "lucide-react";
+import { ChevronDown, User2Icon } from "lucide-react";
 import ButtonUI from "./ButtonUI";
 import EpitomeLogo from "@/assets/Images/Epitome.png";
 import useModalStore from "@/store/useModalStore";
@@ -99,11 +99,12 @@ const Header = () => {
 
   return (
     // <Container parentClassName="!h-fit">
-    <div className="relative">
+    <div className="relative w-full">
       <header
         data-augmented-ui="br-2-clip-y bl-2-clip-y"
-        className={`sticky w-full top-0 flex justify-between items-center flex-row px-10 py-3 bg-background/30 z-10 backdrop-blur-md font-oxanium ${navOpen && "remove_aug"
-          }`}
+        className={`fixed w-full top-0 flex justify-between items-center z-[100] flex-row px-10 py-3 bg-background/30 backdrop-blur-md font-oxanium ${
+          navOpen && "remove_aug"
+        }`}
       >
         <Link href="/">
           <Image
@@ -121,28 +122,29 @@ const Header = () => {
             isOpen={navOpen}
           />
           <nav
-            className={`flex_center gap-6 md:bg-transparent bg-background/30 transition-all duration-500 ease-in-out overflow-y-hidden absolute z-50 left-0 right-0 top-full flex-col md:flex-row md:py-0 md:flex md:h-full md:static sm:mt-0 ${navOpen ? "h-max py-4" : "h-0"
-              }`}
+            className={`flex_center gap-6 md:bg-transparent bg-background/30 transition-all duration-500 ease-in-out overflow-y-hidden absolute z-[100] left-0 right-0 top-full flex-col md:flex-row md:py-0 md:flex md:h-full md:static sm:mt-0 ${
+              navOpen ? "h-max py-4" : "h-0"
+            }`}
           >
             {status === "authenticated"
               ? PROTECTED_NAV_LINKS.map(({ href, label }) => (
-                <Link
-                  key={label}
-                  href={href}
-                  className="md:text-[1.25em] block md:inline w-full py-2 text-center my-2"
-                >
-                  {label}
-                </Link>
-              ))
+                  <Link
+                    key={label}
+                    href={href}
+                    className="md:text-[1.25em] block md:inline w-full py-2 text-center my-2"
+                  >
+                    {label}
+                  </Link>
+                ))
               : PUBLIC_NAV_LINKS.map(({ href, label }) => (
-                <Link
-                  key={label}
-                  href={href}
-                  className="md:text-[1.25em] block md:inline w-full py-2 text-center my-2"
-                >
-                  {label}
-                </Link>
-              ))}
+                  <Link
+                    key={label}
+                    href={href}
+                    className="md:text-[1.25em] block md:inline w-full py-2 text-center my-2"
+                  >
+                    {label}
+                  </Link>
+                ))}
             {status == "unauthenticated" ? (
               <Link
                 href={pathname == "/login" ? "/register" : "/login"}
@@ -154,7 +156,7 @@ const Header = () => {
                 />
               </Link>
             ) : (
-              <div className="clip_Btn flex_center gap-4 bg-primary px-4 py-2 rounded-md">
+              <div className="clip_Btn flex_center gap-4 bg-primary px-4 py-1 rounded-md">
                 {user?.picture ? (
                   <div className="flex_center rounded-full bg-background/20 overflow-hidden">
                     <Image
