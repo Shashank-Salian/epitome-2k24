@@ -10,6 +10,7 @@ import ButtonUI from "./ButtonUI";
 import EpitomeLogo from "@/assets/Images/Epitome.png";
 import useModalStore from "@/store/useModalStore";
 import Burger from "./Burger";
+import { cn } from "@/lib/utils";
 
 const AUTH_ROUTES = [
   "/login",
@@ -102,9 +103,7 @@ const Header = () => {
     <div className="relative w-full">
       <header
         data-augmented-ui="br-2-clip-y bl-2-clip-y"
-        className={`fixed w-full top-0 flex justify-between items-center z-[100] flex-row px-10 py-3 bg-background/30 backdrop-blur-md font-oxanium ${
-          navOpen && "remove_aug"
-        }`}
+        className={cn("fixed w-full top-0 flex justify-between items-center z-[100] flex-row px-10 py-3 bg-background/30 backdrop-blur-md font-oxanium transition-all", navOpen && "remove_aug bg-background/80")}
       >
         <Link href="/">
           <Image
@@ -122,29 +121,27 @@ const Header = () => {
             isOpen={navOpen}
           />
           <nav
-            className={`flex_center gap-6 md:bg-transparent bg-background/30 transition-all duration-500 ease-in-out overflow-y-hidden absolute z-[100] left-0 right-0 top-full flex-col md:flex-row md:py-0 md:flex md:h-full md:static sm:mt-0 ${
-              navOpen ? "h-max py-4" : "h-0"
-            }`}
+            className={cn("flex_center gap-6 md:bg-transparent bg-background/80 transition-all duration-500 ease-in-out overflow-y-hidden absolute z-[100] left-0 right-0 top-full flex-col md:flex-row md:py-0 md:flex md:h-full md:static sm:mt-0 backdrop-blur-md rounded-b-2xl", navOpen ? "h-max py-4" : "h-0")}
           >
             {status === "authenticated"
               ? PROTECTED_NAV_LINKS.map(({ href, label }) => (
-                  <Link
-                    key={label}
-                    href={href}
-                    className="md:text-[1.25em] block md:inline w-full py-2 text-center my-2"
-                  >
-                    {label}
-                  </Link>
-                ))
+                <Link
+                  key={label}
+                  href={href}
+                  className="md:text-[1.25em] block md:inline w-full py-2 text-center my-2"
+                >
+                  {label}
+                </Link>
+              ))
               : PUBLIC_NAV_LINKS.map(({ href, label }) => (
-                  <Link
-                    key={label}
-                    href={href}
-                    className="md:text-[1.25em] block md:inline w-full py-2 text-center my-2"
-                  >
-                    {label}
-                  </Link>
-                ))}
+                <Link
+                  key={label}
+                  href={href}
+                  className="md:text-[1.25em] block md:inline w-full py-2 text-center my-2"
+                >
+                  {label}
+                </Link>
+              ))}
             {status == "unauthenticated" ? (
               <Link
                 href={pathname == "/login" ? "/register" : "/login"}

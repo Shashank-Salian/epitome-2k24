@@ -13,24 +13,24 @@ const Dashboard = () => {
     const PaymentColor = (user?.paymentStatus == "PENDING") ? "bg-red-700" : (user?.paymentStatus == "PROCESSING") ? "bg-yellow-400" : "bg-green-600"
 
     return (
-        <div className=''>
+        <div className='mt-20 mx-6'>
             <div
                 data-augmented-ui="tr-clip tl-clip bl-clip br-clip"
                 className='bg-background/50 my-8 p-6 rounded'>
                 <div className="flex justify-between items-center">
                     <h1 className='font-beyonders text-center'>Team - {user?.collegeName} ({user?.department})</h1>
 
-                    <Button onClick={() => setShowModal("LOGOUT_MODAL")} variant={'destructive'} className="clip_Btn gap-4 px-8 bg-red-800 hover:bg-red-900 font-oxanium">
+                    <Button onClick={() => setShowModal("LOGOUT_MODAL")} variant={'destructive'} className="clip_Btn gap-4 px-4 sm:px-8  bg-red-800 hover:bg-red-900 font-oxanium">
                         <LogOutIcon size={20} />
-                        LOGOUT
+                        <span className='hidden sm:block'>LOGOUT</span>
                     </Button>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 place-items-center my-8">
-                    <div className="clip_Btn w-fit py-2 px-8 bg-secondary/20">Events Registered : {user?.events.length}</div>
-                    <div className="clip_Btn w-fit py-2 px-8 bg-secondary/20">Total Participants : {user?.participants.length}</div>
-                    <div className="clip_Btn w-fit py-2 px-8 bg-secondary/20">Team Accomodation : {user?.accomodationRequired ? "YES" : "NO"}</div>
-                    <div className={cn("clip_Btn w-fit py-2 px-8 bg-red-700", PaymentColor)}>Payment Status : {user?.paymentStatus}</div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 place-items-center gap-4 my-8">
+                    <div className="clip_Btn min-w-[300px] text-center py-2 px-8 bg-secondary/20">Events Registered : {user?.events.length}</div>
+                    <div className="clip_Btn min-w-[300px] text-center py-2 px-8 bg-secondary/20">Total Participants : {user?.participants.length}</div>
+                    <div className="clip_Btn min-w-[300px] text-center py-2 px-8 bg-secondary/20">Team Accomodation : {user?.accomodationRequired ? "YES" : "NO"}</div>
+                    <div className={cn("clip_Btn min-w-[300px] text-center py-2 px-8 bg-red-700", PaymentColor)}>Payment Status : {user?.paymentStatus}</div>
                 </div>
 
                 {user?.participants.length !== 0 &&
