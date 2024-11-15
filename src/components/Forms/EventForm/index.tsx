@@ -91,7 +91,6 @@ const EventForm = () => {
     // Check is IT Manager & Treasure Hunt participants are participating in any other events
     let itManagerParticipant: string = ""
     let treasureHuntParticipant: string[] = []
-    let surpriseParticipant: string[] = []
     participantsDetails.some((event) => {
       if (event.category == "IT Manager") {
         itManagerParticipant = event.participants[0].phone
@@ -99,13 +98,10 @@ const EventForm = () => {
       if (event.category == "Treasure Hunt") {
         treasureHuntParticipant = event.participants.map(participant => participant.phone)
       }
-      if (event.category == "Surprise") {
-        surpriseParticipant = event.participants.map(participant => participant.phone)
-      }
     });
 
     participantsDetails.map(event => {
-      if (event.category !== "IT Manager" && event.category !== "Treasure Hunt" && event.category !== "Surprise") {
+      if (event.category !== "IT Manager" && event.category !== "Treasure Hunt") {
         event.participants.some(participant => {
           if (participant.phone == itManagerParticipant) {
             toast.error("IT Manager participant cannot participate in other events!")
@@ -115,12 +111,6 @@ const EventForm = () => {
 
           if (treasureHuntParticipant.includes(participant.phone)) {
             toast.error("Treasure Hunt participant cannot participate in other events!")
-            hasInvalidParticipants = true
-            return false
-          }
-
-          if (surpriseParticipant.includes(participant.phone)) {
-            toast.error("Surprise Event participant cannot participate in other events!")
             hasInvalidParticipants = true
             return false
           }
