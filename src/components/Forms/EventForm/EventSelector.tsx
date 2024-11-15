@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { CheckCircleIcon, X } from "lucide-react";
 import useEventRegister from "@/store/useEventRegister";
-import toast from "react-hot-toast";
 
 type EventButtonProp = {
   event: EventRegType;
@@ -31,7 +30,7 @@ const EventSelector = () => {
           <div className="flex justify-center items-start flex-col gap-2">
             <p className="flex_center"><span className="text-[0.6em] mr-4">&#11044;</span>  Only 15 Students can participate from a team.</p>
             <p className="flex_center"><span className=" text-[0.6em] mr-4">&#11044;</span>  Participants can register for multiple events.</p>
-            <p className="flex_center"><span className=" text-[0.6em] mr-4">&#11044;</span>   IT Manager and Treasure Hunt event participants should not participate in any other events.</p>
+            <p className="flex_center"><span className=" text-[0.6em] mr-4">&#11044;</span>   IT Manager, Videography and Treasure Hunt event participants should not participate in any other events.</p>
           </div >
         </p >
       </div >

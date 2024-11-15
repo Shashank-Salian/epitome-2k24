@@ -90,6 +90,7 @@ const EventForm = () => {
     let hasInvalidParticipants = false;
     // Check is IT Manager & Treasure Hunt participants are participating in any other events
     let itManagerParticipant: string = ""
+    let videographyParticipant: string = ""
     let treasureHuntParticipant: string[] = []
     participantsDetails.some((event) => {
       if (event.category == "IT Manager") {
@@ -109,8 +110,14 @@ const EventForm = () => {
             return false
           }
 
+          if (participant.phone == videographyParticipant) {
+            toast.error("Videography participant cannot participate in other events!")
+            hasInvalidParticipants = true
+            return false
+          }
+
           if (treasureHuntParticipant.includes(participant.phone)) {
-            toast.error("Treasure Hunt participant cannot participate in other events!")
+            toast.error("Treasure Hunt participants cannot participate in other events!")
             hasInvalidParticipants = true
             return false
           }
