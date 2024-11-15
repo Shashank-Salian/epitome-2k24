@@ -22,15 +22,19 @@ const EventSelector = () => {
 
   return (
     <div className="flex flex-col gap-4 p-4 mb-5">
-      <div className="flex justify-center items-start flex-col">
+      <div className="flex justify-center items-start flex-col gap-4 mb-4">
         <span className="font-bold text-[1.4em]">
           Select Events to Participate
         </span>
-        <p className="text-[1.2em]">
+        <p className="flex flex-col md:flex-row gap-4 md:text-[1.2em]">
           <span className="font-bold">NOTE : </span>
-          IT Manager and Treasure Hunt event participants should not participate in any other events
-        </p>
-      </div>
+          <div className="flex justify-center items-start flex-col gap-2">
+            <p className="flex_center"><span className="text-[0.6em] mr-4">&#11044;</span>  Only 15 Students can participate from a team.</p>
+            <p className="flex_center"><span className=" text-[0.6em] mr-4">&#11044;</span>  Participants can register for multiple events.</p>
+            <p className="flex_center"><span className=" text-[0.6em] mr-4">&#11044;</span>   IT Manager and Treasure Hunt event participants should not participate in any other events.</p>
+          </div >
+        </p >
+      </div >
 
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-4">
         {eventRegisterList.map((event, index) => (
@@ -48,7 +52,7 @@ const EventSelector = () => {
           Confirm Selected Events
         </Button>
       </div>
-    </div>
+    </div >
   );
 };
 
