@@ -47,8 +47,8 @@ const iceland = localFont({
 });
 
 const TITLE = "Epitome | AIMIT IT Fest 2024";
-const DESCRIPTION = "some_description";
-const BASE_URL = new URL("https://epitome-aimit.vercel.app/");
+const DESCRIPTION = "Epitome is a National level intercollegiate fest of the IT department of AIMIT, St Aloysius College (Deemed to be University)";
+const BASE_URL = new URL("https://epitome-aimit.in/");
 
 export const metadata: Metadata = {
   title: TITLE,
