@@ -14,7 +14,7 @@ const Dashboard = () => {
     const PaymentColor = (user?.paymentStatus == "PENDING") ? "bg-red-700" : (user?.paymentStatus == "PROCESSING") ? "bg-yellow-400" : "bg-green-600"
 
     return (
-        <div className='mt-20 mx-6'>
+        <div className='mt-40 mx-6'>
             <div
                 data-augmented-ui="tr-clip tl-clip bl-clip br-clip"
                 className='bg-background/50 my-8 p-6 rounded'>

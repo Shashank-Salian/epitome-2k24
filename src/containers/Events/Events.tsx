@@ -7,7 +7,7 @@ const Events = () => {
     <>
       <Container parentClassName="w-screen h-screen relative overflow-x-hidden">
         <Header />
-        <div className="py-8">
+        <div className="py-8 mt-20">
           <h1 className="font-spaceAge text-3xl md:text-6xl font-bold text-center drop-shadow-2xl">
             Events
           </h1>

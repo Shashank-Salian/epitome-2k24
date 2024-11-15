@@ -165,7 +165,7 @@ const EventForm = () => {
   return (
     <div className="flex_center flex-col w-full p-4 h-full bg-background/20 rounded-md backdrop-blur-md font-oxanium">
       <EventSelector />
-      <form onSubmit={(e) => HandleRegister(e)} className="w-full h-full flex_center flex-col gap-6">
+      <form onSubmit={(e) => HandleRegister(e)} className="w-full h-full flex_center flex-col gap-6 pb-10">
         {displayForm && (
           <>
             <ResponsiveMasonry
