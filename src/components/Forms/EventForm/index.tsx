@@ -96,6 +96,9 @@ const EventForm = () => {
       if (event.category == "IT Manager") {
         itManagerParticipant = event.participants[0].phone
       }
+      if (event.category == "Videography") {
+        videographyParticipant = event.participants[0].phone
+      }
       if (event.category == "Treasure Hunt") {
         treasureHuntParticipant = event.participants.map(participant => participant.phone)
       }
