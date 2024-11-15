@@ -20,7 +20,7 @@ export interface UserTypes {
     accomodationRequired: boolean,
     events: UserEventTypes[],
     participants: ParticipantsListType[],
-    paymentStatus: string,
+    paymentStatus: "PENDING" | "PROCESSING" | "SUCCESS",
     accessToken: string,
     isVerified: Date | '',
     createdAt: Date | ''
