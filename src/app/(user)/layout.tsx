@@ -9,7 +9,7 @@ export default function Layout({
 }>) {
   return (
     <main className="w-full h-full">
-      <Container>
+      <Container className="h-full">
         <Header />
         {children}
       </Container>

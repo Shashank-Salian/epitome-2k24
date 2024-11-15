@@ -3,7 +3,8 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import useModalStore from '@/store/useModalStore'
 import useUserStore from '@/store/useUserStore'
-import { LogOutIcon } from 'lucide-react'
+import { ExternalLink, LogOutIcon } from 'lucide-react'
+import Link from 'next/link'
 import React from 'react'
 
 const Dashboard = () => {
@@ -30,7 +31,10 @@ const Dashboard = () => {
                     <div className="clip_Btn min-w-[300px] text-center py-2 px-8 bg-secondary/20">Events Registered : {user?.events.length}</div>
                     <div className="clip_Btn min-w-[300px] text-center py-2 px-8 bg-secondary/20">Total Participants : {user?.participants.length}</div>
                     <div className="clip_Btn min-w-[300px] text-center py-2 px-8 bg-secondary/20">Team Accomodation : {user?.accomodationRequired ? "YES" : "NO"}</div>
-                    <div className={cn("clip_Btn min-w-[300px] text-center py-2 px-8 bg-red-700", PaymentColor)}>Payment Status : {user?.paymentStatus}</div>
+                    <Link href={user?.paymentStatus === "PENDING" ? "/payment" : ""} className={cn("clip_Btn min-w-[300px] text-center py-2 px-8 bg-red-700 flex_center gap-4", PaymentColor)}>
+                        <span>Payment Status : {user?.paymentStatus}</span>
+                        {user?.paymentStatus === "PENDING" && <ExternalLink size={24} />}
+                    </Link>
                 </div>
 
                 {user?.participants.length !== 0 &&

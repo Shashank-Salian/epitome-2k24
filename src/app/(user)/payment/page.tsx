@@ -14,6 +14,7 @@ const Payment = () => {
   const AMOUNT = 1500;
   const ACC_NO = "412902010012342";
   const IFSC = "UBIN0541290";
+  const BANK_NAME = "UNION BANK OF INDIA, HAMPANKATTA";
   //   const UPI_URL = `upi://pay?pa=7619256634@axl&pn=AIMIT EPITOME&cu=INR&am=${AMOUNT}&tn=AIMIT EPITOME IT Fest Registration`;
   const { user } = useUserStore();
   const router = useRouter();
@@ -32,7 +33,7 @@ const Payment = () => {
   };
 
   return (
-    <div className="relative w-full h-full mt-8 mb-12 p-8 rounded-lg bg-foreground text-background z-10 backdrop-blur">
+    <div className="relative top-24 w-full mt-8 mb-12 p-8 rounded-lg bg-foreground text-background z-10 backdrop-blur">
       <div className="flex justify-evenly items-start flex-col md:flex-row gap-8 w-full h-full">
         <div className="flex flex-col w-full h-full bg-border p-6 rounded-md">
           <h1 className="text-[1.2em] font-bold">Event Summary</h1>
@@ -88,6 +89,13 @@ const Payment = () => {
               IFSC Code :{" "}
               <div className="mx-2 flex" onClick={() => copyText(IFSC)}>
                 <span className="font-bold cursor-pointer">{IFSC}</span>
+                <Copy className="cursor-pointer ml-2 p-px" />
+              </div>
+            </h2>
+            <h2 className="flex mb-4">
+              Bank Name :{" "}
+              <div className="mx-2 flex" onClick={() => copyText(BANK_NAME)}>
+                <span className="font-bold cursor-pointer">{BANK_NAME}</span>
                 <Copy className="cursor-pointer ml-2 p-px" />
               </div>
             </h2>
