@@ -79,7 +79,7 @@ const LoginForm = () => {
   return (
     <div
       data-augmented-ui="tl-2-clip-x tr-clip br-2-clip-x bl-clip"
-      className="relative flex_center flex-col gap-4 2xl:gap-8 w-fit p-8 rounded-lg bg-background/30 z-10 backdrop-blur-md font-oxanium"
+      className="relative flex_center flex-col gap-4 2xl:gap-8 w-fit p-4 py-10 sm:p-8 rounded-lg bg-background/30 z-10 backdrop-blur-md font-oxanium"
     >
       <div className="flex flex-col items-center">
         <h2 className="hidden lg:block text-3xl font-bold">Welcome to</h2>
@@ -103,17 +103,17 @@ const LoginForm = () => {
             className="2xl:w-[500px]"
             setValue={setPassword}
           />
-          <Link
+          {/* <Link
             href="./forgot-password"
             className="text-[0.9em] sm:text-[0.8em] 2xl:text-[1em] text-primary self-end"
           >
             Forgot Password?
-          </Link>
+          </Link> */}
         </div>
 
         <Button
           type="submit"
-          className="clip_Btn flex_center gap-4 text-white hover:bg-primary font-bold"
+          className="clip_Btn flex_center gap-4 text-white hover:bg-primary font-bold mt-4"
           disabled={isLoading}
         >
           {isLoading ? <Loader2Icon className="animate-spin" /> : <LogInIcon />}

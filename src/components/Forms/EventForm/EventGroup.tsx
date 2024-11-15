@@ -8,11 +8,12 @@ import toast from "react-hot-toast";
 
 type Props = {
   eventName: string;
+  eventCategory: string;
   minParticipant: number;
   maxParticipant: number;
 };
 
-const EventGroup = ({ eventName, minParticipant, maxParticipant }: Props) => {
+const EventGroup = ({ eventName, eventCategory, minParticipant, maxParticipant }: Props) => {
   const [participantCount, setParticipantCount] =
     useState<number>(minParticipant);
 
@@ -39,7 +40,10 @@ const EventGroup = ({ eventName, minParticipant, maxParticipant }: Props) => {
       className="relative flex flex-col gap-4 p-6 bg-background/20 w-full"
     >
       <div className="flex justify-between items-center gap-4">
-        <span className="text-[1.2em] font-bold">{eventName}</span>
+        <div className="flex justify-center items-start flex-col">
+          <span className="text-[1.2em] font-bold">{eventName}</span>
+          <span className="text-[0.8em] opacity-80">{eventCategory}</span>
+        </div>
 
         {minParticipant !== maxParticipant && (
           <div className="flex_center bg-foreground text-background rounded-md">

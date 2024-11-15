@@ -12,15 +12,18 @@ import { Loader2Icon, UserPlusIcon } from "lucide-react";
 const RegisterForm = () => {
   const [username, setUsername] = useState<string>("");
   const [collegeName, setCollegeName] = useState<string>("");
+  const [department, setDepartment] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmpassword, setConfirmPassword] = useState<string>("");
+  const [accomodationRequired, setAccomodationRequired] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
   const params = useSearchParams().get("callbackUrl");
   const callback = params ? (params as string) : "";
+
 
   const HandleRegister = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -43,9 +46,11 @@ const RegisterForm = () => {
         body: JSON.stringify({
           username,
           collegeName,
+          department,
           phone,
           email,
           password,
+          accomodationRequired
         }),
       });
 
@@ -95,7 +100,7 @@ const RegisterForm = () => {
   return (
     <div
       data-augmented-ui="tl-2-clip-y tr-clip br-2-clip-y bl-clip"
-      className="relative flex_center flex-col gap-2 2xl:gap-4 font-oxanium w-fit px-8 py-4 rounded-lg bg-background/40 backdrop-blur-lg lg:ml-[4em]"
+      className="relative flex_center flex-col gap-2 2xl:gap-4 font-oxanium w-fit p-4 py-10 sm:p-8 rounded-lg top-52 md:top-44 mb-6 bg-background/40 backdrop-blur-lg lg:ml-[4em]"
     >
       <h1 className="hidden lg:block text-[1.5em] 2xl:text-[2em] font-medium">
         Create new account
@@ -109,6 +114,7 @@ const RegisterForm = () => {
           placeholder="Enter your name"
           className="2xl:w-[500px]"
           setValue={setUsername}
+          required={true}
         />
         <Input
           type="text"
@@ -117,13 +123,26 @@ const RegisterForm = () => {
           placeholder="Enter your College name"
           className="2xl:w-[500px]"
           setValue={setCollegeName}
+          required={true}
         />
+
+        <Input
+          type="text"
+          label="Department"
+          name="department"
+          placeholder="Enter Department"
+          className="2xl:w-[500px]"
+          setValue={setDepartment}
+          required={true}
+        />
+
         <Input
           type="tel"
           label="Phone Number"
           placeholder="Enter your Phone number"
           className="2xl:w-[500px]"
           setValue={setPhone}
+          required={true}
         />
         <Input
           type="email"
@@ -131,6 +150,7 @@ const RegisterForm = () => {
           placeholder="example@gmail.com"
           className="2xl:w-[500px]"
           setValue={setEmail}
+          required={true}
         />
         <Input
           type="password"
@@ -138,6 +158,7 @@ const RegisterForm = () => {
           placeholder="Enter password"
           className="2xl:w-[500px]"
           setValue={setPassword}
+          required={true}
         />
         <Input
           type="password"
@@ -145,7 +166,19 @@ const RegisterForm = () => {
           placeholder="Retype password"
           className="2xl:w-[500px]"
           setValue={setConfirmPassword}
+          required={true}
         />
+
+        <div className="relative w-[325px] md:min-w-[350px] 2xl:w-[500px] py-2">
+          <label className='text-[0.9em] bg-background/0 px-1'>Accomodation</label>
+
+          <div className="flex_center gap-2 w-full">
+            <input type="checkbox" name="accommodation" className="mr-2" onChange={(e) => setAccomodationRequired(e.target.checked)} />
+            <p className="text-sm text-wrap">
+              Please check this box if your team requires accommodation. We will reach out to you with further details regarding the arrangements.
+            </p>
+          </div>
+        </div>
 
         <Button
           type="submit"

@@ -1,6 +1,6 @@
 'use client'
 import { useState, SetStateAction, Dispatch, Ref } from "react"
-import { AtSignIcon, Building2Icon, EyeIcon, EyeOffIcon, PhoneIcon, User2Icon } from "lucide-react"
+import { AtSignIcon, BookOpen, Building2Icon, EyeIcon, EyeOffIcon, PhoneIcon, User2Icon } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 interface InputProps {
@@ -22,7 +22,7 @@ const Input = ({ label, type = "text", name = "", placeholder, parentClassName =
     const [showPassword, setShowPassword] = useState<boolean>(false)
 
     return (
-        <div className={cn("relative min-w-[350px]", parentClassName)}>
+        <div className={cn("relative min-w-[325px] md:min-w-[350px]", parentClassName)}>
             {label && <label className='text-[0.9em] bg-background/0 px-1'>
                 {label}
                 {required && <span className="text-[1.2em] text-red-600"> ★</span>}
@@ -40,7 +40,7 @@ const Input = ({ label, type = "text", name = "", placeholder, parentClassName =
                     className={cn('text-[1em] w-full bg-background/0 px-2 py-1 border-none outline-none placeholder:text-secondary/80', inputClassName)} />
 
                 {type === "password" ?
-                    <div className="p-1 w-fit absolute right-2 text-secondary/40 cursor-pointer" onClick={() => setShowPassword(prev => !prev)}>
+                    <div className="p-1 w-fit absolute right-2 text-secondary cursor-pointer" onClick={() => setShowPassword(prev => !prev)}>
                         {showPassword ?
                             <EyeIcon />
                             :
@@ -57,8 +57,10 @@ const Input = ({ label, type = "text", name = "", placeholder, parentClassName =
                             name === "username" ?
                                 <User2Icon size={24} className="absolute right-2 text-secondary" />
                                 :
-                                name === "collegeName" &&
-                                <Building2Icon size={24} className="absolute right-2 text-secondary" />
+                                name === "collegeName" ?
+                                    <Building2Icon size={24} className="absolute right-2 text-secondary" />
+                                    : name === "department" &&
+                                    <BookOpen size={24} className="absolute right-2 text-secondary" />
                 }
             </div>
         </div>
