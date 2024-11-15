@@ -26,6 +26,11 @@ const Payment = () => {
     } else setParticipants(user?.participants);
   }, [user, router]);
 
+  const copyText = (text: string) => {
+    window.navigator.clipboard.writeText(text);
+    toast.success("Copied to clipboard");
+  };
+
   return (
     <div className="relative w-full h-full mt-8 mb-12 p-8 rounded-lg bg-foreground text-background z-10 backdrop-blur">
       <div className="flex justify-evenly items-start flex-col md:flex-row gap-8 w-full h-full">
@@ -74,20 +79,14 @@ const Payment = () => {
           <div className="font-oxanium">
             <h2 className="flex mb-4">
               Account Number :{" "}
-              <div
-                className="mx-2 flex"
-                onClick={() => window.navigator.clipboard.writeText(ACC_NO)}
-              >
+              <div className="mx-2 flex" onClick={() => copyText(ACC_NO)}>
                 <span className="font-bold cursor-pointer">{ACC_NO}</span>
                 <Copy className="cursor-pointer ml-2 p-px" />
               </div>
             </h2>
             <h2 className="flex mb-4">
               IFSC Code :{" "}
-              <div
-                className="mx-2 flex"
-                onClick={() => window.navigator.clipboard.writeText(IFSC)}
-              >
+              <div className="mx-2 flex" onClick={() => copyText(IFSC)}>
                 <span className="font-bold cursor-pointer">{IFSC}</span>
                 <Copy className="cursor-pointer ml-2 p-px" />
               </div>
