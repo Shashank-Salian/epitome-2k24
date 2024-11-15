@@ -136,11 +136,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${oxanium.variable} ${spaceAge.variable} ${iceland.variable} bg-blueGradientAlt text-foreground relative`}
+        className={`${oxanium.variable} ${spaceAge.variable} ${iceland.variable} bg-blueGradientAlt text-foreground relative overflow-x-hidden`}
       >
         <Provider>{children}</Provider>
         <ThreeComp />
-        {/* <Cursor /> */}
+        <Cursor />
         <ToggleUI />
       </body>
     </html>

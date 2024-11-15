@@ -16,8 +16,8 @@ const Cursor = () => {
       const keyframes = [{ transform: `translate3d(${x}px, ${y}px, 0)` }];
 
       cursorRef.current.animate(keyframes, {
-        duration: 100,
-        easing: "ease-in-out",
+        duration: 1,
+        easing: "ease-out",
         fill: "forwards",
       });
     };
@@ -49,7 +49,7 @@ const Cursor = () => {
   };
 
   return (
-    <div className="w-screen h-screen absolute inset-0 pointer-events-none z-[99999]">
+    <div className="hidden md:block w-screen h-screen fixed inset-0 pointer-events-none z-[99999]">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="30"
