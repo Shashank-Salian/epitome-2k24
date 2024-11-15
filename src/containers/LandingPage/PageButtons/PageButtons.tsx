@@ -5,23 +5,20 @@ import useUserStore from "@/store/useUserStore";
 import Link from "next/link";
 import style from "./PageButtons.module.css";
 import { cn } from "@/lib/utils";
+import { useSession } from "next-auth/react";
 const audioFilePath = "/Music/click.wav";
 
 const PageButtons = ({ className }: { className?: string }) => {
-  const { user } = useUserStore();
+  const { status } = useSession()
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
   const soundRef = useRef<HTMLAudioElement | null>(null);
-  const authBtn = (isLogin = true) => {
-    return (
-      <Link href={isLogin ? "/login" : "/events"}>
-        <Button
-          className={cn("w-[300px] !bg-background/80", className)}
-          data-augmented-ui="bl-clip tr-clip border"
-        >
-          {isLogin ? "Log In" : "Register"}
-        </Button>
-      </Link>
-    );
-  };
+
+  useEffect(() => {
+    if (status === "unauthenticated")
+      setIsLoggedIn(false)
+    else
+      setIsLoggedIn(true)
+  }, [status])
 
   const playSound = () => {
     if (soundRef.current) {
@@ -30,6 +27,7 @@ const PageButtons = ({ className }: { className?: string }) => {
         .catch((error) => console.error("Error playing sound:", error));
     }
   };
+
   useEffect(() => {
     soundRef.current = new Audio(audioFilePath);
     soundRef.current.preload = "auto";
@@ -53,14 +51,15 @@ const PageButtons = ({ className }: { className?: string }) => {
       });
     };
   }, []);
+
   return (
     <div className="flex flex-col gap-x-3 items-center">
-      <Link href={"/register"}>
+      <Link href={isLoggedIn ? "/dashboard" : "/register"}>
         <Button
           className={cn("w-[300px] !bg-background/80", className)}
           data-augmented-ui="bl-clip tr-clip border"
         >
-          <span>Sign Up</span>
+          {isLoggedIn ? "Dashboard" : "Sign Up"}
         </Button>
       </Link>
 
@@ -73,7 +72,14 @@ const PageButtons = ({ className }: { className?: string }) => {
         </Button>
       </Link>
 
-      {authBtn(!user)}
+      <Link href={isLoggedIn ? "/events" : "/login"}>
+        <Button
+          className={cn("w-[300px] !bg-background/80", className)}
+          data-augmented-ui="bl-clip tr-clip border"
+        >
+          {isLoggedIn ? "Register" : "Log In"}
+        </Button>
+      </Link>
 
       {/* <Button className={className} data-augmented-ui="bl-clip tr-clip border">
         <span>About</span>
