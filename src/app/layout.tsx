@@ -90,7 +90,7 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
   icons: {
     icon: "/Icons/144.png",
-    shortcut: "/favicon.ico",
+    shortcut: "/favicon.png",
     apple: "/Icons/192.png",
   },
   openGraph: {
