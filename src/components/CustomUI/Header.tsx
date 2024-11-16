@@ -104,7 +104,7 @@ const Header = () => {
     <header
       data-augmented-ui="br-2-clip-y bl-2-clip-y"
       className={cn(
-        "sticky min-w-full top-0 flex justify-between items-center z-[100] px-10 py-3 bg-background/30 backdrop-blur-md font-oxanium",
+        "!sticky min-w-full top-0 flex justify-between items-center z-[100] px-10 py-3 bg-background/30 backdrop-blur-md font-oxanium",
         navOpen && "remove_aug bg-background/80 md:bg-transparent"
       )}
     >
