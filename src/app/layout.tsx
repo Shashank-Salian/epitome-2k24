@@ -3,7 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import ThreeComp from "@/threeWorks/components/ThreeComp";
 import Provider from "@/providers/Providers";
-import Cursor from "@/components/CustomUI/Cursor";
+// import Cursor from "@/components/CustomUI/Cursor";
 import "./globals.css";
 import "augmented-ui";
 // import ToggleUI from "@/components/CustomUI/ToggleUI";
@@ -140,7 +140,7 @@ export default function RootLayout({
       >
         <Provider>{children}</Provider>
         <ThreeComp />
-        <Cursor />
+        {/* <Cursor /> */}
         <ToggleUI />
       </body>
     </html>
