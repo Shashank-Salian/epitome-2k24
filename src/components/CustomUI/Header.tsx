@@ -100,10 +100,13 @@ const Header = () => {
 
   return (
     // <Container parentClassName="!h-fit">
-    <div className="relative w-full flex_center">
+    <div className="w-full flex_center">
       <header
         data-augmented-ui="br-2-clip-y bl-2-clip-y"
-        className={cn("fixed w-full top-0 flex justify-between items-center z-[100] flex-row px-10 py-3 bg-background/30 backdrop-blur-md font-oxanium", navOpen && "remove_aug bg-background/80 md:bg-transparent")}
+        className={cn(
+          "fixed w-full top-0 flex justify-between items-center z-[100] flex-row px-10 py-3 bg-background/30 backdrop-blur-md font-oxanium",
+          navOpen && "remove_aug bg-background/80 md:bg-transparent"
+        )}
       >
         <Link href="/">
           <Image
@@ -121,27 +124,30 @@ const Header = () => {
             isOpen={navOpen}
           />
           <nav
-            className={cn("flex_center gap-6 bg-background/80 md:bg-background/0 transition-all duration-500 ease-in-out overflow-y-hidden absolute z-[100] left-0 right-0 top-full flex-col md:flex-row md:py-0 md:flex md:h-full md:static sm:mt-0 rounded-b-2xl", navOpen ? "h-max py-4" : "h-0")}
+            className={cn(
+              "flex_center gap-6 bg-background/80 md:bg-background/0 transition-all duration-500 ease-in-out overflow-y-hidden absolute z-[100] left-0 right-0 top-full flex-col md:flex-row md:py-0 md:flex md:h-full md:static sm:mt-0 rounded-b-2xl",
+              navOpen ? "h-max py-4" : "h-0"
+            )}
           >
             {status === "authenticated"
               ? PROTECTED_NAV_LINKS.map(({ href, label }) => (
-                <Link
-                  key={label}
-                  href={href}
-                  className="md:text-[1.25em] block md:inline w-full py-2 text-center my-2"
-                >
-                  {label}
-                </Link>
-              ))
+                  <Link
+                    key={label}
+                    href={href}
+                    className="md:text-[1.25em] block md:inline w-full py-2 text-center my-2"
+                  >
+                    {label}
+                  </Link>
+                ))
               : PUBLIC_NAV_LINKS.map(({ href, label }) => (
-                <Link
-                  key={label}
-                  href={href}
-                  className="md:text-[1.25em] block md:inline w-full py-2 text-center my-2"
-                >
-                  {label}
-                </Link>
-              ))}
+                  <Link
+                    key={label}
+                    href={href}
+                    className="md:text-[1.25em] block md:inline w-full py-2 text-center my-2"
+                  >
+                    {label}
+                  </Link>
+                ))}
             {status == "unauthenticated" ? (
               <Link
                 href={pathname == "/login" ? "/register" : "/login"}
@@ -167,7 +173,9 @@ const Header = () => {
                 ) : (
                   <User2Icon size={25} />
                 )}
-                <span className="font-oxanium text-nowrap">{user?.username}</span>
+                <span className="font-oxanium text-nowrap">
+                  {user?.username}
+                </span>
               </div>
             )}
           </nav>
