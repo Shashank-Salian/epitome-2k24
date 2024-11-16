@@ -100,7 +100,7 @@ const RegisterForm = () => {
   return (
     <div
       data-augmented-ui="tl-2-clip-y tr-clip br-2-clip-y bl-clip"
-      className="relative flex_center flex-col gap-2 2xl:gap-4 font-oxanium w-fit p-4 py-10 sm:p-8 rounded-lg top-52 md:top-44 mb-6 bg-background/40 backdrop-blur-lg lg:ml-[4em]"
+      className="relative flex_center flex-col gap-2 2xl:gap-4 font-oxanium w-fit p-4 py-10 sm:p-6 rounded-lg bg-background/40 backdrop-blur-lg"
     >
       <h1 className="hidden lg:block text-[1.5em] 2xl:text-[2em] font-medium">
         Create new account

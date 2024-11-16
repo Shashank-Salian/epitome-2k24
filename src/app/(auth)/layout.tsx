@@ -8,11 +8,11 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className="w-full h-screen">
-      <Container className="flex_center flex-col h-dvh">
-        <Header />
-        {children}
-      </Container>
+    <main className="relative w-full h-full md:px-8">
+      {/* <Container className="flex_center flex-col h-dvh"> */}
+      <Header />
+      {children}
+      {/* </Container> */}
     </main>
   );
 }

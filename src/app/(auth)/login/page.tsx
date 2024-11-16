@@ -3,7 +3,7 @@ import LoginForm from '@/components/Forms/LoginForm'
 
 const Login = () => {
     return (
-        <div className="w-full h-full flex_center">
+        <div className="w-full min-h-[90dvh] flex_center">
             <LoginForm />
         </div>
     )
