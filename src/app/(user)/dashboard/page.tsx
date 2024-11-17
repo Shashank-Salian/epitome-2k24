@@ -31,10 +31,19 @@ const Dashboard = () => {
                     <div className="clip_Btn min-w-[300px] text-center py-2 px-8 bg-secondary/20">Events Registered : {user?.events.length}</div>
                     <div className="clip_Btn min-w-[300px] text-center py-2 px-8 bg-secondary/20">Total Participants : {user?.participants.length}</div>
                     <div className="clip_Btn min-w-[300px] text-center py-2 px-8 bg-secondary/20">Team Accomodation : {user?.accomodationRequired ? "YES" : "NO"}</div>
-                    <Link href={user?.paymentStatus === "PENDING" ? "/payment" : ""} className={cn("clip_Btn min-w-[300px] text-center py-2 px-8 bg-red-700 flex_center gap-4", PaymentColor)}>
-                        <span>Payment Status : {user?.paymentStatus}</span>
-                        {user?.paymentStatus === "PENDING" && <ExternalLink size={24} />}
-                    </Link>
+                    {user && user?.events?.length > 0 ?
+                        <Link
+                            href={user?.paymentStatus === "PENDING" ? "/payment" : ""}
+                            className={cn("clip_Btn min-w-[300px] text-center py-2 px-8 bg-red-700 flex_center gap-4", PaymentColor)}>
+                            <span>Payment Status : {user?.paymentStatus}</span>
+                            {user?.paymentStatus === "PENDING" && <ExternalLink size={24} />}
+                        </Link>
+                        :
+                        <div
+                            className={cn("clip_Btn min-w-[300px] text-center py-2 px-8 bg-red-700 flex_center gap-4", PaymentColor)}>
+                            <span>Payment Status : {user?.paymentStatus}</span>
+                        </div>
+                    }
                 </div>
 
                 {user?.participants.length !== 0 &&
