@@ -1,41 +1,55 @@
-import mongoose from "mongoose"
+import mongoose, { Connection } from "mongoose";
 
-const MONGODB_URI = process.env.MONGODB_URI!
-let cached = global as typeof globalThis & {
-    mongoose: any
+const MONGODB_URI = process.env.MONGODB_URI;
+
+if (!MONGODB_URI) {
+    throw new Error("MONGODB_URI is not defined.");
 }
 
-if (!cached.mongoose) {
-    cached.mongoose = { conn: null, promise: null }
+// Global cache to prevent multiple connections
+interface CachedMongoose {
+    conn: Connection | null;
+    promise: Promise<typeof mongoose> | null;
 }
 
-export const connectDB = async () => {
-    if (cached.mongoose.conn) {
-        return cached.mongoose.conn
+declare global {
+    var mongoose: CachedMongoose | undefined;
+}
+
+let cached: CachedMongoose = global.mongoose || { conn: null, promise: null };
+
+if (!global.mongoose) {
+    global.mongoose = cached;
+}
+
+export const connectDB = async (): Promise<typeof mongoose> => {
+    if (cached.conn) {
+        console.log("Using cached MongoDB connection");
+        return mongoose;
     }
 
-    // if (!cached.mongoose.promise) {
-    //     const opts = {
-    //         bufferCommands: false,
-    //     }
+    if (!cached.promise) {
+        const options = {
+            useUnifiedTopology: true,
+            bufferCommands: false,
+            serverSelectionTimeoutMS: 30000,
+            socketTimeoutMS: 30000,
+        };
 
-    //     cached.mongoose.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-    //         return mongoose
-    //     })
-    // }
+        cached.promise = mongoose.connect(MONGODB_URI, options).then((mongooseInstance) => {
+            console.log("MongoDB Connected");
+            cached.conn = mongooseInstance.connection;
+            return mongooseInstance;
+        });
+    }
 
     try {
-        // cached.mongoose.conn = await cached.mongoose.promise
-        const conn = await mongoose.connect(MONGODB_URI)
-        cached.mongoose.conn = conn
-
-        console.log("MongoDB Connected")
-        return conn
+        await cached.promise;
     } catch (err) {
-        cached.mongoose.promise = null
-        console.log(err)
-        throw err
+        cached.promise = null;
+        console.error("MongoDB connection error:", err);
+        throw err;
     }
 
-    // return cached.mongoose.conn
-}
+    return mongoose;
+};

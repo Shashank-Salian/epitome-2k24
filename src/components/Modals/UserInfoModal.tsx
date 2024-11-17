@@ -52,7 +52,7 @@ const UserInfoModal = () => {
                 onSubmit={HandleUserUpdate}
                 data-augmented-ui="tl-2-clip-x tr-clip br-2-clip-x bl-clip"
                 className="flex justify-between items-center flex-col gap-4 bg-blueGradientAlt min-w-[400px] aspect-square p-4">
-                <h1 className='font-oxanium font-bold text-[1.2em] text-center '>User Details</h1>
+                <h1 className='font-oxanium font-bold text-[1.2em] text-center '>Complete your User Profile</h1>
 
                 <div className="flex_center flex-col gap-4">
                     <Input
@@ -60,6 +60,7 @@ const UserInfoModal = () => {
                         label='College Name'
                         placeholder='Enter College Name'
                         value={user?.collegeName || ""}
+                        className="2xl:w-[500px]"
                         setValue={setCollegeName}
                         required={true}
                     />
@@ -79,11 +80,12 @@ const UserInfoModal = () => {
                         type='tel'
                         placeholder='Enter Phone'
                         value={user?.phone || ""}
+                        className="2xl:w-[500px]"
                         setValue={setPhone}
                         required={true}
                     />
 
-                    <div className="relative w-[350px] py-2">
+                    <div className="relative w-[350px] 2xl:w-[500px] py-2">
                         <label className='text-[0.9em] bg-background/0 px-1'>Accomodation</label>
 
                         <div className="flex gap-2">

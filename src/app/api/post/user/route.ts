@@ -8,7 +8,7 @@ type RequestBody = {
 }
 
 export async function POST(request: NextRequest) {
-    // export async function getUserByEmail(email: string) {
+    await connectDB();
     const { email, getPassword }: RequestBody = await request.json()
 
     console.log("UserEmail", email)
@@ -17,7 +17,6 @@ export async function POST(request: NextRequest) {
     }
 
     try {
-        await connectDB();
         const userExists = await UserModel.findOne({ email: email })
         if (!userExists) {
             return NextResponse.json("User Not Found!", { status: 404 })
