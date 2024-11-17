@@ -105,7 +105,7 @@ const EventForm = () => {
     });
 
     participantsDetails.map(event => {
-      if (event.category !== "IT Manager" && event.category !== "Treasure Hunt") {
+      if (event.category !== "IT Manager" && event.category !== "Treasure Hunt" && event.category !== "Videography") {
         event.participants.some(participant => {
           if (participant.phone == itManagerParticipant) {
             toast.error("IT Manager participant cannot participate in other events!")
