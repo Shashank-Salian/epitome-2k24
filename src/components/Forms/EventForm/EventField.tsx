@@ -45,7 +45,7 @@ const EventGroup = ({ eventName, index }: Props) => {
                 };
                 console.log({ updatedParticipantsDetails })
             }
-        }, 1000);
+        }, 500);
 
         if (updatedParticipantsDetails) {
             setParticipantsDetails(updatedParticipantsDetails);
