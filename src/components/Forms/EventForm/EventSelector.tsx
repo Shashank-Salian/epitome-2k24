@@ -1,9 +1,9 @@
-import React, { useCallback, useMemo, useState } from "react";
-import { eventRegisterList, EventRegType } from "@/utils/EventList";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { CheckCircleIcon, X } from "lucide-react";
 import useEventRegister from "@/store/useEventRegister";
+import { eventRegisterList, EventRegType } from "@/utils/EventList";
+import { CheckCircleIcon } from "lucide-react";
+import React, { useCallback, useMemo } from "react";
 
 type EventButtonProp = {
   event: EventRegType;
@@ -33,6 +33,9 @@ const EventSelector = () => {
             <p className="flex_center"><span className=" text-[0.6em] mr-4">&#11044;</span>   IT Manager, Videography and Treasure Hunt event participants should not participate in any other events.</p>
           </div >
         </p >
+        <a href="/EpitomeSchedule.pdf" className="bg-primary px-4 py-2 rounded-lg" download={true}>
+          <button>Donwload Schedule</button>
+        </a>
       </div >
 
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-4">
