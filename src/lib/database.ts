@@ -30,7 +30,6 @@ export const connectDB = async (): Promise<typeof mongoose> => {
 
     if (!cached.promise) {
         const options = {
-            useUnifiedTopology: true,
             bufferCommands: false,
             serverSelectionTimeoutMS: 30000,
             socketTimeoutMS: 30000,
