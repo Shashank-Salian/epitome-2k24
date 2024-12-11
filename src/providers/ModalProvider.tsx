@@ -7,7 +7,7 @@ const ModalProvider = () => {
     const { showModal } = useModalStore()
     if (!showModal) return
 
-    console.log("showModal", showModal)
+    // console.log("showModal", showModal)
 
     switch (showModal) {
         case "USER_INFO_MODAL":

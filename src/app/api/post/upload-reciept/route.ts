@@ -12,7 +12,6 @@ type RequestBody = {
 
 export async function POST(request: NextRequest) {
     const { userId, email, collegeName, recieptUrl, uploadAt }: RequestBody = await request.json()
-    console.log("Upload_Reciept", { userId, email, collegeName, recieptUrl, uploadAt })
 
     if (!userId || !email || !collegeName || !recieptUrl || !uploadAt) {
         throw new Error("Invalid Reciept Details!")

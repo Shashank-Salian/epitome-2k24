@@ -11,7 +11,6 @@ export async function POST(request: NextRequest) {
     await connectDB();
     const { email, getPassword }: RequestBody = await request.json()
 
-    console.log("UserEmail", email)
     if (!email) {
         throw new Error("Invalid Email!")
     }

@@ -12,7 +12,6 @@ type RequestBody = {
 
 export async function POST(request: NextRequest) {
     const { email, collegeName, department, phone, accomodationRequired }: RequestBody = await request.json()
-    console.log("User_Update", { email, collegeName, department, phone })
 
     if (!email || !collegeName || !phone) {
         throw new Error("Invalid Update Details!")

@@ -33,7 +33,7 @@ const ThreeLoader = ({ onProgress }: Props) => {
           SpaceShip.remove();
           return;
         }
-        console.log("Finished Loading everything");
+        // console.log("Finished Loading everything");
       });
     }
 
@@ -53,7 +53,7 @@ const ThreeLoader = ({ onProgress }: Props) => {
 
       SpaceShip.remove();
     }
-    return () => {};
+    return () => { };
   }, [onProgress, pathname]);
 
   return <></>;

@@ -61,7 +61,7 @@ const ToggleUI = () => {
         audio.pause();
       }
     }, fadeOutDuration / 10);
-    console.log(fadeOutInterval);
+    // console.log(fadeOutInterval);
   };
 
   const handleToggle = () => {
@@ -88,11 +88,10 @@ const ToggleUI = () => {
       <div className="inline-flex flex-col items-center justify-center space-y-4 font-spaceAge">
         <div className="text-white font-semibold text-sm md:text-lg">Music</div>
         <div
-          className={`relative inline-block w-16 h-10 md:w-20 md:h-12 rounded-full cursor-pointer transition-all ${
-            isOn
+          className={`relative inline-block w-16 h-10 md:w-20 md:h-12 rounded-full cursor-pointer transition-all ${isOn
               ? "bg-gradient-to-r from-green-400 to-blue-500 shadow-glow"
               : "bg-gray-600"
-          }`}
+            }`}
           onClick={handleToggle}
         >
           <div
@@ -102,16 +101,14 @@ const ToggleUI = () => {
         </div>
         <div className="flex justify-center space-x-6 w-full">
           <span
-            className={`text-white text-sm transition-opacity duration-300 ${
-              isOn ? "opacity-0" : "opacity-100"
-            }`}
+            className={`text-white text-sm transition-opacity duration-300 ${isOn ? "opacity-0" : "opacity-100"
+              }`}
           >
             OFF
           </span>
           <span
-            className={`text-white text-sm transition-opacity duration-300 ${
-              isOn ? "opacity-100" : "opacity-0"
-            }`}
+            className={`text-white text-sm transition-opacity duration-300 ${isOn ? "opacity-100" : "opacity-0"
+              }`}
           >
             ON
           </span>

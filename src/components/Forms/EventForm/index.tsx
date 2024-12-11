@@ -20,7 +20,7 @@ const EventForm = () => {
 
   const HandleRegister = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("HandleRegister", participantsDetails);
+    // console.log("HandleRegister", participantsDetails);
 
     if (participantsList.length > 15) {
       toast.error("Max 15 Participants Allowed!");
@@ -37,7 +37,7 @@ const EventForm = () => {
     });
 
     if (!isValid) return;
-    console.log("Event Participants : ", { participantsDetails, participantsList });
+    // console.log("Event Participants : ", { participantsDetails, participantsList });
 
     const SubmitToastID = toast.loading("Submitting Registration...");
     try {
@@ -50,7 +50,7 @@ const EventForm = () => {
       });
 
       const data = await res.json();
-      console.log("Event Reg:", data);
+      // console.log("Event Reg:", data);
 
       if (res?.status === 201) {
         setUser(data.user);
@@ -161,7 +161,7 @@ const EventForm = () => {
       });
     });
 
-    console.log({ updatedParticipantsList });
+    // console.log({ updatedParticipantsList });
 
     if (updatedParticipantsList.length > 15) {
       toast.error("Max 15 participants allowed!");

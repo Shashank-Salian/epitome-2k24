@@ -35,7 +35,7 @@ export default {
                     }
                     user = userData
 
-                    console.log("\nCredentials:", user)
+                    // console.log("\nCredentials:", user)
                     return user
                 } catch (err) {
                     console.log("\nCredentialsErr: ", err)
@@ -49,7 +49,6 @@ export default {
         async signIn({ user, account, profile }) {
             // console.log("\nSinin_Callback", { user, account, profile })
             if (account?.type === 'credentials' && user !== null) {
-                console.log("\nSignIn_Callback: Cred User Allowed")
                 return true
             } else {
                 try {

@@ -29,7 +29,7 @@ const LoginForm = () => {
         redirect: false,
         callbackUrl: callback || "/dashboard",
       });
-      console.log("LoginRes", res);
+      // console.log("LoginRes", res);
 
       if (!res?.error) {
         toast.success("Logged in Successfully!", {
@@ -58,7 +58,7 @@ const LoginForm = () => {
       const res = await signIn("google", {
         callbackUrl: callback || "/dashboard",
       });
-      console.log("LoginRes", res);
+      // console.log("LoginRes", res);
       // redirect: callback !== "" ? true : false,
 
       toast.success("Logged in Successfully!", {

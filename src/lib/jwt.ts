@@ -22,7 +22,7 @@ export async function VerifyToken(token: string) {
             issuer: 'urn:example:issuer',
             audience: 'urn:example:audience',
         })
-        console.log("JWT_Verification : ", { payload, protectedHeader })
+        // console.log("JWT_Verification : ", { payload, protectedHeader })
         return { payload, protectedHeader }
     } catch (error) {
         return null

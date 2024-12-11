@@ -7,7 +7,6 @@ type Props = {
 
 export async function generateUPIURL(props: Props) {
     const { participantsList } = props
-    console.log("Payment_Props", participantsList)
 
     if (participantsList.length <= 0) {
         throw new Error("Invalid Data List")

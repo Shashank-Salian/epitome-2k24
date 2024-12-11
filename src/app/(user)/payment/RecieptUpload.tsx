@@ -28,7 +28,7 @@ const RecieptUpload = () => {
                     setUploadProgress(progress)
                 },
             });
-            console.log("Upload Res", res)
+            // console.log("Upload Res", res)
 
             if (!res.url) {
                 throw new Error()
@@ -51,7 +51,6 @@ const RecieptUpload = () => {
             if (updateDB?.status === 201) {
                 const data = await updateDB.json()
                 toast.success(data.message)
-                console.log("Reciept_User_Update:", data)
                 setUser(data.user)
                 router.push(`./dashboard`)
             }

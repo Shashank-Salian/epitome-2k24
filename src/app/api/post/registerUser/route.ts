@@ -16,7 +16,6 @@ type RequestBody = {
 export async function POST(request: NextRequest) {
     const { username, collegeName, department, phone, email, password, accomodationRequired }: RequestBody = await request.json()
 
-    console.log("UserEmail", email)
     if (!email) {
         throw new Error("Invalid Email!")
     }

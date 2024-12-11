@@ -43,7 +43,7 @@ const EventGroup = ({ eventName, index }: Props) => {
                     name: participantName,
                     phone: participantPhone,
                 };
-                console.log({ updatedParticipantsDetails })
+                // console.log({ updatedParticipantsDetails })
             }
         }, 500);
 

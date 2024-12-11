@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
     // export async function getUserByEmail(email: string) {
     const { email, participantsDetails, participantsList }: RequestBody = await request.json()
 
-    console.log("UserEmail", { participantsDetails, participantsList })
+    // console.log("UserEmail", { participantsDetails, participantsList })
     if (!email || !participantsDetails) {
         throw new Error("Invalid Participants Details!")
     }
@@ -53,8 +53,6 @@ export async function POST(request: NextRequest) {
         }));
 
         // userExists.set({ participants: participantsList });
-
-        console.log("\nParticipants Added", userExists);
         await userExists.save();
 
         return NextResponse.json({ user: userExists, message: "Participants Registered Successfully!" }, { status: 201 });

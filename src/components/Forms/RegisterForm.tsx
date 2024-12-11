@@ -81,7 +81,7 @@ const RegisterForm = () => {
       const res = await signIn("google", {
         callbackUrl: callback || "/dashboard",
       });
-      console.log("RegisterRes", res);
+      // console.log("RegisterRes", res);
 
       toast.success("Logged in Successfully!", {
         id: OAuthTostID,

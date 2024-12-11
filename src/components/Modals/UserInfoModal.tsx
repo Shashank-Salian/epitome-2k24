@@ -37,7 +37,7 @@ const UserInfoModal = () => {
             if (res.status === 201) {
                 const data = await res.json()
                 toast.success("Profile Updated Successfully!")
-                console.log("Update_User_Info:", data)
+                // console.log("Update_User_Info:", data)
                 setUser(data.user)
                 closeModal()
             }

@@ -78,7 +78,6 @@ const Header = () => {
         }
 
         const userData: UserTypes = await res.json();
-        console.log("UserData:", userData);
         if (userData && "uid" in userData && user?.uid !== userData.uid) {
           setUser({
             ...userData,

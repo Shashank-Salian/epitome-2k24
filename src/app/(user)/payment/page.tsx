@@ -21,7 +21,6 @@ const Payment = () => {
 
   useEffect(() => {
     if (!user?.participants || user?.participants?.length <= 0) {
-      console.log(user?.participants, user?.participants?.length);
       router.push("/events");
       return;
     } else setParticipants(user?.participants);
