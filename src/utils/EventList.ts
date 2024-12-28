@@ -26,8 +26,8 @@ const EventList: EventType = [
       },
     ],
     eventHeads: [
-      { name: "Vinayaka D", phone: "+91 1234567890" },
-      { name: "Sachin Hadimani", phone: "+91 1234567890" },
+      { name: "Vinayaka D", phone: "+91 xxxxxxxxxx" },
+      { name: "Sachin Hadimani", phone: "+91 xxxxxxxxxx" },
     ],
     rules: [
       "Number of participants: 2",
@@ -51,11 +51,11 @@ const EventList: EventType = [
     eventHeads: [
       {
         name: "Riya G",
-        phone: "+91 1234567890",
+        phone: "+91 xxxxxxxxxx",
       },
       {
         name: "Arpitha Sharon",
-        phone: "+91 1234567890",
+        phone: "+91 xxxxxxxxxx",
       },
     ],
     rules: [
@@ -76,17 +76,17 @@ const EventList: EventType = [
     coordinator: [
       {
         name: "Dr. Ruban S",
-        phone: "+91 1234567890",
+        phone: "+91 xxxxxxxxxx",
       },
     ],
     eventHeads: [
       {
         name: "Sharath Acharya",
-        phone: "+91 1234567890",
+        phone: "+91 xxxxxxxxxx",
       },
       {
         name: "Kushali",
-        phone: "+91 1234567890",
+        phone: "+91 xxxxxxxxxx",
       },
     ],
     rules: [
@@ -109,11 +109,11 @@ const EventList: EventType = [
     eventHeads: [
       {
         name: "Harishri",
-        phone: "+91 1234567890",
+        phone: "+91 xxxxxxxxxx",
       },
       {
         name: "Shashank",
-        phone: "+91 1234567890",
+        phone: "+91 xxxxxxxxxx",
       },
     ],
     rules: [
@@ -137,11 +137,11 @@ const EventList: EventType = [
     eventHeads: [
       {
         name: "Shravya S",
-        phone: "+91 1234567890",
+        phone: "+91 xxxxxxxxxx",
       },
       {
         name: "Sharanya Shetty",
-        phone: "+91 1234567890",
+        phone: "+91 xxxxxxxxxx",
       },
     ],
     rules: [
@@ -166,17 +166,17 @@ const EventList: EventType = [
     coordinator: [
       {
         name: "Mrs. Annapoorna Shetty",
-        phone: "+91 1234567890",
+        phone: "+91 xxxxxxxxxx",
       },
     ],
     eventHeads: [
       {
         name: "Preetham N",
-        phone: "+91 1234567890",
+        phone: "+91 xxxxxxxxxx",
       },
       {
         name: "Suyash Naik",
-        phone: "+91 1234567890",
+        phone: "+91 xxxxxxxxxx",
       },
     ],
     rules: [
@@ -196,17 +196,17 @@ const EventList: EventType = [
     coordinator: [
       {
         name: "Ms Nausheeda B.S",
-        phone: "+91 1234567890",
+        phone: "+91 xxxxxxxxxx",
       },
     ],
     eventHeads: [
       {
         name: "Shravya C",
-        phone: "+91 1234567890",
+        phone: "+91 xxxxxxxxxx",
       },
       {
         name: "Dheeraj Shetty",
-        phone: "+91 1234567890",
+        phone: "+91 xxxxxxxxxx",
       },
     ],
     rules: [
@@ -230,21 +230,21 @@ const EventList: EventType = [
     coordinator: [
       {
         name: "Mrs Manimozhi R",
-        phone: "+91 1234567890 ",
+        phone: "+91 xxxxxxxxxx ",
       },
     ],
     eventHeads: [
       {
         name: "Yashaswi",
-        phone: "+91 1234567890 ",
+        phone: "+91 xxxxxxxxxx ",
       },
       {
         name: "Sonali",
-        phone: "+91 1234567890",
+        phone: "+91 xxxxxxxxxx",
       },
       {
         name: "Shreya",
-        phone: "+91 1234567890 ",
+        phone: "+91 xxxxxxxxxx ",
       },
     ],
     rules: [
@@ -264,17 +264,17 @@ const EventList: EventType = [
     coordinator: [
       {
         name: "Mr Aravinda Prabhu S",
-        phone: "+91 1234567890 ",
+        phone: "+91 xxxxxxxxxx ",
       },
     ],
     eventHeads: [
       {
         name: "Soujanya",
-        phone: "+91 1234567890 ",
+        phone: "+91 xxxxxxxxxx ",
       },
       {
         name: "Pawana",
-        phone: "+91 1234567890",
+        phone: "+91 xxxxxxxxxx",
       },
     ],
     rules: [
@@ -293,17 +293,17 @@ const EventList: EventType = [
     coordinator: [
       {
         name: "Ms. Vanitha",
-        phone: "+91 1234567890",
+        phone: "+91 xxxxxxxxxx",
       },
     ],
     eventHeads: [
       {
         name: "Vinayak V K",
-        phone: "+91 1234567890 ",
+        phone: "+91 xxxxxxxxxx ",
       },
       {
         name: "Maeve Fernandes",
-        phone: "+91 1234567890",
+        phone: "+91 xxxxxxxxxx",
       },
     ],
     rules: [
@@ -325,17 +325,17 @@ const EventList: EventType = [
     coordinator: [
       {
         name: "Dr Shine P Varkey",
-        phone: "+91 1234567890 ",
+        phone: "+91 xxxxxxxxxx ",
       },
     ],
     eventHeads: [
       {
         name: "Alister Dsouza",
-        phone: "+91 1234567890",
+        phone: "+91 xxxxxxxxxx",
       },
       {
         name: "Vivek Pattar",
-        phone: "+91 1234567890",
+        phone: "+91 xxxxxxxxxx",
       },
     ],
     rules: [
@@ -361,25 +361,25 @@ const EventList: EventType = [
     coordinator: [
       {
         name: "Ms. Christina",
-        phone: "+91 1234567890",
+        phone: "+91 xxxxxxxxxx",
       },
       {
         name: "Ms. Shilpa",
-        phone: "+91 1234567890",
+        phone: "+91 xxxxxxxxxx",
       },
       {
         name: "Ms. Gana",
-        phone: "+91 1234567890",
+        phone: "+91 xxxxxxxxxx",
       },
     ],
     eventHeads: [
       {
         name: "Nireeksha M",
-        phone: "+91 1234567890",
+        phone: "+91 xxxxxxxxxx",
       },
       {
         name: "Meghna",
-        phone: "+91 1234567890",
+        phone: "+91 xxxxxxxxxx",
       },
     ],
     rules: [
